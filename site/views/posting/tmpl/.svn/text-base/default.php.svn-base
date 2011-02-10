@@ -1,0 +1,378 @@
+<?php
+/*
+ * views/posting/tmpl/default.php
+ *
+ * Autor: Achim Fischer
+ *
+ */
+
+
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
+JHTML::_('stylesheet', 'discussions.css', 'components/com_discussions/assets/');
+
+require_once(JPATH_COMPONENT.DS.'classes/user.php');
+require_once(JPATH_COMPONENT.DS.'classes/helper.php');
+
+
+$user =& JFactory::getUser();
+$logUser = new CUser( $user->id);
+$cHelper = new CHelper();
+
+// get parameters
+$params = JComponentHelper::getParams('com_discussions');
+?>
+
+
+
+<!-- Javascript functions -->
+
+<script type="text/javascript">
+
+    function callURL(obj) {
+
+        $catid 		= obj.options[obj.selectedIndex].value;
+		var length 	= slugsarray.length;
+
+		for(var k=0; k < slugsarray.length; k++) {
+			
+			// if selected index found jump to category
+			if ( slugsarray[k][0] == $catid) {
+         		location.href = slugsarray[k][1];
+        	}
+
+		}			
+
+    }
+
+</script>
+
+<!-- Javascript functions -->
+
+
+
+<?php 
+if ( $this->params->def( 'show_page_title', 1 ) ) : 
+	?>
+	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+		<?php echo $this->escape($this->params->get('page_title')); ?>
+	</div>
+	<?php 
+endif; 
+?>
+
+
+
+<!-- HTML Box Top -->
+<?php
+$htmlBoxPostingTop = $params->get('htmlBoxPostingTop', '');
+
+if ( $htmlBoxPostingTop != "") {
+	echo "<div class='cofiHtmlBoxPostingTop'>";
+		echo $htmlBoxPostingTop;
+	echo "</div>";
+}
+?>
+<!-- HTML Box Top -->
+
+
+
+<?php
+include( 'components/com_discussions/includes/topmenu.php');
+?>
+
+
+
+<!-- Category icon, name and description -->
+<table width="100%" style="margin-bottom:10px;">
+    <tr>
+
+        <!-- category image -->
+        <td width="50">
+            <?php
+			if ( $this->categoryImage == "") {  // show default category image
+				echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/categories/default.png' style='border:0px;margin:5px;' />";
+			}
+			else {
+				echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/categories/".$this->categoryImage."' style='border:0px;margin:5px;' />";
+			}
+            ?>
+        </td>
+        <!-- category image -->
+
+        <!-- category name and description -->
+        <td align="left">
+            <?php
+            echo "<h2 style='padding-left: 0px;'>";
+                echo $this->categoryName;
+            echo "</h2>";
+            echo $this->categoryDescription;
+            ?>
+        </td>
+        <!-- category name and description -->
+
+        <!-- category quick select box -->
+        <td align="left">
+            <?php
+            echo $cHelper->getQuickJumpSelectBox( $this->categoryId);
+            ?>
+        </td>
+        <!-- category quick select box -->
+
+    </tr>
+</table>
+<!-- Category icon, name and description -->
+
+
+
+<?php
+echo "<h3>";
+	echo $this->headline;
+echo "</h3>";
+?>
+
+
+
+<!-- Breadcrumb -->
+<table style="margin-top: 5px;">
+    <tr>
+        <td>
+            <?php
+            $menuLinkHome     = JRoute::_( 'index.php?option=com_discussions');
+            echo "<a href='$menuLinkHome'>Forums</a>";
+            ?>
+        </td>
+        <td>
+            <?php
+            $menuLinkCategoryTMP = "index.php?option=com_discussions&view=category&catid=".$this->categorySlug;
+            $menuLinkCategory = JRoute::_( $menuLinkCategoryTMP);
+            echo "&nbsp;&raquo;&nbsp;";
+            echo "<a href='$menuLinkCategory'>".$this->categoryName."</a>";
+            ?>
+        </td>
+        <td>
+            <?php
+            if ( $this->subject != "") {
+            	echo "&nbsp;&raquo;&nbsp;";
+            	echo $this->subject;
+            }
+            ?>
+        </td>
+    </tr>
+</table>
+<!-- Breadcrumb -->
+
+
+
+
+
+<?php
+
+    echo "<form action='' method='post' name='postform' id='postform'>";
+
+    	echo "<table cellspacing='1' cellpadding='0' width='100%'>";
+
+    		echo "<tr>";    		
+    			echo "<td style='padding: 5px;' >";
+
+    				echo "<div class='cofiSubjectHeader'>Subject:</div> ";
+   					
+					if ( $this->task == "new") {
+
+            			echo "<div class='cofiSubject'>";
+            				echo "<input type='text' name='postSubject' id='postSubject' size='50' maxlength='80'>";	
+            			echo "</div>";
+            			
+            			echo "<div class='cofiSubjectFooter'>(min 5 characters)</div> ";
+
+					}
+					else {
+						$_reSubject = "Re: ".$this->subject;
+						
+            			echo "<div class='cofiSubject'>";
+						echo $_reSubject;
+            			echo "</div>";
+
+						$_reSubject = str_replace( '"', "'", $_reSubject);						
+						?>
+						
+            			<input type="hidden" name="postSubject" id="postSubject" value="<?php echo $_reSubject; ?>">	
+
+						<?php
+					}
+            		
+    			echo "</td>";
+    		echo "</tr>";
+
+    		echo "<tr>";
+    			echo "<td align='left' valign='top' style='padding: 5px;' >";
+    			
+    				echo "<div class='cofiTextHeader'>Text:</div> ";
+   					   			
+   					echo "<div class='cofiText'>";			    			
+   						echo "<textarea name='postText' cols='80' rows='30' wrap='VIRTUAL' id='postText'>";
+							if ( $this->task == "quote" || $this->task == "edit") {
+   								echo $this->messageText;
+							}
+    					echo "</textarea>";
+    				echo "</div>";
+
+            		echo "<div class='cofiTextFooter'>(min 20 characters)</div> ";
+
+
+            		echo "<div class='cofiTextButton'>";
+
+    					switch ( $this->task) {
+    						case "edit": {
+								echo "<input type='hidden' name='dbmode' value='update'>";
+								break;
+							}
+							default: {
+								echo "<input type='hidden' name='dbmode' value='insert'>";    			
+								break;
+							}					
+						}
+						echo "<input type='hidden' name='task' value='save'>";  			
+						echo "<input class='cofiButton' type='submit' name='submit' value='Save'>";
+					
+					echo "</div> ";
+
+
+    			echo "</td>";
+    			    			
+    		echo "</tr>";
+
+
+    	echo "</table>";
+
+    echo "</form>";
+
+?>
+
+
+<div class="cofiPostHelp">
+
+    <div class="cofiTextFormatHeader">
+    	Format your text:
+    </div>
+    				
+    <div class="cofiTextFormat">
+    		
+		<table cellspacing="0px" cellpadding="10px" width="100%">
+
+			<tr>
+				<td>
+					<b>bold</b>
+					<br />
+					[b]bold[/b]
+					<br />
+					<br />
+				</td>
+				<td>
+					<i>italics</i>
+					<br />
+					[i]italics[/i]
+					<br />
+					<br />
+				</td>
+				<td>
+					<u>underline</u>
+					<br />
+					[u]underline[/u]
+					<br />
+					<br />
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<s>strikethrough</s>
+					<br />
+					[s]strikethrough[/s]
+					<br />
+					<br />
+				</td>
+				<td>
+					<big>big</big>
+					<br />
+					[big]big[/big]
+					<br />
+					<br />
+				</td>
+				<td>
+					<small>small</small>
+					<br />
+					[small]small[/small]
+					<br />
+					<br />
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					An unordered list
+					<ul>
+					<li>first</li>
+					<li>second</li>
+					</ul>    				
+					[ul]
+					<br />
+					[li]first[/li]
+					<br />
+					[li]second[/li]
+					<br />
+					[/ul]
+					<br />
+					<br />
+				</td>
+				<td>
+					An ordered list
+					<ol>
+					<li>first</li>
+					<li>second</li>
+					</ol>    				
+					[ol]
+					<br />
+					[li]first[/li]
+					<br />
+					[li]second[/li]
+					<br />
+					[/ol]
+					<br />
+					<br />
+				</td>
+				<td>
+					&nbsp;
+					<br />
+					<br />
+				</td>
+			</tr>
+				  
+		</table>
+    		    				    				
+    </div>
+
+</div>
+
+
+
+
+
+<!-- HTML Box Bottom -->
+<?php
+$htmlBoxPostingBottom = $params->get('htmlBoxPostingBottom', '');		
+
+if ( $htmlBoxPostingBottom != "") {
+	echo "<div class='cofiHtmlBoxPostingBottom'>";
+		echo $htmlBoxPostingBottom;
+	echo "</div>";
+}
+?>
+<!-- HTML Box Bottom -->
+
+
+<?php
+include( 'components/com_discussions/includes/footer.php');
+

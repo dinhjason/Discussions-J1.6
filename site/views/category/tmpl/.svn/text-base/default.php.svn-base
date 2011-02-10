@@ -1,0 +1,450 @@
+<?php
+/*
+ * views/category/tmpl/default.php
+ *
+ * Autor: Achim Fischer
+ *
+ */
+
+
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
+
+JHTML::_('stylesheet', 'discussions.css', 'components/com_discussions/assets/');
+
+
+require_once(JPATH_COMPONENT.DS.'classes/user.php'); 
+require_once(JPATH_COMPONENT.DS.'classes/helper.php');
+
+
+// set page title and description
+$document =& JFactory::getDocument(); 
+
+$title = $document->getTitle();
+//$title = $title." - ".$this->categoryName;
+$siteName = $mainframe->getCfg('sitename');
+
+$title = $this->categoryName. " | " . $siteName;
+
+$document->setTitle( $title); 
+
+$document->setDescription( $this->categoryDescription); 
+
+
+$user =& JFactory::getUser();
+$cHelper = new CHelper();
+
+// get parameters
+$params = JComponentHelper::getParams('com_discussions');
+?>
+
+
+
+<!-- Javascript functions -->
+<script type="text/javascript">
+
+    function callURL(obj) {
+
+        $catid 		= obj.options[obj.selectedIndex].value;
+		var length 	= slugsarray.length;
+
+		for(var k=0; k < slugsarray.length; k++) {
+			
+			// if selected index found jump to category
+			if ( slugsarray[k][0] == $catid) {
+         		location.href = slugsarray[k][1];
+        	}
+
+		}			
+
+    }
+
+</script>
+<!-- Javascript functions -->
+
+
+
+<?php 
+if ( $this->params->def( 'show_page_title', 1 ) ) : 
+	?>
+	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+		<?php echo $this->escape($this->params->get('page_title')); ?>
+	</div>
+	<?php 
+endif; 
+?>
+
+
+
+<!-- HTML Box Top -->
+<?php
+$htmlBoxCategoryTop = $params->get('htmlBoxCategoryTop', '');
+
+if ( $htmlBoxCategoryTop != "") {
+	echo "<div class='cofiHtmlBoxCategoryTop'>";
+		echo $htmlBoxCategoryTop;
+	echo "</div>";
+}
+?>
+<!-- HTML Box Top -->
+
+
+
+<?php
+include( 'components/com_discussions/includes/topmenu.php');
+?>
+
+
+
+<!-- Category icon, name and description -->
+<table width="100%" style="margin-bottom:10px;">
+    <tr>
+
+        <!-- category image -->
+        <td width="50">
+            <?php
+			if ( $this->categoryImage == "") {  // show default category image
+				echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/categories/default.png' style='border:0px;margin:5px;' />";
+			}
+			else {
+				echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/categories/".$this->categoryImage."' style='border:0px;margin:5px;' />";
+			}
+            ?>
+        </td>
+        <!-- category image -->
+
+        <!-- category name and description -->
+        <td align="left">
+            <?php
+            echo "<h2 style='padding-left: 0px;'>";
+                echo $this->categoryName;
+            echo "</h2>";
+            echo $this->categoryDescription;
+            ?>
+        </td>
+        <!-- category name and description -->
+
+        <!-- category quick select box -->
+        <td align="left">
+            <?php
+            echo $cHelper->getQuickJumpSelectBox( $this->categoryId);
+            ?>
+        </td>
+        <!-- category quick select box -->
+
+    </tr>
+</table>
+<!-- Category icon, name and description -->
+
+
+
+
+
+<!-- Post, Reply,... Links -->
+<?php
+if ( $user->guest) { // user is not logged in
+
+	echo "<table width='100%' style='margin:20px 0px 20px 0px;'>";
+    	echo "<tr>";
+        	echo "<td width='100%' align='left' valign='middle'>";                	
+        		$registerURL = "index.php?option=com_user&view=register";
+        		$loginURL    = "index.php?option=com_user&view=login";
+        	
+            	echo "Public write access is disabled. Please ";
+            	
+            	echo "<a href='" . JRoute::_( $loginURL) . "' >login</a>";
+            	echo " or ";
+            	echo "<a href='" . JRoute::_( $registerURL) . "' >register</a>";				            	
+            echo "</td>";
+        echo "</tr>";
+    echo "</table>";
+    
+}
+else { // user is logged in
+
+	echo "<table width='50%' style='margin:20px 0px 20px 0px;'>";
+    	echo "<tr>";       	
+
+        	echo "<td width='16' align='center' valign='middle'>";
+            	echo "<img src='/components/com_discussions/assets/threads/new.png' style='margin-left: 5px; margin-right: 5px; border:0px;' />";
+        	echo "</td>";
+        	echo "<td align='left' valign='middle'>";
+//            	$menuLinkNewTMP = "index.php?option=com_discussions&view=posting&task=new&catid=".$this->categoryId;
+            	$menuLinkNewTMP = "index.php?option=com_discussions&view=posting&task=new&catid=".$this->categorySlug;
+            	$menuLinkNew = JRoute::_( $menuLinkNewTMP);
+            	echo "<a href='".$menuLinkNew."'>New&nbsp;Thread</a>";
+        	echo "</td>";        
+        	
+    	echo "</tr>";
+	echo "</table>";
+}
+?>
+<!-- Post, Reply,... Links -->
+
+
+
+
+
+<!-- Breadcrumb -->
+<table style="margin-top: 5px;">
+    <tr>
+        <td>
+            <?php
+            $menuLinkHome     = JRoute::_( 'index.php?option=com_discussions');
+            $menuText = JSite::getMenu()->getActive()->name;
+            echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
+            ?>
+        </td>
+        <td>
+            <?php
+            echo "&nbsp;&raquo;&nbsp;";
+            echo $this->categoryName;
+            ?>
+        </td>
+    </tr>
+</table>
+<!-- Breadcrumb -->
+
+
+
+
+
+<!-- Pagination Links -->
+<table width="100%" style="margin-bottom:10px;">
+    <tr>
+        <td>
+            <?php
+            echo $this->pagination->getPagesLinks();
+            ?>
+        </td>
+        <td>
+            <?php
+            echo $this->pagination->getPagesCounter();
+            ?>
+        </td>
+
+    </tr>
+</table>
+<!-- Pagination Links -->
+
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0"> 
+
+
+
+    <tr> 
+		<td width="70px"  align="center" style="background:#e5e5e5; padding:5px 0px 5px 0px; font-weight: bold;">Replies</td>
+		<td width="48px"  align="center" style="background:#e5e5e5; padding:5px 0px 5px 0px; font-weight: bold;">Type</td>
+        <td               align="left"   style="background:#e5e5e5; padding:5px 0px 5px 0px; font-weight: bold;">Topic</td>
+		<td width="200px" align="center" style="background:#e5e5e5; padding:5px 0px 5px 0px; font-weight: bold;">Last Post</td> 
+		<td width="35px"  align="center" style="background:#e5e5e5; padding:5px 0px 5px 0px; font-weight: bold;">&nbsp;</td>
+    </tr> 
+
+
+
+	<?php 
+	$rowColor = 1;
+	
+	foreach ( $this->threads as $thread ) : ?>
+
+    	<tr> 
+
+			<td align="center" class="cofiIndexTableRow<?php echo $rowColor; ?> cofiIndexTableRowReplies">	
+				<?php
+				echo "<span class='cofiIndexTableRowRepliesCounter'>"; 
+					echo $thread->counter_replies;
+				echo "</span>";
+				?>
+			</td> 
+
+
+			<td align="center" class="cofiIndexTableRow<?php echo $rowColor; ?> cofiIndexTableRowIcon">	
+				<?php
+				
+				switch ( $thread->type) {  // check the type of this thread (discussion, question...)
+				
+					case 1: { // discussion
+						echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/system/discussion.png' alt='Discussion' title='Discussion' />";					
+						break;
+					}
+					case 2: { // question
+						echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/system/question.png' alt='Question' title='Question' />";
+						break;
+					}
+					case 3: { // important
+						echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/system/important.png' alt='Important' title='Important' />";
+						break;
+					}
+
+					default: { // type unknown? Then it's a discussion ;-)
+						echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/system/discussion.png' alt='Discussion' title='Discussion' />";					
+						break;
+					}					
+				
+				}
+								
+				?>
+			</td> 
+
+
+			<td align="left" class="cofiIndexTableRow<?php echo $rowColor; ?> cofiIndexTableRowTopic">
+
+                <?php
+                
+                	$_hoverSubject = $thread->subject;
+                	$_hoverSubject = str_replace( '\'', '"', $_hoverSubject);
+                	//$_hoverSubject = addslashes($thread->subject);
+                
+                                
+                    //$threadLink = JRoute::_('index.php?option=com_discussions&view=thread&catid='.$this->categorySlug.'&thread='.$thread->thread );
+                    $threadLink = JRoute::_('index.php?option=com_discussions&view=thread&catid='.$this->categorySlug.'&thread='.$thread->slug );
+
+                    echo "<a href='$threadLink' title='".$_hoverSubject."'>".$thread->subject."</a>";
+					
+					if ( $thread->locked == 1) { // show lock symbol
+						echo "<img src='/components/com_discussions/assets/threads/lock.png' style='margin-left: 5px; border:0px;' />";
+					}
+					
+					echo "<div class='cofiIndexTableRowTopicSubtitle'>";
+							
+					echo "Posted ".$thread->date." by ";
+					
+					echo "<b>";
+					                  
+                  	echo $cHelper->getUsernameById( $thread->user_id);
+                                      
+					echo "</b>";
+					
+					// echo " Views: ".$thread->hits;
+					
+					echo "</div>";
+                ?>
+
+			</td> 
+
+									
+			<td width="150" align="center" class="cofiIndexTableRow<?php echo $rowColor; ?> cofiIndexTableRowLastPost">
+
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td width="32" align="left">
+                            <?php
+                            $cUser = new CUser( $thread->last_entry_user_id);
+
+
+                			//echo "<div style='padding: 2px; border: 1px solid #ddd; margin: 5px;'>";
+					    	echo "<div class='cofiCategoryAvatarBox'>";			    			    
+
+
+							$lastEntryUserUsername = $cHelper->getUsernameById( $thread->last_entry_user_id);
+							
+                            if ( $cUser->getAvatar() == "") { // display default avatar
+                                echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/users/user.png' class='cofiCategoryDefaultAvatar' alt='$lastEntryUserUsername' title='$lastEntryUserUsername' />";
+                            }
+                            else { // display uploaded avatar
+                                echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/users/".$thread->last_entry_user_id."/small/".$cUser->getAvatar()."' class='cofiCategoryAvatar' alt='$lastEntryUserUsername' title='$lastEntryUserUsername' />";
+                            }
+
+                                                        
+                            echo "</div>";
+                            
+                            
+                            ?>
+                        </td>
+                        <td align="left" valign="center">
+                            <?php
+                            echo $thread->last_entry_date;
+                            ?>
+                            <br />
+                            by:&nbsp;
+                            <?php                                                        
+                            echo $lastEntryUserUsername;                            
+                            ?>
+                        </td>
+                    </tr>
+                </table>
+
+			</td> 
+
+
+			<!-- sticky -->		
+			<td width="32" align="center" class="cofiIndexTableRow<?php echo $rowColor; ?>  cofiIndexTableRowSticky">
+					<?php
+					if ( $thread->sticky == 0) {  // do not show icon
+						echo "&nbsp;";
+					}
+					else { // show sticky icon
+						echo "<img src='/components/com_discussions/assets/threads/sticky.png' style='border:0px;margin:5px;' alt='Sticky' title='Sticky' />";
+					}
+					?>
+			</td> 
+			<!-- sticky -->		
+		
+		
+    	</tr> 
+
+
+
+
+		<?php 
+		// toggle row color
+		if ( $rowColor == 1) {
+			$rowColor = 2;
+		}
+		else {
+			$rowColor = 1;
+		}
+
+	endforeach; 
+	?>
+
+</table>
+
+
+
+<!-- Pagination Links -->
+<table width="100%" style="margin-top:10px;">
+    <tr> 
+        <td>
+            <?php
+            echo $this->pagination->getPagesLinks();
+            ?>
+        </td>
+        <td>
+            <?php
+            echo $this->pagination->getPagesCounter();
+            ?>
+        </td>
+
+    </tr>
+</table>
+<!-- Pagination Links -->
+
+
+
+<?php
+include( 'components/com_discussions/includes/share.php');
+?>
+
+
+<!-- HTML Box Bottom -->
+<?php
+$htmlBoxCategoryBottom = $params->get('htmlBoxCategoryBottom', '');		
+
+if ( $htmlBoxCategoryBottom != "") {
+	echo "<div class='cofiHtmlBoxCategoryBottom'>";
+		echo $htmlBoxCategoryBottom;
+	echo "</div>";
+}
+?>
+<!-- HTML Box Bottom -->
+
+
+<?php
+include( 'components/com_discussions/includes/footer.php');
+
+
+

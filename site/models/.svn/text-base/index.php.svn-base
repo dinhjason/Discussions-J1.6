@@ -1,0 +1,130 @@
+<?php
+/*
+ * models/index.php
+ *
+ * Autor: Achim Fischer
+ *
+ */
+
+
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
+
+jimport('joomla.application.component.model');
+
+require_once(JPATH_COMPONENT.DS.'classes/user.php');
+
+
+
+/** 
+ * Discussions Index Model 
+ */ 
+class DiscussionsModelIndex extends JModel { 
+
+	
+     
+	/**
+	 * Frontpage catList array
+	 *
+	 * @var array
+	 */
+	var $_data = null;
+	
+	/**
+	 * Number of categories at this level
+	 *
+	 * @var integer
+	 */
+	var $_total = 0;
+	
+	     
+
+
+
+	/**
+	 * Constructor
+	 *
+	 * @since 1.5
+	 */
+	function __construct() {
+		parent::__construct();
+	}
+
+
+
+
+	/** 
+     * Gets categories data 
+     * 
+     * @return array 
+     */ 
+	function getCategories() {
+
+		global $mainframe, $option;
+		
+		static $items;
+		
+		if (isset($items)) {
+			return $items;
+		}
+
+		$db =& $this->getDBO();		
+		
+
+		$user =& JFactory::getUser();
+		$logUser = new CUser( $user->id);
+			
+		if ( $logUser->isModerator()) {	// show me all categories				
+				$query = "SELECT c.id, c.parent_id, c.name, c.alias, c.description, c.image, c.show_image, c.published, 
+						c.counter_posts, c.counter_threads, 
+						DATE_FORMAT( c.last_entry_date, '%d.%m.%Y %k:%i') AS last_entry_date, c.last_entry_user_id, u.username,
+						CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(':', c.id, c.alias) ELSE c.id END as slug
+						FROM ".$db->nameQuote('#__discussions_categories')."c LEFT JOIN  (".$db->nameQuote('#__users')." u) ON u.id=c.last_entry_user_id 
+						WHERE c.published='1' ORDER by c.ordering ASC";
+		}
+		else { // only show the public forums (privates are hidden)
+				$query = "SELECT c.id, c.parent_id, c.name, c.alias, c.description, c.image, c.show_image, c.published, 
+						c.counter_posts, c.counter_threads, 
+						DATE_FORMAT( c.last_entry_date, '%d.%m.%Y %k:%i') AS last_entry_date, c.last_entry_user_id, u.username,
+						CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(':', c.id, c.alias) ELSE c.id END as slug
+						FROM ".$db->nameQuote('#__discussions_categories')."c LEFT JOIN  (".$db->nameQuote('#__users')." u) ON u.id=c.last_entry_user_id 
+						WHERE c.private='0' AND c.published='1' ORDER by c.ordering ASC";			
+		}
+
+		$db->setQuery( $query );
+		$rows = $db->loadObjectList();
+
+		
+		$children = array ();
+				
+		if( count( $rows)){
+		
+			foreach ( $rows as $row) {
+			
+				$pt = $row->parent_id;
+				
+				$list = @$children[$pt] ? $children[$pt] : array ();
+				
+				array_push( $list, $row);
+				
+				$children[$pt] = $list;
+				
+			}
+		}
+		
+		$list = JHTML::_( 'menu.treerecurse', 0, '', array (), $children);
+		
+		$items = $list;
+
+		return $items;
+		
+	}
+
+     
+     
+} 
+
+
+?>
+

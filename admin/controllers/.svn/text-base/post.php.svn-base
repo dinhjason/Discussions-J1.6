@@ -1,0 +1,84 @@
+<?php 
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
+jimport('joomla.application.component.controller');
+
+
+
+class DiscussionsControllerPost extends JController {
+
+    function display() {
+    
+        JRequest::setVar('view', 'post');
+
+
+		switch( $this->getTask()) {
+		
+			case 'add' : {
+				JRequest::setVar( 'hidemainmenu', 1 );
+				JRequest::setVar( 'view'  , 'post');
+				JRequest::setVar( 'edit', false );
+				break;
+			} 
+			
+			case 'edit' : {
+				JRequest::setVar( 'hidemainmenu', 1 );
+				JRequest::setVar( 'view'  , 'post');
+				JRequest::setVar( 'edit', true );
+				break;
+			}
+
+			case 'cancel' : {
+				JRequest::setVar( 'view'  , 'posts');
+				break;
+			}
+			
+			default : {
+					
+				break;
+			}
+			
+		}
+
+        
+        parent::display();
+        
+    }
+
+
+
+	function save() {
+	
+		JRequest::checkToken() or jexit( 'Invalid Token' );
+
+		$post	= JRequest::get('post');
+		
+		$cid	= JRequest::getVar( 'cid', array(0), 'post', 'array' );
+		
+		$post['id'] = (int) $cid[0];
+
+		$model = $this->getModel('post');
+
+		if ( $model->store( $post)) {
+		
+			$msg = JText::_( 'Post Saved' );
+			
+		} 
+		else {
+		
+			$msg = JText::_( 'Error Saving Post' );
+			
+		}
+
+		$link = 'index.php?option=com_discussions&view=posts';
+		
+		$this->setRedirect( $link, $msg);
+		
+	}
+
+
+
+        
+}

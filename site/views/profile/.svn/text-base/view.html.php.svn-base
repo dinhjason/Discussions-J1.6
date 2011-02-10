@@ -1,0 +1,71 @@
+<?php
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
+
+jimport( 'joomla.application.component.view');
+
+
+
+/**
+ * Posting View
+ */
+class DiscussionsViewProfile extends JView {
+
+
+	/**
+     * Renders the view
+     *
+     */
+    function display() {
+
+		global $mainframe;
+
+		$document =& JFactory::getDocument();
+
+
+        $headline   =& $this->get('Headline');
+        $signature	=& $this->get('Signature');
+        $task       =& $this->get('Task');
+        $zipcode	=& $this->get('Zipcode');
+        $city	    =& $this->get('City');
+        $country	=& $this->get('Country');
+
+
+		// get parameters
+		$params = &$mainframe->getParams();
+
+		$menus	= &JSite::getMenu();
+		$menu	= $menus->getActive();
+
+		if (is_object( $menu )) {
+			$menu_params = new JParameter( $menu->params );
+			if (!$menu_params->get( 'page_title')) {
+				$params->set('page_title',	JText::_( 'Forums' ));
+			}
+		} else {
+			$params->set('page_title',	JText::_( 'Forums' ));
+		}
+
+		$document->setTitle( $params->get( 'page_title' ) );
+
+
+
+		$this->assignRef('headline', $headline);
+        $this->assignRef('signature', $signature);
+		$this->assignRef('task', $task);
+        $this->assignRef('zipcode', $zipcode);
+        $this->assignRef('city', $city);
+        $this->assignRef('country', $country);
+
+		$this->assignRef('params',		$params);
+
+
+        // display the view
+        parent::display();
+
+    }
+
+
+
+}

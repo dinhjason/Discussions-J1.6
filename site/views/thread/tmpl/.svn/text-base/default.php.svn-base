@@ -1,0 +1,756 @@
+<?php
+/*
+ * views/thread/tmpl/default.php
+ *
+ * Autor: Achim Fischer
+ *
+ */
+
+
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
+JHTML::_('stylesheet', 'discussions.css', 'components/com_discussions/assets/');
+
+require_once(JPATH_COMPONENT.DS.'classes/user.php');
+require_once(JPATH_COMPONENT.DS.'classes/helper.php');
+
+
+$user =& JFactory::getUser();
+$logUser = new CUser( $user->id);
+$cHelper = new CHelper();
+
+
+// set page title and description
+$document =& JFactory::getDocument(); 
+
+$title = $document->getTitle();
+
+
+$siteName = $mainframe->getCfg('sitename');
+
+$title = $this->subject . " - " . $this->categoryName . " | " . $siteName;
+
+
+$document->setTitle( $title); 
+$document->setDescription( $this->subject . " " . $this->categoryName); 
+
+
+// get parameters
+$params = JComponentHelper::getParams('com_discussions');
+
+?>
+
+
+
+<!-- Javascript functions -->
+<script type="text/javascript">
+
+    function callURL(obj) {
+
+        $catid 		= obj.options[obj.selectedIndex].value;
+		var length 	= slugsarray.length;
+
+		for(var k=0; k < slugsarray.length; k++) {
+			
+			// if selected index found jump to category
+			if ( slugsarray[k][0] == $catid) {
+         		location.href = slugsarray[k][1];
+        	}
+
+		}			
+
+    }
+
+</script>
+<!-- Javascript functions -->
+
+
+
+<?php 
+if ( $this->params->def( 'show_page_title', 1 ) ) : 
+	?>
+	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+		<?php echo $this->escape($this->params->get('page_title')); ?>
+	</div>
+	<?php 
+endif; 
+?>
+
+
+
+<!-- HTML Box Top -->
+<?php
+$htmlBoxThreadTop = $params->get('htmlBoxThreadTop', '');
+
+if ( $htmlBoxThreadTop != "") {
+	echo "<div class='cofiHtmlBoxThreadTop'>";
+		echo $htmlBoxThreadTop;
+	echo "</div>";
+}
+?>
+<!-- HTML Box Top -->
+
+
+
+<?php
+include( 'components/com_discussions/includes/topmenu.php');
+?>
+
+
+
+<!-- Category icon, name and description -->
+<table width="100%" style="margin-bottom:10px;">
+    <tr>
+
+        <!-- category image -->
+        <td width="50">
+            <?php
+			if ( $this->categoryImage == "") {  // show default category image
+				echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/categories/default.png' style='border:0px;margin:5px;' />";
+			}
+			else {
+				echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/categories/".$this->categoryImage."' style='border:0px;margin:5px;' />";
+			}
+            ?>
+        </td>
+        <!-- category image -->
+
+        <!-- category name and description -->
+        <td align="left">
+            <?php
+            echo "<h2 style='padding-left: 0px;'>";
+                echo $this->categoryName;
+            echo "</h2>";
+            echo $this->categoryDescription;
+            ?>
+        </td>
+        <!-- category name and description -->
+
+        <!-- category quick select box -->
+        <td align="left">
+            <?php
+            echo $cHelper->getQuickJumpSelectBox( $this->categoryId);
+            ?>
+        </td>
+        <!-- category quick select box -->
+
+    </tr>
+</table>
+<!-- Category icon, name and description -->
+
+
+
+
+
+<!-- Post, Reply,... Links -->
+<?php
+if ( $user->guest) { // user is not logged in
+
+	echo "<table width='100%' style='margin:20px 0px 20px 0px;'>";
+    	echo "<tr>";
+        	echo "<td width='100%' align='left' valign='middle'>";        
+        		$registerURL = "index.php?option=com_user&view=register";
+        		$loginURL    = "index.php?option=com_user&view=login";
+        	
+            	echo "Public write access is disabled. Please ";
+            	
+            	echo "<a href='" . JRoute::_( $loginURL) . "' >login</a>";
+            	echo " or ";
+            	echo "<a href='" . JRoute::_( $registerURL) . "' >register</a>";				            	
+            echo "</td>";
+        echo "</tr>";
+    echo "</table>";
+    
+}
+else { // user is logged in
+
+	echo "<table width='50%' style='margin:20px 0px 20px 0px;'>";
+	
+    	echo "<tr>";       	
+    	
+    		if ( $this->lockedStatus == 0 || $logUser->isModerator()) { // thread is not locked or user is moderator
+        		echo "<td width='16' align='center' valign='middle'>";
+            		echo "<img src='/components/com_discussions/assets/threads/reply.png' style='margin-left: 15px; margin-right: 5px; border:0px;' />";
+        		echo "</td>";
+        		echo "<td align='left' valign='middle'>";
+            		$menuLinkReplyTMP = "index.php?option=com_discussions&view=posting&task=reply&catid=".$this->categorySlug."&thread=".$this->thread."&parent=".$this->threadId;
+            		$menuLinkReply = JRoute::_( $menuLinkReplyTMP);
+            		echo "<a href='".$menuLinkReply."'>Reply</a>";
+        		echo "</td>";
+			}
+
+        	echo "<td width='16' align='center' valign='middle'>";
+            	echo "<img src='/components/com_discussions/assets/threads/new.png' style='margin-left: 5px; margin-right: 5px; border:0px;' />";
+        	echo "</td>";
+        	
+        	echo "<td align='left' valign='middle'>";
+            	$menuLinkNewTMP = "index.php?option=com_discussions&view=posting&task=new&catid=".$this->categorySlug;
+            	$menuLinkNew = JRoute::_( $menuLinkNewTMP);
+            	echo "<a href='".$menuLinkNew."'>New&nbsp;Thread</a>";
+        	echo "</td>";        
+        	
+    	echo "</tr>";
+    	
+	echo "</table>";
+}
+?>
+<!-- Post, Reply,... Links -->
+
+
+
+
+
+<!-- Breadcrumb -->
+<table style="margin-top: 5px;">
+    <tr>
+        <td>
+            <?php
+            $menuLinkHome     = JRoute::_( 'index.php?option=com_discussions');
+            $menuText = JSite::getMenu()->getActive()->name;
+            echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
+            ?>
+        </td>
+        <td>
+            <?php
+            $menuLinkCategoryTMP = "index.php?option=com_discussions&view=category&catid=".$this->categorySlug;
+            $menuLinkCategory = JRoute::_( $menuLinkCategoryTMP);
+            echo "&nbsp;&raquo;&nbsp;";
+            echo "<a href='$menuLinkCategory'>".$this->categoryName."</a>";
+            ?>
+        </td>
+        <td>
+            <?php
+            echo "&nbsp;&raquo;&nbsp;";
+            echo $this->subject;
+            ?>
+        </td>
+    </tr>
+</table>
+<!-- Breadcrumb -->
+
+
+
+
+
+<!-- Pagination Links -->
+<table width="100%" style="margin-bottom: 5px;">
+    <tr>
+        <td>
+            <?php
+            echo $this->pagination->getPagesLinks();
+            ?>
+        </td>
+        <td>
+            <?php
+            echo $this->pagination->getPagesCounter();
+            ?>
+        </td>
+
+    </tr>
+</table>
+<!-- Pagination Links -->
+
+
+
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
+
+	<?php
+	$rowColor = 1;
+	$counter  = 1;
+
+	foreach ( $this->postings as $posting ) : ?>
+
+    	<tr>
+
+			<td width="100" align="center" valign="top" class="cofiThreadTableRow<?php echo $rowColor; ?>" style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; border-left: 1px solid #ccc;">
+                <?php
+
+                // get $post->username;
+				$opUserUsername = $cHelper->getUsernameById( $posting->user_id);
+
+                // show avatar
+                echo "<div class='cofiAvatarBox'>";
+                $cUser = new CUser( $posting->user_id);
+                if ( $cUser->getAvatar() == "") { // display default avatar
+                    echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/users/user.png' class='cofiAvatar' alt='$opUserUsername' title='$opUserUsername' />";
+                }
+                else { // display uploaded avatar
+                    echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/users/".$posting->user_id."/large/".$cUser->getAvatar()."' class='cofiAvatar' alt='$opUserUsername' title='$opUserUsername' />";
+                }
+                echo "</div>";
+
+
+                // display username
+                echo "<br />";                
+                echo "<b>";
+                	echo $opUserUsername;
+                echo "</b>";
+                echo "<br />";
+
+
+				echo "<div class='cofiAvatarColumnPosts'>";
+                	echo $cUser->getPosts()." posts";
+                echo "</div>";
+                
+
+
+				// location
+				echo "<div class='cofiAvatarColumnLocation'>";
+				
+				echo "Location:";
+                echo "<br />";
+
+				
+				$useUserProfileExtension = false;
+                
+                if ( $useUserProfileExtension) {
+                	$city    = $cHelper->getCityById( $posting->user_id);
+                	$country = $cHelper->getCountryById( $posting->user_id);
+                }
+                else {
+                	$city    = $cUser->getCity();
+                	$country = $cUser->getCountry();
+                }
+                
+                if ( $city != "" || $country != "") {
+                
+                	if ( $city != "") {	
+						echo $city;
+                		if ( $country != "") {	
+                			echo "<br />";
+                		}
+					}
+                	if ( $country != "") {	
+						echo $country;
+					}
+					
+				}
+				else { // nothing set
+					echo "n.a.";
+				}
+				echo "</div>";
+
+
+
+                // rank
+				echo "<div class='cofiAvatarColumnTitel'>";
+                if ( $cUser->getTitle() != "") { // display title
+
+                    echo "<i>";
+                    echo $cUser->getTitle();
+                    echo "</i>";
+                    echo "<br />";
+
+                    switch ($cUser->getTitle()) {
+                        case "Community Manager": {
+                            echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/system/administrator.png' style='width:16px;border:0px;margin:5px;' />";
+                            break;
+                        }
+                        case "Moderator": {
+                            echo "<img src='".$mosConfig_live_site."/components/com_discussions/assets/system/moderator.png' style='width:16px;border:0px;margin:5px;' />";
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                    }
+                }                
+                echo "</div>";
+
+                ?>
+			</td>
+
+			<td align="left" valign="top" class="cofiThreadTableRow<?php echo $rowColor; ?>" style="border-top: 1px solid #ccc; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;">
+				<?php
+                echo $posting->date;
+   
+				if ( $counter == 1) { // h3 and icons in first row only
+                	echo "<h3 style='font-weight: bold; margin: 3px 0px 1px 0px;'>";
+                		echo $posting->subject;
+                	echo "</h3>";
+                	                	
+					?>				
+					<div style="margin:0px 0px 0px 0px;">
+						<div style="float:left; padding-top:1px;">
+						
+							<?php							
+							$tweetmemeCode = $params->get('tweetmemeCode', '');		
+							echo $tweetmemeCode;						
+							?>
+							
+						</div>
+									
+						<div style="float:left; margin-right:10px;">
+
+							<?php
+							$facebookCode = $params->get('facebookCode', '');		
+							echo $facebookCode;						
+							?>
+							
+						</div>
+					</div>
+					
+					<div class="clr" style="margin-bottom:5px"></div>
+
+				<?php					
+				}
+				else {
+					echo "<div style='margin: 5px 0px 5px 0px;'>";
+                		echo "<b>";
+                			echo $posting->subject;
+                		echo "</b>";	
+					echo "</div>";
+				}
+
+
+
+
+
+                echo "<div class='cofiHorizontalRuler'></div>";
+
+                $message = $posting->message;    
+                            
+                // transfer bbcode into html code
+
+				// bold
+				$message = str_replace( '[b]', '<b>', $message);
+				$message = str_replace( '[/b]', '</b>', $message);
+
+				// italic
+				$message = str_replace( '[i]', '<i>', $message);
+				$message = str_replace( '[/i]', '</i>', $message);
+
+				// underline
+				$message = str_replace( '[u]', '<u>', $message);
+				$message = str_replace( '[/u]', '</u>', $message);
+
+				// strikethrough
+				$message = str_replace( '[s]', '<s>', $message);
+				$message = str_replace( '[/s]', '</s>', $message);
+
+				// big
+				$message = str_replace( '[big]', '<big>', $message);
+				$message = str_replace( '[/big]', '</big>', $message);
+
+				// small
+				$message = str_replace( '[small]', '<small>', $message);
+				$message = str_replace( '[/small]', '</small>', $message);
+
+				// bullet list
+				$message = str_replace( '[ul]', '<ul>', $message);
+				$message = str_replace( '[/ul]', '</ul>', $message);
+				$message = str_replace( '[li]', '<li>', $message);
+				$message = str_replace( '[/li]', '</li>', $message);
+
+				// block quote
+				$message = str_replace( '[blockquote]', '<blockquote>', $message);
+				$message = str_replace( '[/blockquote]', '</blockquote>', $message);
+
+				$message = $cHelper->close_html_tags( $message);
+
+
+				$message = nl2br( $message);
+
+
+				echo "<span class='cofiMessage'>";
+                	echo $message;
+				echo "</span>";
+                
+                echo "<br />";
+                echo "<br />";
+
+
+                $signature = nl2br($cUser->getSignature());
+                if ( $signature != "") { // display signature hr if one is present
+                    echo "<div class='cofiHorizontalRuler'></div>";
+                    echo $signature;
+                }
+
+
+                echo "<br />";
+                echo "<br />";
+
+
+
+
+
+                if ( $user->guest) { // user is not logged in
+/*
+                    echo "<table width='100%' border='0' cellspacing='0' cellpadding='5'>";
+                        echo "<tr>";
+                            echo "<td width='100%' align='left' valign='middle'>";
+                                echo "Um eine Antwort schreiben zu können, musst Du Dich einloggen. Noch keinen Account? Jetzt registrieren.";
+                            echo "</td>";
+                        echo "</tr>";
+                    echo "</table>";
+*/                    
+                }
+                else {  // user is logged in
+
+                echo "<div class='cofiPostMenu'>";
+
+                echo "<table width='100%' border='0' cellspacing='0' cellpadding='5'>";
+
+                    echo "<tr>";
+
+    					if ( $this->lockedStatus == 0 || $logUser->isModerator()) { // thread is not locked or user is moderator
+    					
+                        	// reply to post
+                        	echo "<td width='16' align='center' valign='middle'>";
+                            	echo "<img src='/components/com_discussions/assets/threads/reply.png' style='margin-left: 5px; border:0px;' />";
+                        	echo "</td>";
+
+                        	echo "<td width='20' align='left' valign='middle'>";
+                            	echo "<span class='cofiPostMenuLinks'>";
+            						$menuLinkReplyTMP = "index.php?option=com_discussions&view=posting&task=reply&catid=".$this->categorySlug."&thread=".$this->thread."&parent=".$posting->id;
+            						$menuLinkReply = JRoute::_( $menuLinkReplyTMP);
+            						echo "<a href='".$menuLinkReply."'>Reply</a>";
+                            	echo "</span>";
+                        	echo "</td>";
+
+
+                        	// reply to post with quote 
+                        	echo "<td width='16' align='center' valign='middle'>";
+                            	echo "<img src='/components/com_discussions/assets/threads/quote.png' style='margin-left: 5px; border:0px;' />";
+                        	echo "</td>";
+
+                        	echo "<td width='20' align='left' valign='middle'>";
+                            	echo "<span class='cofiPostMenuLinks'>";
+            						$menuLinkQuoteTMP = "index.php?option=com_discussions&view=posting&task=quote&catid=".$this->categorySlug."&thread=".$this->thread."&parent=".$posting->id."&id=".$posting->id;
+            						$menuLinkQuote = JRoute::_( $menuLinkQuoteTMP);
+            						echo "<a href='".$menuLinkQuote."'>Quote</a>";
+                            	echo "</span>";
+                        	echo "</td>";
+
+
+
+							// edit post
+                        	// check if user is post owner or has moderator rights
+                                                
+                        	$date = $posting->date;
+                        
+                        	$day = substr( $date, 0, 2);  // 1 + 2 char
+                        	$month = substr( $date, 3, 2);  // 4 + 5 char
+                        	$year = substr( $date, 6, 4);  // 7 - 10 char
+                        
+                        	$hour = substr( $date, 11, 2);  // 12 + 13 char
+                        	$minute = substr( $date, 14, 2);  // 15 + 16 char
+                        
+
+                        	//date_default_timezone_set ( "Europe/Berlin");
+                        
+                        	$now = time(); // current unixtime
+                        
+                        	$posttime = mktime( $hour, $minute, 0, $month, $day, $year); // unixtime from post date
+                        
+                        	$isUserEditable = true;
+                        
+                        	// get editTime in minutes from global parameters
+                        	$editTime = $params->get('editTime', '30');		
+							                        
+                        	if ( ($now - $posttime) > ( $editTime * 60)) {
+                        		$isUserEditable = false;
+                       		}
+                        
+                        	if ( $logUser->isModerator() || ( ($logUser->getId() == $cUser->getId()) && $isUserEditable == true)) {
+                            	echo "<td width='16' align='center' valign='middle'>";
+                                	echo "<img src='/components/com_discussions/assets/threads/edit.png' style='margin-left: 5px; border:0px;' />";
+                            	echo "</td>";
+
+                            	echo "<td width='20' align='left' valign='middle'>";
+                                	echo "<span class='cofiPostMenuLinks'>";
+            							$menuLinkEditTMP = "index.php?option=com_discussions&view=posting&task=edit&catid=".$this->categorySlug."&thread=".$this->thread."&parent=".$posting->id."&id=".$posting->id;
+            							$menuLinkEdit = JRoute::_( $menuLinkEditTMP);
+            							echo "<a href='".$menuLinkEdit."'>Edit</a>";
+                                	echo "</span>";
+                            	echo "</td>";
+                        	}
+
+						} // if locked == 0 or user is moderator
+						else {
+								echo "<td width='16' align='center' valign='middle'>";
+									echo "<img src='/components/com_discussions/assets/threads/lock.png' style='margin-left: 5px; border:0px;' />";
+								echo "</td>";
+
+								echo "<td align='left' valign='middle'>";
+									echo "<span class='cofiPostMenuLinks'>";
+										echo "This thread is locked";									
+									echo "</span>";
+								echo "</td>";
+						
+						}
+						
+						
+						// check if it is the first post in a thread (parent_id == 0)
+                        if ( $posting->parent_id == 0) {
+						
+							// check if user has moderator rights
+							if ( $logUser->isModerator()) {
+						
+								// move thread
+								echo "<td width='16' align='center' valign='middle'>";
+									echo "<img src='/components/com_discussions/assets/threads/move.png' style='margin-left: 5px; border:0px;' />";
+								echo "</td>";
+
+								echo "<td width='20' align='left' valign='middle'>";
+									echo "<span class='cofiPostMenuLinks'>";
+
+            							$menuLinkMoveTMP = "index.php?option=com_discussions&view=moderation&task=move&catid=".$this->categorySlug."&thread=".$this->thread;
+            							$menuLinkMove = JRoute::_( $menuLinkMoveTMP);
+            						
+            							echo "<a href='".$menuLinkMove."'>Move</a>";
+
+									echo "</span>";
+								echo "</td>";
+
+
+								// sticky or unsticky thread
+								echo "<td width='16' align='center' valign='middle'>";
+									echo "<img src='/components/com_discussions/assets/threads/sticky.png' style='margin-left: 5px; border:0px;' />";
+								echo "</td>";
+
+								echo "<td width='20' align='left' valign='middle'>";
+									echo "<span class='cofiPostMenuLinks'>";
+
+										if ( $this->stickyStatus == 0) { // thread is not sticky
+            								$menuLinkStickyTMP = "index.php?option=com_discussions&view=moderation&task=sticky&catid=".$this->categorySlug."&thread=".$this->thread;
+            								$menuLinkSticky = JRoute::_( $menuLinkStickyTMP);
+            								echo "<a href='".$menuLinkSticky."'>Sticky</a>";
+										}
+										else {
+            								$menuLinkUnstickyTMP = "index.php?option=com_discussions&view=moderation&task=unsticky&catid=".$this->categorySlug."&thread=".$this->thread;
+            								$menuLinkUnsticky = JRoute::_( $menuLinkUnstickyTMP);
+            								echo "<a href='".$menuLinkUnsticky."'>Unsticky</a>";
+										}
+
+									echo "</span>";
+								echo "</td>";
+
+
+								// close thread
+								echo "<td width='16' align='center' valign='middle'>";
+									echo "<img src='/components/com_discussions/assets/threads/lock.png' style='margin-left: 5px; border:0px;' />";
+								echo "</td>";
+
+								echo "<td width='20' align='left' valign='middle'>";
+									echo "<span class='cofiPostMenuLinks'>";
+
+										if ( $this->lockedStatus == 0) { // thread is not locked
+            								$menuLinkLockTMP = "index.php?option=com_discussions&view=moderation&task=lock&catid=".$this->categorySlug."&thread=".$this->thread;
+            								$menuLinkLock = JRoute::_( $menuLinkLockTMP);
+            								echo "<a href='".$menuLinkLock."'>Lock</a>";
+										}
+										else {
+            								$menuLinkUnlockTMP = "index.php?option=com_discussions&view=moderation&task=unlock&catid=".$this->categorySlug."&thread=".$this->thread;
+            								$menuLinkUnlock = JRoute::_( $menuLinkUnlockTMP);
+            								echo "<a href='".$menuLinkUnlock."'>Unlock</a>";
+										}
+									
+									echo "</span>";
+								echo "</td>";
+							
+							}
+                        
+                        }
+
+
+                        echo "<td>";
+                            echo "&nbsp;";
+                        echo "</td>";
+
+                        /*
+                        // notify post
+                        echo "<td width='16' align='center' valign='middle'>";
+                            echo "<img src='components/com_discussions/assets/threads/notify.png' style='border:0px;' />";
+                        echo "</td>";
+
+
+                        echo "<td width='80' align='right' valign='middle'>";
+                            echo "<span class='cofiPostMenuLinks'>";
+                                echo "<a href='#'>Notify&nbsp;post</a>";
+                            echo "</span>";
+                        echo "</td>";
+                        */    
+
+                    echo "</tr>";
+
+                echo "</table>";
+
+
+                echo "</div>";
+
+                }
+
+
+
+                ?>
+			</td>
+
+    	</tr>
+
+    	<tr>
+			<td>
+			</td>
+    	</tr>
+
+		<?php
+        $rowColor = 2;
+
+		$counter++;
+		
+	endforeach;
+	?>
+
+</table>
+
+
+
+<!-- Pagination Links -->
+<table width="100%" style="margin-top:10px;">
+    <tr>
+        <td>
+            <?php
+            echo $this->pagination->getPagesLinks();
+            ?>
+        </td>
+        <td>
+            <?php
+            echo $this->pagination->getPagesCounter();
+            ?>
+        </td>
+
+    </tr>
+</table>
+<!-- Pagination Links -->
+
+
+
+
+<?php
+include( 'components/com_discussions/includes/share.php');
+?>
+
+
+<!-- HTML Box Bottom -->
+<?php
+$htmlBoxThreadBottom = $params->get('htmlBoxThreadBottom', '');		
+
+if ( $htmlBoxThreadBottom != "") {
+	echo "<div class='cofiHtmlBoxThreadBottom'>";
+		echo $htmlBoxThreadBottom;
+	echo "</div>";
+}
+?>
+<!-- HTML Box Bottom -->
+
+
+<?php
+include( 'components/com_discussions/includes/footer.php');
+
+
+
+

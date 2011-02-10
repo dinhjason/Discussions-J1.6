@@ -1,0 +1,315 @@
+<?php
+/*
+ * models/profile.php
+ *
+ * Autor: Achim Fischer
+ *
+ */
+
+
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
+
+jimport('joomla.application.component.model');
+
+require_once(JPATH_COMPONENT.DS.'classes/user.php');
+
+include( 'components/com_discussions/includes/imagehelper.php');
+
+
+/** 
+ * Discussions Category Model 
+ */ 
+class DiscussionsModelProfile extends JModel { 
+	
+     
+	/**
+	 * task
+	 *
+	 * @var String
+	 */
+	var $_task = "";
+
+     
+	/**
+	 * headline
+	 *
+	 * @var String
+	 */
+	var $_headline = null;
+
+     
+	/**
+	 * Signature
+	 *
+	 * @var String
+	 */
+
+	var $_signature = null;
+	
+	
+	/**
+	 * Avatar
+	 *
+	 * @var String
+	 */
+
+	var $_avatar = null;
+
+
+	/**
+	 * Zipcode
+	 *
+	 * @var String
+	 */
+
+	var $_zipcode = null;
+
+
+	/**
+	 * City
+	 *
+	 * @var String
+	 */
+
+	var $_city = null;
+
+
+	/**
+	 * Country
+	 *
+	 * @var String
+	 */
+
+	var $_country = null;
+
+
+
+	/**
+	 * Constructor
+	 *
+	 * @since 1.5
+	 */
+	function __construct() {
+	
+		global $mainframe;
+
+		parent::__construct();
+		
+		$this->_headline = "Profile";
+		
+		
+		$user =& JFactory::getUser();
+
+		if ( $user->guest) { // user is not logged in
+			$redirectLink = JRoute::_( "index.php?option=com_discussions");
+			$mainframe->redirect( $redirectLink, "You are not logged in!", "notice");		
+		}
+
+     	$this->_task   = JRequest::getString( 'task', '');
+		$this->_userid = $user->id;
+     	
+     	
+		$this->_signature  = JRequest::getString( 'signature', '', 'POST');				
+		// $this->_signature = strip_tags( $this->_signature);
+		$this->_signature = substr( strip_tags( $this->_signature), 0, 250);
+		
+
+		$this->_zipcode  = JRequest::getString( 'zipcode', '', 'POST');				
+		$this->_zipcode = strip_tags( $this->_zipcode);
+
+		$this->_city  = JRequest::getString( 'city', '', 'POST');				
+		$this->_city = strip_tags( $this->_city);
+     	
+		$this->_country  = JRequest::getString( 'country', '', 'POST');				
+		$this->_country = strip_tags( $this->_country);
+     	     	
+		switch ( JRequest::getString( 'submit', '')) {
+			case "Save": {     			
+     			$this->saveProfile();		
+				break;
+			}
+						
+			default: {
+				$this->_headline = "Profile";
+				break;
+			}
+						
+		}
+		
+	}
+
+
+
+
+/**
+ * save profile
+ *
+ * @return int
+ */
+ function saveProfile() {
+
+	global $mainframe;
+
+	$user =& JFactory::getUser();
+	$logUser = new CUser( $user->id);
+	
+	$this->_headline = "Profile saved";
+
+			
+	// redirect	link
+	$redirectLink = JRoute::_( "index.php?option=com_discussions&view=profile");
+	        
+    
+    // check if user is logged in - maybe session has timed out
+	if ($user->guest) { 
+		// if user is not logged in, kick him back to index page
+		$mainframe->redirect( $redirectLink, "Your profile hast NOT been saved. Probably your session has timed out", "message"); 
+	} 
+    
+                    
+	$db =& $this->getDBO();
+	
+		
+	// avatar upload
+	if (isset( $_FILES['avatar']) and !$_FILES['avatar']['error'] ) {
+    	add_image( $this->_userid, "avatar", JPATH_BASE, $db);
+	}
+
+		
+	$sql = "UPDATE ".$db->nameQuote( '#__discussions_users')." SET" . 
+					" signature = " . $db->Quote( $this->_signature) . 
+					", zipcode = " . $db->Quote( $this->_zipcode) . 
+					", city = " . $db->Quote( $this->_city) . 
+					", country = " . $db->Quote( $this->_country) . 					
+					" WHERE id = '".$user->id."'";
+
+	$db->setQuery( $sql);
+	$result = $db->query();
+
+    
+	$mainframe->redirect( $redirectLink, "Your profile hast been saved", "notice"); 
+
+
+    return 0; // save OK
+ }
+
+
+
+
+
+
+
+
+	/**
+	 * Method to get the signature of this user
+	 *
+	 * @access public
+	 * @return String
+	 */
+	function getSignature() {
+		
+		if (empty($this->_signature)) {
+			
+        	$db =& $this->getDBO();
+
+			$sql = "SELECT signature FROM ".$db->nameQuote('#__discussions_users')." WHERE id='".$this->_userid."'";
+			
+            $db->setQuery( $sql);
+            $this->_signature = $db->loadResult();
+			
+		}
+
+		return $this->_signature;
+	}
+
+
+
+	/**
+	 * Method to get the zipcode of this user
+	 *
+	 * @access public
+	 * @return String
+	 */
+	function getZipcode() {
+		
+		if (empty($this->_zipcode)) {
+			
+        	$db =& $this->getDBO();
+
+			$sql = "SELECT zipcode FROM ".$db->nameQuote('#__discussions_users')." WHERE id='".$this->_userid."'";
+			
+            $db->setQuery( $sql);
+            $this->_zipcode = $db->loadResult();
+			
+		}
+
+		return $this->_zipcode;
+	}
+
+
+	/**
+	 * Method to get the city of this user
+	 *
+	 * @access public
+	 * @return String
+	 */
+	function getCity() {
+		
+		if (empty($this->_city)) {
+			
+        	$db =& $this->getDBO();
+
+			$sql = "SELECT city FROM ".$db->nameQuote('#__discussions_users')." WHERE id='".$this->_userid."'";
+			
+            $db->setQuery( $sql);
+            $this->_city = $db->loadResult();
+			
+		}
+
+		return $this->_city;
+	}
+
+
+	/**
+	 * Method to get the country of this user
+	 *
+	 * @access public
+	 * @return String
+	 */
+	function getCountry() {
+		
+		if (empty($this->_country)) {
+			
+        	$db =& $this->getDBO();
+
+			$sql = "SELECT country FROM ".$db->nameQuote('#__discussions_users')." WHERE id='".$this->_userid."'";
+			
+            $db->setQuery( $sql);
+            $this->_country = $db->loadResult();
+			
+		}
+
+		return $this->_country;
+	}
+
+
+
+	/**
+	 * Method to get the headline
+	 *
+	 * @access public
+	 * @return String
+	 */
+	function getHeadline() {
+		return $this->_headline;
+	}
+
+
+
+} 
+
+
+?>
+

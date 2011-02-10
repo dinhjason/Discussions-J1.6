@@ -1,0 +1,18 @@
+
+#diFooter {
+	margin: 30px 0px 10px 0px;
+	text-align: center;
+}
+#diFooterVersion {
+	/* font-size: 0.9em; 
+	color: #555; */
+}
+#diFooterCopyright {
+	/* font-size: 0.9em;
+	color: #555; */
+}
+
+.icon-48-discussions
+{
+    background-image: url('../images/system/icon-48-discussions.png');
+}

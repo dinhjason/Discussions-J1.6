@@ -1,0 +1,11 @@
+
+<?php
+$params = JComponentHelper::getParams('com_discussions');
+$shareCode = $params->get('shareCode', '');		
+
+if ( $shareCode != "") {
+	echo "<div class='cofiShareCode'>";
+		echo $shareCode;
+	echo "</div>";
+}
+

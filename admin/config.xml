@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<config>
+
+	<fieldset name="general" label="COFI_CONFIG_GENERAL_SETTINGS">
+	
+		<field name="rookie" type="list" default="0" label="COFI_CONFIG_ROOKIE_MODE" description="COFI_CONFIG_ROOKIE_MODE_DESCRIPTION">
+			<option value="0">COFI_CONFIG_DISABLED</option>
+			<option value="1">COFI_CONFIG_ROOKIE_1POST</option>
+			<option value="2">COFI_CONFIG_ROOKIE_2POSTS</option>
+			<option value="3">COFI_CONFIG_ROOKIE_3POSTS</option>
+			<option value="4">COFI_CONFIG_ROOKIE_4POSTS</option>
+			<option value="5">COFI_CONFIG_ROOKIE_5POSTS</option>
+			<option value="6">COFI_CONFIG_ROOKIE_6POSTS</option>
+			<option value="7">COFI_CONFIG_ROOKIE_7POSTS</option>
+			<option value="8">COFI_CONFIG_ROOKIE_8POSTS</option>
+			<option value="9">COFI_CONFIG_ROOKIE_9POSTS</option>
+			<option value="10">COFI_CONFIG_ROOKIE_10POSTS</option>
+		</field>
+
+    	<field name="editTime" type="text" default="30" label="COFI_CONFIG_EDIT_TIME" description="COFI_CONFIG_EDIT_TIME_DESCRIPTION" />
+
+		<field name="editForever" type="list" default="1" label="COFI_CONFIG_EDIT_FOREVER" description="COFI_CONFIG_EDIT_FOREVER_DESCRIPTION">
+			<option value="0">COFI_CONFIG_DISABLED</option>
+			<option value="1">COFI_CONFIG_ENABLED</option>
+		</field>
+
+
+		<field name="delete" type="list" default="0" label="COFI_CONFIG_DELETE_MODE" description="COFI_CONFIG_DELETE_MODE_DESCRIPTION">
+			<option value="0">COFI_CONFIG_DISABLED</option>
+			<option value="1">COFI_CONFIG_RAW</option>
+			<option value="2">COFI_CONFIG_SOFT</option>
+		</field>
+
+    	<field name="deleteUser" type="text" default="0" label="COFI_CONFIG_DELETED_POSTS_USERID" description="COFI_CONFIG_DELETED_POSTS_USERID_DESCRIPTION" />
+
+		<field name="breadcrumb" type="list" default="0" label="COFI_CONFIG_BREADCRUMB_MODE" description="COFI_CONFIG_BREADCRUMB_MODE_DESCRIPTION">
+			<option value="0">COFI_CONFIG_DISABLED</option>
+			<option value="1">COFI_CONFIG_ENABLED</option>
+		</field>
+
+    	<field name="categoryListLength" type="text" default="" label="COFI_CONFIG_NR_THREADS_CATEGORY_LIST" description="COFI_CONFIG_NR_THREADS_CATEGORY_LIST_DESCRIPTION" />
+    	<field name="threadListLength" type="text" default="" label="COFI_CONFIG_NR_POSTS_THREAD_LIST" description="COFI_CONFIG_NR_POSTS_THREAD_LIST_DESCRIPTION" />
+        <field name="replyListLength" type="text" default="" label="COFI_CONFIG_NR_RECENT_POSTS_REPLY_LIST" description="COFI_CONFIG_NR_RECENT_POSTS_REPLY_LIST_DESCRIPTION" />
+
+    	<field name="dateformat"    type="text" default="%d.%m.%Y" label="COFI_CONFIG_DATEFORMAT" description="COFI_CONFIG_DATEFORMAT_DESCRIPTION" />
+    	<field name="timeformat"    type="text" default="%H:%i" label="COFI_CONFIG_TIMEFORMAT" description="COFI_CONFIG_TIMEFORMAT_DESCRIPTION" />
+
+
+		<field name="showFooter" type="radio" default="1" label="COFI_CONFIG_SHOW_FOOTER" description="COFI_CONFIG_SHOW_FOOTER_DESCRIPTION">
+			<option value="0">COFI_CONFIG_NO</option>
+			<option value="1">COFI_CONFIG_YES</option>
+		</field>
+
+	</fieldset>
+
+
+
+	<fieldset name="media" label="COFI_CONFIG_MEDIA_SETTINGS">
+
+    	<field name="maxImageSize" type="text" default="209715200" label="COFI_CONFIG_MAX_IMAGE_SIZE" description="COFI_CONFIG_MAX_IMAGE_SIZE_DESCRIPTION" />
+
+		<field name="images" type="list" default="3" label="COFI_CONFIG_NR_IMAGES" description="COFI_CONFIG_NR_IMAGES_DESCRIPTION">
+			<option value="0">COFI_CONFIG_NONE</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+		</field>
+
+		<field name="imagesAllowed" type="list" default="0" label="COFI_CONFIG_IMAGES_ALLOWED_FOR" description="COFI_CONFIG_IMAGES_ALLOWED_FOR_DESCRIPTION">
+			<option value="0">COFI_CONFIG_IMAGES_ALLOWED_FOR_NO_ONE</option>
+			<option value="1">COFI_CONFIG_IMAGES_ALLOWED_FOR_MODERATORS</option>
+			<option value="2">COFI_CONFIG_IMAGES_ALLOWED_FOR_SELECTED_USERS</option>
+			<option value="3">COFI_CONFIG_IMAGES_ALLOWED_FOR_NONE_ROOKIES</option>
+			<option value="10">COFI_CONFIG_IMAGES_ALLOWED_FOR_ALL_USERS</option>
+		</field>
+
+		<field name="imagesAllowedAEC" type="radio" default="0" label="COFI_CONFIG_IMAGES_ALLOW_AEC_GROUPS" description="COFI_CONFIG_IMAGES_ALLOW_AEC_GROUPS_DESCRIPTION">
+			<option value="0">COFI_CONFIG_NO</option>
+			<option value="1">COFI_CONFIG_YES</option>
+		</field>
+
+    	<field name="imagesAllowedAECPlans" type="text" default="" label="COFI_CONFIG_IMAGES_ALLOWED_AEC_PLANS" description="COFI_CONFIG_IMAGES_ALLOWED_AEC_PLANS_DESCRIPTION" />
+
+		<field name="imagesDisplayMode" type="list" default="0" label="COFI_CONFIG_IMAGES_DISPLAY_MODE" description="COFI_CONFIG_IMAGES_DISPLAY_MODE_DESCRIPTION">
+			<option value="0">COFI_CONFIG_IMAGES_DISPLAY_BROWSER_WINDOW</option>
+			<option value="1">COFI_CONFIG_IMAGES_DISPLAY_SLIMBOX</option>
+			<option value="2">COFI_CONFIG_IMAGES_DISPLAY_ROKBOX</option>
+			<option value="3">COFI_CONFIG_IMAGES_DISPLAY_YOOEFFECTS</option>
+		</field>
+
+		<field name="includeMootoolsJS" type="radio" default="0" label="COFI_CONFIG_INCLUDE_MOOTOOLS_JS" description="COFI_CONFIG_INCLUDE_MOOTOOLS_JS_DESCRIPTION">
+			<option value="0">COFI_CONFIG_NO</option>
+			<option value="1">COFI_CONFIG_YES</option>
+		</field>
+		<field name="includeSlimboxJS" type="radio" default="0" label="COFI_CONFIG_INCLUDE_SLIMBOX_JS" description="COFI_CONFIG_INCLUDE_SLIMBOX_JS_DESCRIPTION">
+			<option value="0">COFI_CONFIG_NO</option>
+			<option value="1">COFI_CONFIG_YES</option>
+		</field>
+
+        <field name="useFlickr" type="radio" default="0" label="COFI_CONFIG_USE_FLICKR" description="COFI_CONFIG_USE_FLICKR_DESCRIPTION">
+            <option value="0">COFI_CONFIG_NO</option>
+            <option value="1">COFI_CONFIG_YES</option>
+        </field>
+
+        <field name="flickr_display_mode" type="list" default="0" label="COFI_CONFIG_FLICKR_DISPLAY_MODE" description="COFI_CONFIG_FLICKR_DISPLAY_MODE_DESCRIPTION">
+            <option value="0">COFI_CONFIG_FLICKR_BROWSER_WINDOW</option>
+            <option value="1">COFI_CONFIG_FLICKR_SLIMBOX</option>
+			<option value="2">COFI_CONFIG_FLICKR_ROKBOX</option>
+			<option value="3">COFI_CONFIG_FLICKR_YOOEFFECTS</option>
+        </field>
+        
+        <field name="flickr_apikey" type="text" default="80e0b939631d60c4f575b54d78f29a24" label="COFI_CONFIG_FLICKR_API_KEY" description="COFI_CONFIG_FLICKR_API_KEY_DESCRIPTION" />
+
+        <field name="flickr_cache_mode" type="radio" label="COFI_CONFIG_FLICKR_CACHE_MODE" default="0" description="COFI_CONFIG_FLICKR_CACHE_MODE_DESCRIPTION">
+            <option value="0">COFI_CONFIG_NO</option>
+            <option value="1">COFI_CONFIG_YES</option>
+        </field>
+
+        <field name="flickr_cache_time" type="text" default="600" label="COFI_CONFIG_FLICKR_CACHE_TIME" description="COFI_CONFIG_FLICKR_CACHE_TIME_DESCRIPTION" />        
+
+
+
+        <field name="useYouTube" type="radio" default="0" label="COFI_CONFIG_USE_YOUTUBE" description="COFI_CONFIG_USE_YOUTUBE_DESCRIPTION">
+            <option value="0">COFI_CONFIG_NO</option>
+            <option value="1">COFI_CONFIG_YES</option>
+        </field>
+
+        <field name="youtube_video_width" type="text" default="640" label="COFI_CONFIG_YOUTUBE_VIDEO_WIDTH" description="COFI_CONFIG_YOUTUBE_VIDEO_WIDTH_DESCRIPTION" />
+        <field name="youtube_video_height" type="text" default="385" label="COFI_CONFIG_YOUTUBE_VIDEO_HEIGHT" description="COFI_CONFIG_YOUTUBE_VIDEO_HEIGHT_DESCRIPTION" />
+        
+	</fieldset>
+        
+
+	<fieldset name="social" label="COFI_CONFIG_SOCIAL_BUTTONS">
+
+		<field name="socialMediaButton1" type="textarea" default="" label="COFI_CONFIG_SOCIAL_MEDIA_BUTTON1" description="COFI_CONFIG_SOCIAL_MEDIA_BUTTON1_DESCRIPTION" rows="8" cols="50" />
+		
+		<field name="socialMediaButton2" type="textarea" default="" label="COFI_CONFIG_SOCIAL_MEDIA_BUTTON2" description="COFI_CONFIG_SOCIAL_MEDIA_BUTTON2_DESCRIPTION" rows="8" cols="50" />
+		
+		<field name="socialMediaButton3" type="textarea" default="" label="COFI_CONFIG_SOCIAL_MEDIA_BUTTON3" description="COFI_CONFIG_SOCIAL_MEDIA_BUTTON3_DESCRIPTION" rows="8" cols="50" />
+		
+		<field name="shareCode" type="textarea" default="" label="COFI_CONFIG_SHARE_CODE" description="COFI_CONFIG_SHARE_CODE_DESCRIPTION" rows="8" cols="50" />
+
+	</fieldset>
+
+
+	<fieldset name="email" label="COFI_CONFIG_EMAIL_SETTINGS">
+
+    	<field name="emailSiteName"    type="text" 		default="" label="COFI_CONFIG_EMAIL_SITENAME" description="COFI_CONFIG_EMAIL_SITENAME_DESCRIPTION" />
+		<field name="emailFrom"        type="text" 		default="" label="COFI_CONFIG_EMAIL_FROM" description="COFI_CONFIG_EMAIL_FROM_DESCRIPTION" />
+		<field name="emailSender"      type="text" 		default="" label="COFI_CONFIG_EMAIL_SENDER" description="COFI_CONFIG_EMAIL_SENDER_DESCRIPTION" />
+		<field name="emailLink"        type="text" 		default="" label="COFI_CONFIG_EMAIL_LINK" description="COFI_CONFIG_EMAIL_LINK_DESCRIPTION" />    	
+		<field name="emailWFMSubject"  type="text" 		default="" label="COFI_CONFIG_EMAIL_WFM_SUBJECT" description="COFI_CONFIG_EMAIL_WFM_SUBJECT_DESCRIPTION" />
+		<field name="emailWFMMessage"  type="textarea" 	default="" label="COFI_CONFIG_EMAIL_WFM_MESSAGE" description="COFI_CONFIG_EMAIL_WFM_MESSAGE_DESCRIPTION" rows="5" cols="50" />		
+		
+	</fieldset>
+				
+				
+	<fieldset name="htmlboxes" label="COFI_CONFIG_HTML_BOXES">
+				
+		<field name="htmlBoxIndexTop" type="textarea" default="" label="COFI_CONFIG_HTML_BOX_INDEX_TOP" description="COFI_CONFIG_HTML_BOX_INDEX_TOP_DESCRIPTION" rows="8" cols="50" />
+		<field name="htmlBoxIndexBottom" type="textarea" default="" label="COFI_CONFIG_HTML_BOX_INDEX_BOTTOM" description="COFI_CONFIG_HTML_BOX_INDEX_BOTTOM_DESCRIPTION" rows="8" cols="50" />
+		
+		<field name="htmlBoxCategoryTop" type="textarea" default="" label="COFI_CONFIG_HTML_BOX_CATEGORY_TOP" description="COFI_CONFIG_HTML_BOX_CATEGORY_TOP_DESCRIPTION" rows="8" cols="50" />
+		<field name="htmlBoxCategoryBottom" type="textarea" default="" label="COFI_CONFIG_HTML_BOX_CATEGORY_BOTTOM" description="COFI_CONFIG_HTML_BOX_CATEGORY_BOTTOM_DESCRIPTION" rows="8" cols="50" />
+						
+		<field name="htmlBoxThreadTop" type="textarea" default="" label="COFI_CONFIG_HTML_BOX_THREAD_TOP" description="COFI_CONFIG_HTML_BOX_THREAD_TOP_DESCRIPTION" rows="8" cols="50" />
+		<field name="htmlBoxThreadBottom" type="textarea" default="" label="COFI_CONFIG_HTML_BOX_THREAD_BOTTOM" description="COFI_CONFIG_HTML_BOX_THREAD_BOTTOM_DESCRIPTION" rows="8" cols="50" />
+		
+		<field name="htmlBoxProfileTop" type="textarea" default="" label="COFI_CONFIG_HTML_BOX_PROFILE_TOP" description="COFI_CONFIG_HTML_BOX_PROFILE_TOP_DESCRIPTION" rows="8" cols="50" />
+		<field name="htmlBoxProfileBottom" type="textarea" default="" label="COFI_CONFIG_HTML_BOX_PROFILE_BOTTOM" description="COFI_CONFIG_HTML_BOX_PROFILE_BOTTOM_DESCRIPTION" rows="8" cols="50" />
+		
+		<field name="htmlBoxPostingTop" type="textarea" default="" label="COFI_CONFIG_HTML_BOX_POSTING_TOP" description="COFI_CONFIG_HTML_BOX_POSTING_TOP_DESCRIPTION" rows="8" cols="50" />
+		<field name="htmlBoxPostingBottom" type="textarea" default="" label="COFI_CONFIG_HTML_BOX_POSTING_BOTTOM" description="COFI_CONFIG_HTML_BOX_POSTING_BOTTOM_DESCRIPTION" rows="8" cols="50" />
+
+	</fieldset>
+		
+		
+		
+	<fieldset name="otherextensions" label="COFI_CONFIG_SUPPORT_OTHER_EXTENSIONS">
+
+		<field name="usePrimezilla" type="radio" default="0" label="COFI_CONFIG_USE_PRIMEZILLA" description="COFI_CONFIG_USE_PRIMEZILLA_DESCRIPTION">
+			<option value="0">COFI_CONFIG_NO</option>
+			<option value="1">COFI_CONFIG_YES</option>
+		</field>
+
+		<field name="callPrimezillaMode" type="list" default="0" label="COFI_CONFIG_PRIMEZILLA_MODE" description="COFI_CONFIG_PRIMEZILLA_MODE_DESCRIPTION">
+			<option value="0">COFI_CONFIG_USERNAME</option>
+			<option value="1">COFI_CONFIG_USERID</option>
+		</field>
+
+	</fieldset>
+	
+</config>

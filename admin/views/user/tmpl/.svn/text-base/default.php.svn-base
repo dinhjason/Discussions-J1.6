@@ -1,0 +1,191 @@
+<?php
+ 
+defined('_JEXEC') or die('Restricted access'); 
+
+JHTML::_('behavior.tooltip');
+?>
+
+<script language="javascript" type="text/javascript">
+
+	//<![CDATA[
+	function submitbutton(pressbutton) {
+		if ( pressbutton == 'cancel') {
+			submitform( pressbutton );
+			return;
+		}
+		if (trim( document.adminForm.name.value ) == "") {
+			alert( '<?php echo JText::_('A User must at least have a Username!', true);?>' );
+		} else {
+			submitform( pressbutton );
+		}
+	}
+	//]]>
+	
+</script>
+
+
+
+<form action="index.php" method="post" name="adminForm" id="adminForm">
+
+	<table class="admintable" width="100%">
+	
+		<tbody>
+		
+			<tr>
+			
+				<td valign="top">
+				
+					<fieldset class="adminform">
+					
+						<legend>
+							<?php echo JText::_('User Details');?>
+						</legend>
+						
+						<table class="admintable" width="100%">
+													
+
+
+							<tr>
+								<td class="key" style="padding: 10px;">
+									<?php echo JText::_('Username'); ?>
+								</td>
+								<td style="padding: 10px;">
+									<b>
+										<?php
+										echo $this->user->username; 
+										?>
+									</b>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="key" style="padding: 10px;">
+									<?php echo JText::_('Title'); ?>
+								</td>
+								<td style="padding: 10px;">
+									<input class="text_area" type="text" name="title" id="title" value="<?php echo $this->user->title; ?>" size="50" maxlength="50" />
+								</td>
+							</tr>							
+							
+							<tr>		
+								<td class="key" style="padding: 10px;">
+									<label for="moderator">
+										<?php echo JText::_( 'Moderator' ).':'; ?>
+									</label>
+								</td>
+								<td style="padding: 10px;">
+									<?php
+									$html = JHTML::_('select.booleanlist', 'moderator', 'class="inputbox"', $this->user->moderator);
+									echo $html;
+									?>
+								</td>
+							</tr>
+
+							<tr>		
+								<td class="key" style="padding: 10px;">
+									<label for="moderated">
+										<?php echo JText::_( 'Moderated' ).':'; ?>
+									</label>
+								</td>
+								<td style="padding: 10px;">
+									<?php
+									$html = JHTML::_('select.booleanlist', 'moderated', 'class="inputbox"', $this->user->moderated);
+									echo $html;
+									?>
+								</td>
+							</tr>
+
+							<tr>		
+								<td class="key" style="padding: 10px;">
+									<label for="rookie">
+										<?php echo JText::_( 'Rookie' ).':'; ?>
+									</label>
+								</td>
+								<td style="padding: 10px;">
+									<?php
+									$html = JHTML::_('select.booleanlist', 'rookie', 'class="inputbox"', $this->user->rookie);
+									echo $html;
+									?>
+								</td>
+							</tr>
+
+							<tr>		
+								<td class="key" style="padding: 10px;">
+									<label for="trusted">
+										<?php echo JText::_( 'Trusted' ).':'; ?>
+									</label>
+								</td>
+								<td style="padding: 10px;">
+									<?php
+									$html = JHTML::_('select.booleanlist', 'trusted', 'class="inputbox"', $this->user->trusted);
+									echo $html;
+									?>
+								</td>
+							</tr>
+
+
+							<tr>
+								<td class="key" style="padding: 10px;">
+									<?php echo JText::_('Posts'); ?>
+								</td>
+								<td style="padding: 10px;">
+									<b>
+										<?php
+										echo $this->user->posts; 
+										?>
+									</b>
+								</td>
+							</tr>
+
+							<tr>
+								<td class="key" style="padding: 10px;">
+									<?php echo JText::_('Zipcode'); ?>
+								</td>
+								<td style="padding: 10px;">
+									<input class="text_area" type="text" name="zipcode" id="zipcode" value="<?php echo $this->user->zipcode; ?>" size="50" maxlength="50" />
+								</td>
+							</tr>
+
+							<tr>
+								<td class="key" style="padding: 10px;">
+									<?php echo JText::_('City'); ?>
+								</td>
+								<td style="padding: 10px;">
+									<input class="text_area" type="text" name="city" id="city" value="<?php echo $this->user->city; ?>" size="50" maxlength="150" />
+								</td>
+							</tr>
+
+							<tr>
+								<td class="key" style="padding: 10px;">
+									<?php echo JText::_('Country'); ?>
+								</td>
+								<td style="padding: 10px;">
+									<input class="text_area" type="text" name="country" id="country" value="<?php echo $this->user->country; ?>" size="50" maxlength="150" />
+								</td>
+							</tr>
+
+
+
+						</table>
+												
+						<input type="hidden" name="option" value="<?php echo $option;?>" />
+						<input type="hidden" name="task" value="" />						
+						<input type="hidden" name="cid[]" value="<?php echo $this->user->id; ?>" />
+						<input type="hidden" name="view" value="user" />
+						
+						<?php echo JHTML::_('form.token'); ?>
+						
+					</fieldset>
+					
+				</td>
+				
+			</tr>
+			
+		</tbody>
+		
+	</table>
+		
+</form>
+
+
+

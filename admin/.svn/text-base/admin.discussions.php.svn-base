@@ -1,0 +1,35 @@
+<?php
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
+JHTML::_('behavior.tooltip');
+$user = & JFactory::getUser();
+
+$view = JRequest::getWord('view');
+
+$document = & JFactory::getDocument();
+$document->addStyleSheet(JURI::base().'components/com_discussions/assets/discussions.css');
+
+
+$controller = JRequest::getWord('view', 'dashboard');
+
+require_once (JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php');
+$classname = 'DiscussionsController'.$controller;
+
+$controller = new $classname();
+$controller->registerTask('saveAndNew', 'save');
+$controller->execute(JRequest::getWord('task'));
+$controller->redirect();
+
+?>
+
+
+<div id="diFooter">
+	<div id="diFooterVersion">
+		Discussions v1.0 RC 1 (Kea)
+	</div>
+	<div id="diFooterCopyright">
+		(c) 2009 <a href="http://www.codingfish.com" target="_blank" title="Codingfish">Codingfish</a>
+	</div>
+</div>

@@ -1,0 +1,583 @@
+/**
+ * discussions.css
+ *
+ * The Stylesheet for the Codingfish Forum component
+ *
+ *
+ * @package com_discussions
+ * @subpackage frontend
+ *
+ * @copyright 2008 Codingfish Limited
+ * @author Achim Fischer
+ *
+ * This file is part of Codingfish Forum.
+ *
+ * Forum is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * Forum is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Forum; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+
+br {
+	clear: left;
+}
+
+
+h2 {
+    margin-top:    5px;
+    margin-bottom: 5px;
+}
+
+
+/* horizontal ruler */
+.cofiHorizontalRuler {
+    width: 100%;
+    border-bottom: 1px dotted #999;
+    margin-bottom: 5px;
+}
+
+
+/* index page settings */
+.cofiIndexTable {
+}
+
+.cofiThreadTableRow1 {
+	background-color: #fafafa;
+    padding: 10px;
+}
+
+.cofiThreadTableRow2 {
+	background-color: #fcfcfc;
+    padding: 10px;
+}
+
+.cofiIndexTableRow1 {
+	background-color: #f1f1f1;
+    /* padding: 2px; */
+    padding: 10px;
+}
+
+.cofiIndexTableRow2 {
+	background-color: #fcfcfc;
+    /* padding: 2px; */
+    padding: 10px;
+}
+
+.cofiIndexTableRowRepliesCounter {
+	text-align: center;
+	font-size: 2.5em;
+	margin-bottom: 10px;
+}
+.cofiIndexTableRowRepliesText {
+	text-align: center;
+}
+
+.cofiIndexTableRowReplies {
+	color: #777777;
+	border-top:    1px solid #f5f5f5;
+	border-right:  1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	border-left:   1px solid #dddddd;
+}
+.cofiIndexTableRowIcon {
+	border-top:    1px solid #f5f5f5;
+	border-right:  1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	border-left:   1px solid #f5f5f5;
+}
+.cofiIndexTableRowTopic {
+    padding-left:  10px;
+    padding-right: 10px;
+	border-top:    1px solid #f5f5f5;
+	border-right:  1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	border-left:   1px solid #f5f5f5;
+}
+
+/*
+.cofiIndexTableRowTopic a {
+    font-size: 1.2em;
+}
+*/
+
+.cofiIndexTableRowTopicSubtitle {
+	margin-top: 3px;
+	color: #777777;
+    font-size: 0.8em;
+}
+
+.cofiIndexTableRowLastPost {
+	border-top:    1px solid #f5f5f5;
+	border-right:  1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	border-left:   1px solid #f5f5f5;
+}
+
+.cofiIndexTableRowSticky {
+	border-top:    1px solid #f5f5f5;
+	border-right:  1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	border-left:   1px solid #f5f5f5;
+}
+
+
+
+/* Index View */
+.cofiIndexViewTableRowCategoryImage {
+	color: #777777;
+	border-top:    1px solid #f5f5f5;
+	border-right:  1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	border-left:   1px solid #dddddd;
+}
+.cofiIndexViewTableRowCategoryName {
+    padding-left:  10px;
+    padding-right: 10px;
+	border-top:    1px solid #f5f5f5;
+	border-right:  1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	border-left:   1px solid #f5f5f5;
+}
+.cofiIndexViewTableRowThreads {
+    padding-left:  10px;
+    padding-right: 10px;
+	border-top:    1px solid #f5f5f5;
+	border-right:  1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	border-left:   1px solid #f5f5f5;
+}
+.cofiIndexViewTableRowPosts {
+    padding-left:  10px;
+    padding-right: 10px;
+	border-top:    1px solid #f5f5f5;
+	border-right:  1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	border-left:   1px solid #f5f5f5;
+}
+.cofiIndexViewTableRowLastEntry {
+    padding-left:  10px;
+    padding-right: 10px;
+	border-top:    1px solid #f5f5f5;
+	border-right:  1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	border-left:   1px solid #f5f5f5;
+}
+
+
+
+
+
+.cofiPostMenu {
+	background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    padding: 0px;
+}
+
+.cofiPostMenuLinks {
+    font-size: 10px;
+}
+
+
+.cofiFooter {
+	margin: 20px 0px 0px 0px;
+    color: #999999; 
+    font-size: 10px;
+    text-align: center;
+}
+.cofiFooter a {
+    color: #999999;
+    font-size: 10px;
+    text-align: center;
+    text-decoration: none;
+}
+
+
+
+
+.cofiMessage blockquote {
+    color: #000;
+	background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    font-size: 10px;
+    margin: 5px;
+    padding: 5px;
+}
+
+
+.cofiButton {
+	font-size: 1.3em;
+	background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    /* padding: 0px; */
+}
+
+
+.cofiSubjectHeader {
+	font-size: 1.2em;
+	font-weight: bold;
+    margin-top: 20px;
+}
+.cofiSubject {
+	font-size: 1.4em;
+	font-weight: bold;
+    margin-top: 10px;
+}
+.cofiSubjectFooter {
+	font-size: 1.0em;
+	font-weight: normal;
+	color: #777;
+    margin-top: 5px;
+}
+
+
+
+.cofiTextHeader {
+	font-size: 1.2em;
+	font-weight: bold;
+    margin-top: 20px;
+}
+.cofiText {
+    margin-top: 10px;
+}
+.cofiTextFooter {
+	font-size: 1.0em;
+	font-weight: normal;
+	color: #777;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+
+
+
+.cofiTextFormatHeader {
+	font-size: 1.2em;
+	font-weight: bold;
+    margin-top: 20px;
+    margin-right: 50px;
+/*    border: 1px solid red; */    
+}
+.cofiTextFormat {
+    margin-top: 10px;
+    margin-right: 20px;
+/*    border: 1px solid blue; */
+}
+
+.cofiTextButton {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+
+
+
+/* Profile */
+.cofiProfileContent {
+    margin: 10px;
+    padding: 10px;
+	border: 1px solid #ddd;
+}
+
+
+
+.cofiProfileUsername {
+	float: left;
+    margin-top: 10px;
+    margin-left: 5px;
+	font-size: 2em;
+	font-weight: bold;
+}
+.cofiProfileName {
+    margin-top: 12px;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+
+
+
+.cofiProfileHeader {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+
+
+.cofiProfilePosts {
+    margin-top: 10px;
+}
+
+
+
+/* Location */
+.cofiProfileLocationBox {
+    margin-bottom: 20px;
+    padding: 0px;
+    background: #e0e0e0;
+    border: 1px solid #dddddd;
+}
+.cofiProfileLocationHeader {
+    margin-bottom: 1px;
+    padding: 5px;
+    background: #d5d5d5;
+}
+.cofiProfileLocationRow {
+    margin-bottom: 1px;
+    padding: 5px;
+    background: #eeeeee;
+}
+.cofiProfileLocationLabel {
+	float: left;
+	width:80px;
+	text-align: left;
+	font-weight: bold;
+}
+.cofiProfileLocationValue {
+	font-weight: normal;
+}
+/* Location */
+
+
+/* Status */
+.cofiProfileStatusBox {
+    margin-bottom: 20px;
+    padding: 0px;
+    background: #e0e0e0;
+    border: 1px solid #dddddd;
+}
+.cofiProfileStatusHeader {
+    margin-bottom: 1px;
+    padding: 5px;
+    background: #d5d5d5;
+}
+.cofiProfileStatusRow {
+    margin-bottom: 1px;
+    padding: 5px;
+    background: #eeeeee;
+}
+.cofiProfileStatusLabel {
+	float: left;
+	width:80px;
+	text-align: left;
+	font-weight: bold;
+}
+.cofiProfileStatusValue {
+	font-weight: normal;
+}
+/* Status */
+
+
+/* Avatar */
+.cofiProfileAvatarBox {
+    margin-bottom: 0px;
+    padding: 0px;
+    background: #e0e0e0;
+    border: 1px solid #dddddd;
+}
+.cofiProfileAvatarHeader {
+    margin-bottom: 1px;
+    padding: 5px;
+    background: #d5d5d5;
+}
+.cofiProfileAvatarRow {
+    margin-bottom: 1px;
+    padding: 5px;
+    background: #eeeeee;
+}
+.cofiProfileAvatarLabel {
+	float: left;
+	width:80px;
+	text-align: left;
+	font-weight: bold;
+}
+.cofiProfileAvatarValue {
+	font-weight: normal;
+}
+/* Avatar */
+
+
+/* Signatur */
+.cofiProfileSignatureBox {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 20px;
+    padding: 0px;
+    background: #e0e0e0;
+    border: 1px solid #dddddd;
+}
+.cofiProfileSignatureHeader {
+    margin-bottom: 1px;
+    padding: 5px;
+    background: #d5d5d5;
+}
+.cofiProfileSignatureRow {
+    margin-bottom: 1px;
+    padding: 5px;
+    background: #eeeeee;
+}
+.cofiProfileSignatureLabel {
+	float: left;
+	width:80px;
+	text-align: left;
+	font-weight: bold;
+}
+.cofiProfileSignatureValue {
+	font-weight: normal;
+}
+/* Signatur */
+
+/* Profile */
+
+
+
+
+
+
+
+.cofiAvatarColumnPosts {
+	font-size: 0.9em;
+	font-weight: normal;
+	margin-bottom: 7px;
+}
+.cofiAvatarColumnLocation {
+	font-size: 0.9em;
+	font-weight: normal;
+	margin-bottom: 7px;
+}
+.cofiAvatarColumnTitel {
+	font-size: 0.9em;
+	font-weight: normal;
+}
+
+
+
+
+
+
+/* Avatara settings */
+
+/* 1. Profile Avatar 128x128 max */
+.cofiAvatarBox {
+	width:128px;
+	height:128px;
+	text-align: center;
+	background: white;
+	padding: 2px; 
+	border: 1px solid #ddd;
+}
+.cofiAvatar {
+    /* width:128px;*/
+	border:0px;
+	margin:0px;
+}
+/* 1. Profile Avatar 128x128 max */
+
+
+
+/* 2. Category Avatar 32x32 max */
+.cofiCategoryAvatarBox {
+	width:32px;
+	height:32px;
+	text-align: center;
+	background: white;
+	margin: 5px; 
+	padding: 2px; 
+	border: 1px solid #ddd;
+}
+.cofiCategoryAvatar {
+	/* width:32px;*/
+	border:0px;
+	margin:0px;
+}
+.cofiCategoryDefaultAvatar {
+	width:32px;
+	height:32px;
+	border:0px;
+	margin:0px;
+}
+/* 2. Category Avatar 32x32 max */
+
+
+
+
+/* show moderators how many posts are waiting for approval */
+.cofiPostsWaitingForApproval {
+	width:300px;
+	text-align: center;
+	background: white;
+	margin-top: 10px; 
+	padding: 10px; 
+	border: 1px solid #AAAAAA;
+}
+/* show moderators how many posts are waiting for approval */
+
+
+/* Share code at bottom of page */
+.cofiShareCode {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+/* Share code at bottom of page */
+
+
+
+/* HTML Boxes for e.g. advertising */
+.cofiHtmlBoxIndexTop {
+	width:100%;
+}
+.cofiHtmlBoxIndexBottom {
+	width:100%;
+}
+.cofiHtmlBoxCategoryTop {
+	width:100%;
+}
+.cofiHtmlBoxCategoryBottom {
+	width:100%;
+}
+.cofiHtmlBoxThreadTop {
+	width:100%;
+}
+.cofiHtmlBoxThreadBottom {
+	width:100%;
+}
+.cofiHtmlBoxProfileTop {
+	width:100%;
+}
+.cofiHtmlBoxProfileBottom {
+	width:100%;
+}
+.cofiHtmlBoxPostingTop {
+	width:100%;
+}
+.cofiHtmlBoxPostingBottom {
+	width:100%;
+}
+/* HTML Boxes for e.g. advertising */
+
+
+
+/* help text for postings */
+.cofiPostHelp {
+	margin: 20px 0px 30px 0px; 
+	padding: 10px; 
+	background: #EEEEEE;
+	border: 1px solid #AAAAAA;
+}
+/* help text for postings */
+
+
+
+
+
+
+

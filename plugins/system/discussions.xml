@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="plugin" group="system" version="1.5" method="upgrade">
+
+	<name>System - Discussions</name>
+	<creationDate>May 2010</creationDate>
+	<author>Codingfish (Achim Fischer)</author>
+	<authorEmail>info@codingfish.com</authorEmail>
+	<authorUrl>http://www.codingfish.com</authorUrl>
+	<copyright>All rights reserved.</copyright>
+	<license>GPL 2</license>
+	<version>1.3</version>
+	<description>System Plugin for Codingfish Discussions</description>
+	
+	<files>
+		<filename plugin="discussions">discussions.php</filename>
+	</files>
+	<params/>
+	
+</install>

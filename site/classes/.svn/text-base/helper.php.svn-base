@@ -1,0 +1,600 @@
+<?php
+
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die('Restricted Access');
+
+require_once(JPATH_COMPONENT.DS.'classes/user.php');
+
+
+
+/**
+ * Helper class
+ *
+ */
+class CHelper extends JObject {
+
+
+	function close_html_tags( $html) {
+		preg_match_all("#<([a-z]+)( .*)?(?!/)>#iU",$html,$result);
+  		$openedtags=$result[1];
+
+  		preg_match_all("#</([a-z]+)>#iU",$html,$result);
+  		$closedtags=$result[1];
+  		
+  		$len_opened = count($openedtags);
+
+  		if(count($closedtags) == $len_opened){
+    		return $html;
+  		}
+
+  		$openedtags = array_reverse($openedtags);
+
+		for($i=0;$i < $len_opened;$i++) {
+    		if (!in_array($openedtags[$i],$closedtags)){
+      			$html .= '</'.$openedtags[$i].'>';
+    		} else {
+      			unset($closedtags[array_search($openedtags[$i],$closedtags)]);
+    		}
+  		}
+  		return $html;
+	}
+
+
+
+	function getPostsWFM() {
+		$db	=& JFactory::getDBO();		
+		$query = "SELECT count(*) FROM #__discussions_messages WHERE wfm=1";
+		$db->setQuery($query);
+		return $db->loadResult();		
+	}
+
+
+
+	function increaseUserPostCounter( $user_id) {
+		$db	=& JFactory::getDBO();			
+	    $sql = "UPDATE ".$db->nameQuote( '#__discussions_users')." SET posts = posts + 1" . 
+	     			" WHERE id = '".$user_id."'";	        	
+	    $db->setQuery( $sql);
+	    return $db->query();
+	}
+
+	function decreaseUserPostCounter( $user_id) {
+		$db	=& JFactory::getDBO();			
+	    $sql = "UPDATE ".$db->nameQuote( '#__discussions_users')." SET posts = posts - 1" . 
+	     			" WHERE id = '".$user_id."'";	        	
+	    $db->setQuery( $sql);
+	    return $db->query();
+	}
+
+
+
+	function updateThreadStats( $thread_id) {
+
+		$db	=& JFactory::getDBO();			
+
+
+		// get latest post id
+		$sql = "SELECT id FROM ".$db->nameQuote('#__discussions_messages')." WHERE thread='". $thread_id . 
+				"' AND published='1' ORDER BY DATE DESC LIMIT 1";
+		
+		$db->setQuery( $sql);
+		$_post_id = $db->loadResult();
+
+	
+		// get latest posting date in this thread
+		$sql = "SELECT date FROM ".$db->nameQuote('#__discussions_messages')." WHERE thread='". $thread_id . 
+				"' AND published='1' ORDER BY DATE DESC LIMIT 1";
+		
+		$db->setQuery( $sql);
+		$_last_entry_date = $db->loadResult();
+
+
+		// get latest posting user_id in this thread
+		$sql = "SELECT user_id FROM ".$db->nameQuote('#__discussions_messages')." WHERE thread='". $thread_id . 
+				"' AND published='1' ORDER BY DATE DESC LIMIT 1";
+		
+		$db->setQuery( $sql);
+		$_last_entry_user_id = $db->loadResult();
+
+
+		// get # of replies in this thread
+		$sql = "SELECT count(*) FROM ".$db->nameQuote('#__discussions_messages')." WHERE thread='". $thread_id . 
+				"' AND published='1' AND parent_id <> '0'";
+		
+		$db->setQuery( $sql);
+		$_counter_replies = $db->loadResult();
+
+
+					
+		// update thread stats
+		$sql = "UPDATE ".$db->nameQuote( '#__discussions_messages') . 
+				" SET " .
+				"last_entry_date ='".$_last_entry_date."', " .
+			 	"last_entry_user_id ='".$_last_entry_user_id."', " . 
+			 	"last_entry_msg_id ='".$_post_id."', " . 
+			 	"counter_replies ='".$_counter_replies."'" . 
+				" WHERE thread = '".$thread_id."' AND parent_id='0'";
+
+		$db->setQuery( $sql);
+		
+		return $db->query();	
+	
+	}
+
+
+
+
+	function updateCategoryStats( $category_id) {
+
+		$db	=& JFactory::getDBO();			
+
+
+		// get latest posting date in this category
+		$sql = "SELECT date FROM ".$db->nameQuote('#__discussions_messages')." WHERE cat_id='". $category_id . 
+				"' AND published='1' ORDER BY DATE DESC LIMIT 1";
+		
+		$db->setQuery( $sql);
+		$_last_entry_date = $db->loadResult();
+
+
+		// get latest posting user_id in this category
+		$sql = "SELECT user_id FROM ".$db->nameQuote('#__discussions_messages')." WHERE cat_id='". $category_id . 
+				"' AND published='1' ORDER BY DATE DESC LIMIT 1";
+		
+		$db->setQuery( $sql);
+		$_last_entry_user_id = $db->loadResult();
+
+
+		// get # of threads in category
+		$sql = "SELECT count(*) FROM ".$db->nameQuote('#__discussions_messages')." WHERE cat_id='". $category_id . 
+				"' AND published='1' AND parent_id = '0'";
+		
+		$db->setQuery( $sql);
+		$_counter_category_threads = $db->loadResult();
+
+
+		// get # of posts in category
+		$sql = "SELECT count(*) FROM ".$db->nameQuote('#__discussions_messages')." WHERE cat_id='". $category_id . 
+				"' AND published='1'";
+		
+		$db->setQuery( $sql);
+		$_counter_category_posts = $db->loadResult();
+
+
+
+		$sql = "UPDATE ".$db->nameQuote( '#__discussions_categories') . 
+				" SET last_entry_date ='".$_last_entry_date."', " .
+				 "last_entry_user_id ='".$_last_entry_user_id."', " . 
+				 "counter_threads ='".$_counter_category_threads."', " . 
+				 "counter_posts ='".$_counter_category_posts."'" . 
+				" WHERE id = '".$category_id."'";
+
+		$db->setQuery( $sql);
+
+		return $db->query();	
+	
+	}
+
+
+
+	function acceptPost( $post_id) {
+
+		$db	=& JFactory::getDBO();		
+
+
+
+		// set WFM to 0 and published to 1
+     	$sql = "UPDATE ".$db->nameQuote( '#__discussions_messages') . 
+				" SET wfm = '0'" . "," .
+				" published = '1'" .
+				" WHERE id = '".$post_id."'";
+        
+        $db->setQuery( $sql);
+		$db->query();	
+
+
+
+		// update the stats now
+
+		// get user id of this post
+		$sql = "SELECT user_id FROM ".$db->nameQuote('#__discussions_messages')." WHERE id='". $post_id . "'";
+		
+		$db->setQuery( $sql);
+		$_user_id = $db->loadResult();
+
+
+		// get thread id of this post
+		$sql = "SELECT thread FROM ".$db->nameQuote('#__discussions_messages')." WHERE id='". $post_id . "'";
+		
+		$db->setQuery( $sql);
+		$_thread_id = $db->loadResult();
+
+		// get category id of this post
+		$sql = "SELECT cat_id FROM ".$db->nameQuote('#__discussions_messages')." WHERE id='". $post_id . "'";
+		
+		$db->setQuery( $sql);
+		$_cat_id = $db->loadResult();
+
+
+		// set user post counter ++
+		$result = $this->increaseUserPostCounter( $_user_id);
+		
+		
+		// todo check if user is no rookie any more
+		$postUser = new CUser( $_user_id);
+
+		// get Rookie Mode setting from com_discussions parameters
+		$params = JComponentHelper::getParams('com_discussions');
+		$rookie = $params->get('rookie', '0');
+
+		if ( $postUser->isRookie()) { // check if he is now no rookie any more
+			if ( $postUser->getPosts() >= $rookie) {
+				$postUser->setRookie( 0);
+			}
+		}
+
+				
+		// update thread stats
+		$result = $this->updateThreadStats( $_thread_id);
+									
+		// update category stats
+		$result = $this->updateCategoryStats( $_cat_id);									
+
+
+		return 0;
+	
+	}
+
+
+
+	function denyPost( $post_id) {
+
+		$db	=& JFactory::getDBO();		
+
+
+		// delete denied post from db
+     	$sql = "DELETE FROM ".$db->nameQuote( '#__discussions_messages') . " WHERE id = '".$post_id."'";
+        
+        $db->setQuery( $sql);
+		$db->query();	
+
+		return 0;
+	
+	}
+
+
+
+	function sendEmailToModeratorsPostWFM() {
+
+		jimport( 'joomla.mail.helper' );
+
+		$db	=& JFactory::getDBO();		
+
+		// get all moderators        
+        $sql = "SELECT u.username, u.email FROM ".$db->nameQuote( '#__users') . " u, " .$db->nameQuote( '#__discussions_users') . " d" .
+        		" WHERE u.id = d.id AND d.moderator = 1";
+                
+        $db->setQuery( $sql);
+        
+        $_moderator_list = $db->loadAssocList();
+        
+		reset( $_moderator_list);
+		while (list($key, $val) = each( $_moderator_list)) {
+		
+        	$username = $_moderator_list[$key]['username'];
+        	
+        	$email    = $_moderator_list[$key]['email'];
+
+    		if ( JMailHelper::isEmailAddress( $email)) {
+
+	    		// construct email
+	    		
+	    		// get settings from com_discussions parameters
+				$params = JComponentHelper::getParams('com_discussions');
+				
+				$subject 	= $params->get('emailWFMSubject', '');
+				$msgparam 	= $params->get('emailWFMMsg', '');
+	    		$msg     	= $username. ", \n\n" . $msgparam;
+				$SiteName 	= $params->get('emailSitename', '');
+				$from 		= $params->get('emailFrom', '');
+				$sender 	= $params->get('emailSender', '');
+				$link 		= $params->get('emailLink', '');
+
+				$body	 = sprintf( $msg, $SiteName, $sender, $from, $link);
+
+				// Clean the email data
+				$subject = JMailHelper::cleanSubject( $subject);
+				$body	 = JMailHelper::cleanBody( $body);
+				$sender	 = JMailHelper::cleanAddress( $sender);
+
+
+				// Send the email
+				JUtility::sendMail( $from, $sender, $email, $subject, $body);
+	    		    		
+    		}
+    		
+    		
+		}        
+               
+		return 0;
+	
+	}
+
+
+
+	function isCategoryModerated( $cat_id) {
+
+		$db	=& JFactory::getDBO();		
+
+		// get user id of this post
+		$sql = "SELECT moderated FROM ".$db->nameQuote('#__discussions_categories')." WHERE id='". $cat_id . "'";
+				
+		$db->setQuery( $sql);
+		$_moderated = $db->loadResult();
+
+		if ( $_moderated == 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+
+	}
+
+
+
+	function getQuickJumpSelectBox( $cat_id) {
+
+		$user =& JFactory::getUser();
+		$logUser = new CUser( $user->id);
+
+		$db	=& JFactory::getDBO();		
+
+        
+        // create array for slugs
+        $slugs = array();
+
+		// set slug counter to 0
+        $iSlug = 0;
+        
+	
+		$html = "<select class='quickselectbox' name='quickselectbox' onchange='callURL( this)'>";
+
+		if ( $logUser->isModerator() == 1) { 
+			// get all published category groups
+		    $sql_groups = "SELECT id, name FROM ".$db->nameQuote( '#__discussions_categories') . 
+		    		" WHERE parent_id='0' AND published='1'" .
+		    		" ORDER BY ordering ASC";
+        }
+        else {  // get only public published category groups
+		    $sql_groups = "SELECT id, name FROM ".$db->nameQuote( '#__discussions_categories') . 
+		    		" WHERE parent_id='0' AND private='0' AND published='1'" .
+		    		" ORDER BY ordering ASC";        
+        }        
+                                
+        $db->setQuery( $sql_groups);
+        
+        $_group_list = $db->loadAssocList();
+
+		reset( $_group_list);
+		while (list($key, $val) = each( $_group_list)) {
+		
+        	$group_id 	= $_group_list[$key]['id'];        	
+        	$group_name = $_group_list[$key]['name'];
+
+			$html .= "<optgroup label='".$group_name."'>";
+
+
+				/* get categories from this group */
+				if ( $logUser->isModerator() == 1) { 
+					// get all published categories in this group
+				    $sql_categories = "SELECT id, name, " . 
+				    		" CASE WHEN CHAR_LENGTH(alias) THEN CONCAT_WS(':', id, alias) ELSE id END as slug" .
+				    		" FROM ".$db->nameQuote( '#__discussions_categories') . 
+				    		" WHERE parent_id='".$group_id."' AND published='1'" .
+				    		" ORDER BY ordering ASC";
+		        }
+		        else {  // get only public published categories in this group
+				    $sql_categories = "SELECT id, name, " .
+				    		" CASE WHEN CHAR_LENGTH(alias) THEN CONCAT_WS(':', id, alias) ELSE id END as slug" .
+				    		" FROM ".$db->nameQuote( '#__discussions_categories') . 
+				    		" WHERE parent_id='".$group_id."' AND private='0' AND published='1'" .
+				    		" ORDER BY ordering ASC";        
+		        }        
+
+		        $db->setQuery( $sql_categories);
+		        
+		        $_category_list = $db->loadAssocList();
+		
+				reset( $_category_list);
+				while (list($key, $val) = each( $_category_list)) {
+				
+		        	$category_id 	 = $_category_list[$key]['id'];        	
+		        	$category_name   = $_category_list[$key]['name'];
+		        	$category_slug   = $_category_list[$key]['slug'];
+		
+					if ( $category_id == $cat_id) { // this category is the current active
+						$html .= "<option value='".$category_id."' selected='selected'>" . $category_name;
+					}
+					else {
+						$html .= "<option value='".$category_id."'>" . $category_name;
+					}
+					
+					$category_urlTMP = "index.php?option=com_discussions&view=category&catid=".$category_slug;
+        			$category_url = JRoute::_( $category_urlTMP);
+
+					
+					$slugs[$iSlug][0] = utf8_encode( $category_id); 		
+					$slugs[$iSlug][1] = utf8_encode( $category_url);
+					$iSlug++;
+					
+				}
+				/* get categories from this group */
+
+			$html .= "</optgroup>";
+
+		}
+
+		$html .=	"</select>";
+		
+		print "<script type='text/javascript'> var slugsarray = ".json_encode($slugs)."; </script>";        
+
+		
+		return $html;
+
+	}
+
+
+
+	function getMoveToSelectBox() {
+
+		$user =& JFactory::getUser();
+		$logUser = new CUser( $user->id);
+
+		if ( $logUser->isModerator() == 1) { 
+
+			$db	=& JFactory::getDBO();		
+
+			$html = "<select class='quickselectbox' name='catidto'>";
+
+			// get all published category groups
+		    $sql_groups = "SELECT id, name FROM ".$db->nameQuote( '#__discussions_categories') . 
+		    		" WHERE parent_id='0' AND published='1'" .
+		    		" ORDER BY ordering ASC";
+                                
+        	$db->setQuery( $sql_groups);
+        
+        	$_group_list = $db->loadAssocList();
+
+			reset( $_group_list);
+			while (list($key, $val) = each( $_group_list)) {
+		
+        		$group_id 	= $_group_list[$key]['id'];        	
+        		$group_name = $_group_list[$key]['name'];
+
+				$html .= "<optgroup label='".$group_name."'>";
+
+				/* get categories from this group */
+				$sql_categories = "SELECT id, name FROM ".$db->nameQuote( '#__discussions_categories') . 
+				    		" WHERE parent_id='".$group_id."' AND published='1'" .
+				    		" ORDER BY ordering ASC";
+
+		        $db->setQuery( $sql_categories);
+		        
+		        $_category_list = $db->loadAssocList();
+		
+				reset( $_category_list);
+				while (list($key, $val) = each( $_category_list)) {
+				
+		        	$category_id 	= $_category_list[$key]['id'];        	
+		        	$category_name  = $_category_list[$key]['name'];
+		
+					$html .= "<option value='".$category_id."'>" . $category_name;
+				
+				}
+				/* get categories from this group */
+
+				$html .= "</optgroup>";
+
+			}
+
+			$html .= "</select>";
+		
+			return $html;
+		
+		} // end if moderator
+		else {  // return an empty string when not moderator
+		
+			return "";
+			
+		}
+	}
+
+
+
+	function getUsernameById( $id) {
+
+		$db	=& JFactory::getDBO();		
+
+		$sql = "SELECT username FROM ".$db->nameQuote('#__users')." WHERE id='". $id . "'";
+				
+		$db->setQuery( $sql);
+		$username = $db->loadResult();
+
+		if ( !$username) {
+			return "-";
+		}
+		else {
+			return $username;
+		}
+
+	}
+
+
+	function getZipcodeById( $id) {
+
+		$db	=& JFactory::getDBO();		
+
+		$sql = "SELECT zipcode FROM ".$db->nameQuote('#__users')." WHERE id='". $id . "'";
+				
+		$db->setQuery( $sql);
+		$zipcode = $db->loadResult();
+
+		if ( !$zipcode) {
+			return "";
+		}
+		else {
+			return $zipcode;
+		}
+
+	}
+
+
+	function getCityById( $id) {
+
+		$db	=& JFactory::getDBO();		
+
+		$sql = "SELECT city FROM ".$db->nameQuote('#__users')." WHERE id='". $id . "'";
+				
+		$db->setQuery( $sql);
+		$city = $db->loadResult();
+
+		if ( !$city) {
+			return "";
+		}
+		else {
+			return $city;
+		}
+
+	}
+
+
+	function getCountryById( $id) {
+
+		$db	=& JFactory::getDBO();		
+
+		$sql = "SELECT country FROM ".$db->nameQuote('#__users')." WHERE id='". $id . "'";
+				
+		$db->setQuery( $sql);
+		$country = $db->loadResult();
+
+		if ( !$country) {
+			return "";
+		}
+		else {
+			return $country;
+		}
+
+	}
+
+
+
+}
+
+
+
+
+
+
+

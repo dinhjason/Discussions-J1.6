@@ -1,0 +1,806 @@
+<?php
+/*
+ * models/posting.php
+ *
+ * Autor: Achim Fischer
+ *
+ */
+
+
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
+
+jimport('joomla.application.component.model');
+
+require_once(JPATH_COMPONENT.DS.'classes/user.php');
+require_once(JPATH_COMPONENT.DS.'classes/helper.php');
+
+
+
+/**
+ * Discussions Posting Model
+ */
+class DiscussionsModelPosting extends JModel {
+
+
+	/**
+	 * id
+	 *
+	 * @var integer
+	 */
+	var $_id = 0;
+
+
+
+	/**
+	 * category id
+	 *
+	 * @var integer
+	 */
+	var $_categoryId = 0;
+
+
+
+	/**
+	 * category slug
+	 *
+	 * @var String
+	 */
+	var $_categorySlug = 0;
+
+
+
+	/**
+	 * category name
+	 *
+	 * @var String
+	 */
+	var $_categoryName = null;
+
+
+	/**
+	 * category image
+	 *
+	 * @var String
+	 */
+	var $_categoryImage = null;
+
+
+
+	/**
+	 * subject
+	 *
+	 * @var String
+	 */
+	var $_subject = "";
+
+
+
+	/**
+	 * headline
+	 *
+	 * @var String
+	 */
+	var $_headline = null;
+
+
+
+	/**
+	 * postSubject
+	 *
+	 * @var String
+	 */
+	var $_postSubject = "";
+
+
+
+	/**
+	 * postText
+	 *
+	 * @var String
+	 */
+	var $_postText = "";
+
+
+	/**
+	 * postCatId
+	 *
+	 * @var integer
+	 */
+	var $_postCatId = 0;
+
+
+	/**
+	 * postThread
+	 *
+	 * @var integer
+	 */
+	var $_postThread = 0;
+
+
+	/**
+	 * postIpAddress
+	 *
+	 * @var String
+	 */
+	var $_postIpAddress = "";
+
+
+	/**
+	 * postId
+	 *
+	 * @var integer
+	 */
+	var $_postId = 0;
+
+	/**
+	 * postParent
+	 *
+	 * @var integer
+	 */
+	var $_postParent = 0;
+
+
+
+	/**
+	 * messageText
+	 *
+	 * @var String
+	 */
+	var $_messageText = "";
+
+
+	/**
+	 * task
+	 *
+	 * @var String
+	 */
+	var $_task = "";
+
+
+	/**
+	 * dbmode
+	 *
+	 * @var String
+	 */
+	var $_dbmode = "";
+
+
+	/**
+	 * private status
+	 *
+	 * @var integer
+	 */
+	var $_privateStatus = null;
+
+
+	/**
+	 * exist status
+	 *
+	 * @var integer
+	 */
+	var $_existStatus = null;
+
+
+
+
+	/**
+	 * Constructor
+	 *
+	 * @since 1.5
+	 */
+	function __construct() {
+	
+		global $mainframe;
+
+		parent::__construct();
+
+		$user =& JFactory::getUser();
+
+		if ( $user->guest) { // user is not logged in
+			$redirectLink = JRoute::_( "index.php?option=com_discussions");
+			$mainframe->redirect( $redirectLink, "You are not logged in!", "notice");		
+		}
+
+
+     	$this->_task   = JRequest::getString( 'task', '');
+     	$this->_dbmode = JRequest::getString( 'dbmode', '');
+     	$this->_thread = JRequest::getInt( 'thread', 0);
+		$this->_categoryId = JRequest::getInt('catid', 0);
+		$this->_categorySlug = JRequest::getString('catid', 0);
+				
+
+     	if ( $this->getExistStatus() != null ) { // check if this category exists
+		
+     		// 1. check if this is a private (moderator only) forum
+    	 	if ( $this->getPrivateStatus() == 1 ) {
+     	
+     			// 2. if it is private -> check if this user is a moderator
+				$logUser = new CUser( $user->id);
+     	
+				if ( $logUser->isModerator() == 0) {	// user is not moderator -> kick him out of here
+					$redirectLink = JRoute::_( "index.php?option=com_discussions");
+					$mainframe->redirect( $redirectLink, "You don't have access to this forum!", "notice");			
+     			}
+     	
+     		}
+		
+				
+			switch ( $this->_task) {
+				case "new": {
+					$this->_headline = "New Thread";
+					break;
+				}
+				case "reply": {
+					$this->_headline = "Reply";
+					break;
+				}
+				case "quote": {
+					$this->checkEditPermission();
+					$this->_headline = "Reply with Quotation";
+					break;
+				}
+				case "edit": {
+					$this->checkEditPermission();
+					$this->_headline = "Edit post";
+					break;
+				}
+
+				case "save": {     			
+     				$this->savePosting();		
+					break;
+				}
+						
+				default: {
+					$this->_headline = "New Thread";
+					break;
+				}
+						
+			}
+		
+		}
+        else { // category does not exist
+			$redirectLink = JRoute::_( "index.php?option=com_discussions");
+			$mainframe->redirect( $redirectLink, "This forum does not exist!", "notice");
+        }
+		
+
+	}
+
+
+
+	/**
+     * Get recent postings
+     *
+     * @return array
+     */
+     function getPostings() {
+
+        return $this->_data;
+     }
+
+
+
+	/**
+	 * Method to get the id of this category
+	 *
+	 * @access public
+	 * @return integer
+	 */
+	function getCategoryId() {
+     	$this->_categoryId = JRequest::getVar('catid', 0);
+
+		list( $this->_categoryId, $this->_categoryAlias) = explode(':', $this->_categoryId, 2);     	
+     	
+		return $this->_categoryId;
+	}
+
+
+	/**
+	 * Method to get the slug of this category
+	 *
+	 * @access public
+	 * @return string
+	 */
+	function getCategorySlug() {
+     	$this->_categoryId = JRequest::getVar('catid', 0);
+
+		return $this->_categoryId;
+	}
+
+
+
+	/**
+	 * Method to get the name of this category
+	 *
+	 * @access public
+	 * @return String
+	 */
+	function getCategoryName() {
+		if ( empty( $this->_categoryName)) {
+            $_catid = JRequest::getInt('catid', 0);
+
+            $db =& $this->getDBO();
+
+            $categoryNameQuery = "SELECT name FROM ".$db->nameQuote( '#__discussions_categories')." WHERE id='".$_catid."'";
+
+            $db->setQuery( $categoryNameQuery);
+            $this->_categoryName = $db->loadResult();
+		}
+		return $this->_categoryName;
+	}
+
+
+
+	/**
+	 * Method to get the image of this category
+	 *
+	 * @access public
+	 * @return String
+	 */
+	function getCategoryImage() {
+		if ( empty( $this->_categoryImage)) {
+            $_catid = JRequest::getInt('catid', 0);
+
+            $db =& $this->getDBO();
+
+            $categoryImageQuery = "SELECT image FROM ".$db->nameQuote( '#__discussions_categories')." WHERE id='".$_catid."'";
+
+            $db->setQuery( $categoryImageQuery);
+            $this->_categoryImage = $db->loadResult();
+		}
+		return $this->_categoryImage;
+	}
+
+
+
+	/**
+	 * Method to get the subject of this posting
+	 *
+	 * @access public
+	 * @return String
+	 */
+	function getSubject() {
+		
+		if ( empty( $this->_subject)) {
+            $_catid  = JRequest::getInt( 'catid', 0);
+            $_thread = JRequest::getInt( 'thread', 0);
+
+            $db =& $this->getDBO();
+
+            $subjectQuery = "SELECT subject FROM ".$db->nameQuote( '#__discussions_messages')." 
+                                WHERE cat_id='".$_catid."' AND thread='".$_thread."' AND parent_id='0' AND published='1' ";
+
+            $db->setQuery( $subjectQuery);
+            $this->_subject = $db->loadResult();
+		}
+
+		return $this->_subject;
+			
+	}
+
+
+	/**
+	 * Method to get the headline of the write mode
+	 *
+	 * @access public
+	 * @return String
+	 */
+	function getHeadline() {
+		return $this->_headline;
+	}
+
+
+
+	function checkEditPermission() {
+
+		// get parameters
+		$params = JComponentHelper::getParams('com_discussions');
+
+		global $mainframe;
+		
+		$user =& JFactory::getUser();
+		$logUser = new CUser( $user->id);
+		
+		$cHelper = new CHelper();
+		
+		$_postId = JRequest::getInt('id', '0');
+
+        $db =& $this->getDBO();
+
+        $sql = "SELECT DATE_FORMAT( date, '%d.%m.%Y %k:%i') AS date FROM " . $db->nameQuote( '#__discussions_messages') . 
+        			" WHERE id='".$_postId."' AND published='1' ";
+
+        $db->setQuery( $sql);
+        $date = $db->loadResult();
+
+
+        $sql = "SELECT user_id FROM " . $db->nameQuote( '#__discussions_messages') . 
+        			" WHERE id='".$_postId."' AND published='1' ";
+
+        $db->setQuery( $sql);
+        $user_id = $db->loadResult();
+
+
+	
+		// redirect	link
+		$redirectLink = JRoute::_( "index.php?option=com_discussions&view=index");		
+
+
+		if ( !$logUser->isModerator()) { // no checks for moderators, they are always allowed to edit
+
+
+			// 1. check if user is owner
+			// if user is not owner, redirect him back to forum index
+
+			if( $user->id != $user_id) {
+    			$mainframe->redirect( $redirectLink, "You are not the owner of this post.", "message"); 			
+			}
+
+
+			// 2. check if we are still in allowed edit time
+			// edit timer finished, redirect user back to forum index
+			                                                    
+	    	$day = substr( $date, 0, 2);  // 1 + 2 char
+	    	$month = substr( $date, 3, 2);  // 4 + 5 char
+	    	$year = substr( $date, 6, 4);  // 7 - 10 char
+	    
+	    	$hour = substr( $date, 11, 2);  // 12 + 13 char
+	    	$minute = substr( $date, 14, 2);  // 15 + 16 char
+	    
+	
+	    	//date_default_timezone_set ( "Europe/Berlin");
+	    
+	    	$now = time(); // current unixtime
+	    
+	    	$posttime = mktime( $hour, $minute, 0, $month, $day, $year); // unixtime from post date
+	        
+	    	// get editTime in minutes from global parameters
+	    	$editTime = $params->get('editTime', '30');		
+			                        
+	    	if ( ($now - $posttime) > ( $editTime * 60)) {
+				$mainframe->redirect( $redirectLink, "You are not allowed to edit the post anymore.", "message"); 
+	   		}
+   		
+   		
+   		} // moderator						
+			
+	}
+
+
+
+	/**
+     * save posting
+     *
+     * @return int
+     */
+     function savePosting() {
+
+		global $mainframe;
+		
+		$user =& JFactory::getUser();
+		$logUser = new CUser( $user->id);
+		
+		$cHelper = new CHelper();
+		
+				
+		$this->_headline = "Beitrag gespeichert";
+
+     	$this->_dbmode = JRequest::getString( 'dbmode', '');
+				
+		$_postSubject   = JRequest::getString('postSubject', '');				
+		
+		$_postText      = JRequest::getString('postText', '', 'POST');
+		//$_postText      = JRequest::getString('postText', '', 'POST', JREQUEST_ALLOWHTML);
+				
+		$_postText = strip_tags($_postText);
+		//$_postText = strip_tags( $_postText, "<b><i><u><s><big><small><a><ul><ol><li><blockquote>");
+
+		$_postCatId     = JRequest::getInt('catid', '0');
+
+		$_postThread    = JRequest::getInt('thread', '0');
+		$_postParent    = JRequest::getInt('parent', '0');
+		$_postId        = JRequest::getInt('id', '0');
+
+
+		// get user IP address
+		$_postIpAddress = $_SERVER['REMOTE_ADDR'];
+
+
+		// redirect	link
+		$redirectLink = JRoute::_( "index.php?option=com_discussions&view=category&catid=".$this->getCategorySlug());		
+		        
+        
+        // check if user is logged in - maybe session has timed out
+		if ($user->guest) { 
+			// if user is not logged in, kick him back into category
+    		$mainframe->redirect( $redirectLink, "Your post has NOT been saved. Probably your session has timed out", "message"); 
+		} 
+        
+        
+                        
+		// 1. check if subject >= 5 chars
+		// todo make minimum subject length configurable
+		if ( strlen( $_postSubject) < 5) {
+			$isSubjectTooShort = true;
+		}
+		else {
+			$isSubjectTooShort = false;
+		}
+
+		// 2. check if text >= 20 chars
+		// todo make minimum text length configurable
+		if ( strlen( $_postText) < 20) {
+			$isTextTooShort = true;
+		}
+		else {
+			$isTextTooShort = false;
+		}
+        
+        
+
+        // check if insert or update 
+        
+        
+        // update
+        if ( $this->_dbmode == "update") {
+
+			if ( !$isSubjectTooShort && !$isTextTooShort) { // check if subject and text have minimum length
+
+        		$db =& $this->getDBO();
+        			
+				if ( $logUser->isModerator()) { // moderators are allowed to edit all posts
+     				$sql = "UPDATE ".$db->nameQuote( '#__discussions_messages')." SET message = " . 
+     					$db->Quote( $_postText) . 
+     					" WHERE id = '".$_postId."'";
+				}
+				else { // no mod? then user must be owner
+     				$sql = "UPDATE ".$db->nameQuote( '#__discussions_messages')." SET message = " . 
+     					$db->Quote( $_postText) . 
+     					" WHERE id = '".$_postId.
+     					"' AND user_id = '".$user->id."'";
+        		}
+
+        	
+        		$db->setQuery( $sql);
+        		$result = $db->query();
+
+			}
+
+        } // end update
+        // insert
+        else {
+
+			if ( !$isSubjectTooShort && !$isTextTooShort) { // check if subject and text have minimum length
+
+        		$db =& $this->getDBO();
+        		
+        		// preset is published and not moderated (normal state)
+		        $published = 1;
+		        $wfm = 0; // wfm = waiting for moderation
+
+
+        		if ( $logUser->isModerator() == 0) {  // bypass these checks if user is moderator
+        		
+	        		// 1. check for rookie mode
+	        		        		
+					// get Rookie Mode setting from com_discussions parameters
+					$params = JComponentHelper::getParams('com_discussions');
+					$rookie = $params->get('rookie', '0');
+			        
+			        if ( $rookie > 0) { // we are in rookie mode
+			        	if ( $logUser->isRookie() == 1) { // user is a rookie
+			        		$wfm = 1; // wfm = waiting for moderation
+			        		$published = 0;
+			        	}
+			        }
+	
+	
+	        		// 2. check if this is a moderated user
+	        		        		
+		        	if ( $logUser->isModerated() == 1) { // user is moderated
+		        		$wfm = 1; // wfm = waiting for moderation
+		        		$published = 0;
+		        	}
+	
+	
+	        		// 3. check if this is a moderated category
+	        		        		
+		        	if ( $cHelper->isCategoryModerated( $_postCatId)) { // category is moderated
+		        		$wfm = 1; // wfm = waiting for moderation
+		        		$published = 0;
+		        	}
+
+				}
+				
+
+
+				// create alias for SEF URL
+				jimport( 'joomla.filter.output' );
+    			    			
+            	$alias = $_postSubject;
+    			$alias = JFilterOutput::stringURLSafe($alias);
+
+        		$insert_sql = "INSERT INTO ".$db->nameQuote( '#__discussions_messages') .
+            					" ( parent_id, cat_id, thread, user_id, account, name, email, ip, subject, alias, message, published, wfm) " .
+            					" VALUES ( " .
+            					$_postParent . ", " . 
+            					$_postCatId . ", " . 
+            					$_postThread . ", '" . 
+            					$user->id . "', '" . 
+            					$user->username . "', '" .
+            					$user->name . "', '" . 
+            					$user->email . "', '" . 
+            					$_postIpAddress .  "', " .
+            					$db->Quote( $_postSubject) . ", " . 
+            					$db->Quote( $alias) . ", " . 
+            					$db->Quote( $_postText) . ", " .
+            					$published . ", " .
+            					$wfm . " )";
+
+
+        		$db->setQuery( $insert_sql);
+        		$insert_result = $db->query();
+
+
+        		// $_postId = last_insert_id();
+				$db->setQuery( "SELECT LAST_INSERT_ID() FROM ".$db->nameQuote( '#__discussions_messages'));
+				$_postId = $db->loadResult();
+
+				// get parent and set thread to id if 0
+				if ( $_postThread == 0) { // no thread id, so it is like id
+					$_postThread = $_postId;
+    				$sql = "UPDATE ".$db->nameQuote( '#__discussions_messages')." SET thread = '".$_postThread."' WHERE id = '".$_postId."'";
+        			$db->setQuery( $sql);
+        			$result = $db->query();
+				}
+				else { // thread is set
+					if ( $_postParent == 0) { // no parent id, so it is like thread id
+    					$sql = "UPDATE ".$db->nameQuote( '#__discussions_messages')." SET parent_id = '".$_postThread."' WHERE id = '".$_postId."'";
+        				$db->setQuery( $sql);
+        				$result = $db->query();
+					}
+				}
+						
+			
+						
+				if ( $insert_result) { // if insert was successful update statistics
+				
+					if ( $published == 1) { // thread goes live, so we can update stats
+			
+						// set user post counter ++
+						$result = $cHelper->increaseUserPostCounter( $user->id);
+						
+						// update thread stats
+						$result = $cHelper->updateThreadStats( $_postThread);
+													
+						// update category stats
+						$result = $cHelper->updateCategoryStats( $_postCatId);									
+			
+					} // if published
+			
+				}
+																				
+			
+			
+				if ( $insert_result) { // insert went fine
+					if ( $wfm == 1) { // this post needs moderator approval
+						$cHelper->sendEmailToModeratorsPostWFM();
+						$mainframe->redirect( $redirectLink, "Your post has been saved. It will be visible after a moderator has approved it", "notice"); 
+					}
+					else {
+						$mainframe->redirect( $redirectLink, "Your post has been saved", "notice"); 
+					}
+				}
+				else {
+					$mainframe->redirect( $redirectLink, "Your post hast NOT been saved. There was an unexpected INSERT error", "message"); 
+				}
+
+			
+			
+			}
+		
+		
+		} // end insert
+
+
+		
+		if ( $isSubjectTooShort) {
+			$mainframe->redirect( $redirectLink, "Your post hast NOT been saved. The SUBJECT was too short", "message"); 
+		}	
+		if ( $isTextTooShort) {
+			$mainframe->redirect( $redirectLink, "Your post hast NOT been saved. The TEXT was too short", "message"); 
+		}	
+
+
+		$mainframe->redirect( $redirectLink, "Your post hast been saved", "notice"); 
+
+		
+        return 0; // save OK
+     }
+
+
+
+	/**
+	 * Method to get the message text
+	 *
+	 * @access public
+	 * @return String
+	 */
+	function getMessageText() {		
+		$_id = JRequest::getInt('id', '0');
+
+		if ( $_id <> 0) {
+		
+        	$db =& $this->getDBO();
+			$db->setQuery( "SELECT message FROM ".$db->nameQuote( '#__discussions_messages')." WHERE id='".$_id."'");
+			$_messageText = $db->loadResult();
+		
+		}
+		else {
+			$_messageText = "";
+		}		
+
+		return $_messageText;
+	}
+
+
+
+	/**
+	 * Method to get the task
+	 *
+	 * @access public
+	 * @return String
+	 */
+	function getTask() {
+		return $this->_task;
+	}
+
+
+
+	/**
+	 * Method to get the private status of this category
+	 *
+	 * @access public
+	 * @return integer
+	 */
+	function getPrivateStatus() {
+		if ( empty( $this->_privateStatus)) {
+            $_catid = JRequest::getVar('catid', 0);
+
+            $db =& $this->getDBO();
+
+            $sql = "SELECT private FROM ".$db->nameQuote( '#__discussions_categories')." WHERE id='".$_catid."'";
+
+            $db->setQuery( $sql);
+            $this->_privateStatus = $db->loadResult();
+		}
+		return $this->_privateStatus;
+	}
+	
+	
+	
+	/**
+	 * Method to check if this category exists
+	 *
+	 * @access public
+	 * @return integer
+	 */
+	function getExistStatus() {
+		if ( empty( $this->_existStatus)) {
+            $_catid = JRequest::getVar('catid', 0);
+
+            $db =& $this->getDBO();
+
+            $sql = "SELECT parent_id FROM ".$db->nameQuote( '#__discussions_categories')." WHERE id='".$_catid."' AND parent_id<>'0'";
+
+            $db->setQuery( $sql);
+            $this->_existStatus = $db->loadResult();
+		}
+		return $this->_existStatus;
+	}
+
+
+}
+

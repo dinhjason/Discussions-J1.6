@@ -1,0 +1,76 @@
+<?php
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+
+jimport('joomla.application.component.view');
+
+
+class DiscussionsViewForums extends JView {
+
+	function display($tpl = null) {
+
+		global $mainframe, $option;
+
+		JHTML::_('behavior.tooltip');
+
+		$user 		= & JFactory::getUser();
+		$db  		= & JFactory::getDBO();
+
+		$search 			= $mainframe->getUserStateFromRequest( $option.'.forums.search', 'search', '', 'string');
+		$search 			= $db->getEscaped( trim( JString::strtolower( $search )));
+		$filter_state		= $mainframe->getUserStateFromRequest( $option.'.forums.filter_state', 'filter_state', '*', 'word');
+		$filter_order		= $mainframe->getUserStateFromRequest( $option.'.forums.filter_order', 'filter_order', 	'ordering', 'cmd' );
+		$filter_order_Dir	= $mainframe->getUserStateFromRequest( $option.'.forums.filter_order_Dir', 'filter_order_Dir', '', 'word' );
+
+
+		$rows      	= & $this->get( 'Data');				
+		$pageNav 	= & $this->get( 'Pagination' );
+		
+		
+		$lists['search']	= $search;
+		$lists['state']		= JHTML::_('grid.state', $filter_state );
+		$lists['order_Dir'] = $filter_order_Dir;
+		$lists['order'] 	= $filter_order;
+		
+		
+		
+		
+		$this->assignRef('lists'      	, $lists);
+		$this->assignRef('user'			, $user);
+		$this->assignRef('rows'      	, $rows);
+		$this->assignRef('pageNav' 		, $pageNav);
+
+
+	
+	
+		JToolBarHelper::title(JText::_('Discussions - Forums'));
+
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+
+		JToolBarHelper::divider();
+
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
+		JToolBarHelper::deleteList();
+
+		JToolBarHelper::divider();
+
+		JToolBarHelper::preferences('com_discussions', '500', '600');
+				
+		
+	
+		JSubMenuHelper::addEntry(JText::_('Dashboard'), 'index.php?option=com_discussions');
+		JSubMenuHelper::addEntry(JText::_('Forums'), 'index.php?option=com_discussions&view=forums', true);
+		JSubMenuHelper::addEntry(JText::_('Posts'), 'index.php?option=com_discussions&view=posts');
+		JSubMenuHelper::addEntry(JText::_('Users'), 'index.php?option=com_discussions&view=users');
+
+
+
+
+		
+		parent::display($tpl);
+	}
+
+}

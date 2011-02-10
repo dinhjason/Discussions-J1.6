@@ -1,0 +1,42 @@
+10
+
+dir
+0
+http://codingfish@codingfish.svn.beanstalkapp.com:80/discussions/trunk/site/views/recent/tmpl
+http://codingfish@codingfish.svn.beanstalkapp.com:80/discussions
+add
+
+
+
+
+
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+77ec5148-7345-46a4-8738-7a1bf5e98f4c
+
+default.php
+file
+
+
+
+add
+
+index.html
+file
+
+
+
+add
+
