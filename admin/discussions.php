@@ -27,4 +27,5 @@ $controller	= new DiscussionsController( );
 
 
 $controller->execute( JRequest::getCmd('task'));
+
 $controller->redirect();

@@ -358,7 +358,8 @@ class DiscussionsModelForums extends JModel {
 		
 		foreach ($list as $entry) {
 				
-			$mitems[] = JHTML::_( 'select.option', $entry->id, '&nbsp;&nbsp;&nbsp;'.$entry->treename);
+			// $mitems[] = JHTML::_( 'select.option', $entry->id, '&nbsp;&nbsp;&nbsp;'.$entry->treename);
+			$mitems[] = JHTML::_( 'select.option', $entry->id, $entry->name);
 			
 		}
 		

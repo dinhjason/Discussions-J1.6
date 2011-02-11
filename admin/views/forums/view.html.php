@@ -17,7 +17,7 @@ class DiscussionsViewForums extends JView {
 
 	function display($tpl = null) {
 
-		global $option;
+		$option = "com_discussions";
 
 		$app = JFactory::getApplication();		
 
@@ -59,12 +59,12 @@ class DiscussionsViewForums extends JView {
 		JToolBarHelper::divider();
 
 		JToolBarHelper::addNew();
-		JToolBarHelper::editList();
+		JToolBarHelper::editListX();		
 		JToolBarHelper::deleteList();
 
 		JToolBarHelper::divider();
 
-		JToolBarHelper::preferences('com_discussions', '500', '600');
+		JToolBarHelper::preferences('com_discussions', '600', '800');
 				
 		
 	

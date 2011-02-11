@@ -18,10 +18,9 @@ class DiscussionsControllerForum extends JController {
 
     function display() {
     
-        JRequest::setVar('view', 'forum');
-
-
-		switch( $this->getTask()) {
+		$task = JRequest::getCmd('task', 'cancel');
+			
+		switch( $task) {
 		
 			case 'add' : {
 				JRequest::setVar( 'hidemainmenu', 1 );
@@ -31,7 +30,8 @@ class DiscussionsControllerForum extends JController {
 				break;
 			} 
 			
-			case 'edit' : {
+			case 'edit' : {				
+				
 				JRequest::setVar( 'hidemainmenu', 1 );
 				//JRequest::setVar( 'layout', 'form'  );
 				JRequest::setVar( 'view'  , 'forum');
@@ -40,12 +40,12 @@ class DiscussionsControllerForum extends JController {
 			}
 
 			case 'cancel' : {
+												
 				JRequest::setVar( 'view'  , 'forums');
 				break;
 			}
 			
 			default : {
-					
 				break;
 			}
 			
@@ -86,8 +86,6 @@ class DiscussionsControllerForum extends JController {
 		$this->setRedirect( $link, $msg);
 		
 	}
-
-
 
         
 }

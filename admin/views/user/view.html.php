@@ -39,14 +39,8 @@ class DiscussionsViewUser extends JView {
 		
 		JToolBarHelper::divider();
 		
-		JToolBarHelper::preferences('com_discussions', '500', '600');
+		JToolBarHelper::preferences('com_discussions', '600', '800');
 		
-	
-		JSubMenuHelper::addEntry(JText::_('COFI_DASHBOARD'), 'index.php?option=com_discussions');
-		JSubMenuHelper::addEntry(JText::_('COFI_FORUMS'), 'index.php?option=com_discussions&view=forums');
-		JSubMenuHelper::addEntry(JText::_('COFI_POSTS'), 'index.php?option=com_discussions&view=posts');
-		JSubMenuHelper::addEntry(JText::_('COFI_USERS'), 'index.php?option=com_discussions&view=users', true);
-
 
 		$user	=& $this->get('data');
 

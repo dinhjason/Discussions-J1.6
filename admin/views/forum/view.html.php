@@ -30,25 +30,16 @@ class DiscussionsViewForum extends JView {
 		JToolBarHelper::save();
 		
 		if ( !$edit) {
-//			JToolBarHelper::cancel();
-			JToolBarHelper::cancel('discussions.cancel', 'JTOOLBAR_CANCEL');
+			JToolBarHelper::cancel();
 		} 
 		else {
-//			JToolBarHelper::cancel( 'cancel', 'Close' );
-			JToolBarHelper::cancel('discussions.cancel', 'JTOOLBAR_CLOSE');
-			
+			JToolBarHelper::cancel();
 		}		
 		
 		JToolBarHelper::divider();
 		
-		JToolBarHelper::preferences('com_discussions', '500', '600');
+		JToolBarHelper::preferences('com_discussions', '600', '800');
 		
-	
-		JSubMenuHelper::addEntry(JText::_('COFI_DASHBOARD'), 'index.php?option=com_discussions');
-		JSubMenuHelper::addEntry(JText::_('COFI_FORUMS'), 'index.php?option=com_discussions&view=forums', true);
-		JSubMenuHelper::addEntry(JText::_('COFI_POSTS'), 'index.php?option=com_discussions&view=posts');
-		JSubMenuHelper::addEntry(JText::_('COFI_USERS'), 'index.php?option=com_discussions&view=users');
-
 
 		$forum	=& $this->get('data');
 
@@ -60,14 +51,12 @@ class DiscussionsViewForum extends JView {
 		$forumsModel = new DiscussionsModelForums;
 		$tree = $forumsModel->forumsTree( $forum);
 		$forums = array_merge( $forums, $tree);		
-		$lists['parent'] = JHTML::_('select.genericlist', $forums, 'parent_id', 'class="inputbox"', 'value', 'text', $forum->parent_id);
-				
-		$lists['published'] = JHTML::_('select.booleanlist',  'published', 'class="inputbox"', $forum->published );
-		
+						
 
-		$this->assignRef( 'lists', $lists);
 		$this->assignRef( 'forum', $forum);
 
+		$this->assignRef( 'forums', $forums);
+		
 		
 		parent::display( $tpl);
 	}

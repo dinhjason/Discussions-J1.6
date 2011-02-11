@@ -32,7 +32,7 @@ class DiscussionsModelPosts extends JModel {
 	
 		parent::__construct();
 
-		global $option;
+		$option = "com_discussions";
 		
 		$app 		= JFactory::getApplication();		
 

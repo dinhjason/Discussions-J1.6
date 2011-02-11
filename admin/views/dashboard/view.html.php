@@ -32,7 +32,7 @@ class DiscussionsViewDashboard extends JView {
 	
 		JToolBarHelper::title( "Discussions - " . JText::_('COFI_DASHBOARD'), "discussions.png");		
 		
-		JToolBarHelper::preferences('com_discussions', '500', '600');
+		JToolBarHelper::preferences('com_discussions', '600', '800');
 		
 	
 		JSubMenuHelper::addEntry(JText::_('COFI_DASHBOARD'), 'index.php?option=com_discussions', true);
