@@ -24,7 +24,6 @@ class DiscussionsControllerForum extends JController {
 		
 			case 'add' : {
 				JRequest::setVar( 'hidemainmenu', 1 );
-				//JRequest::setVar( 'layout', 'form'  );
 				JRequest::setVar( 'view'  , 'forum');
 				JRequest::setVar( 'edit', false );
 				break;
@@ -33,7 +32,6 @@ class DiscussionsControllerForum extends JController {
 			case 'edit' : {				
 				
 				JRequest::setVar( 'hidemainmenu', 1 );
-				//JRequest::setVar( 'layout', 'form'  );
 				JRequest::setVar( 'view'  , 'forum');
 				JRequest::setVar( 'edit', true );
 				break;

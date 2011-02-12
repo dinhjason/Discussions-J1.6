@@ -2,7 +2,7 @@
 /**
  * @package		Codingfish Discussions
  * @subpackage	com_discussions
- * @copyright	Copyright (C) 2010 Codingfish (Achim Fischer). All rights reserved.
+ * @copyright	Copyright (C) 2011 Codingfish (Achim Fischer). All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  * @link		http://www.codingfish.com
  */
@@ -15,17 +15,36 @@ JHTML::_('behavior.tooltip');
 <script language="javascript" type="text/javascript">
 
 	//<![CDATA[
-	function submitbutton(pressbutton) {
-		if ( pressbutton == 'cancel') {
-			submitform( pressbutton );
-			return;
-		}
-		if (trim( document.adminForm.name.value ) == "") {
-			alert( '<?php echo JText::_('COFI_POST_MUST_HAVE_SUBJECT', true);?>' );
-		} else {
-			submitform( pressbutton );
-		}
-	}
+	Joomla.submitbutton = function(pressbutton) {
+		
+		var form = document.adminForm;
+				
+		if (pressbutton == 'cancel') {
+			
+	    	form.action.value = 'cancel'
+	    	submitform('cancel');
+	    	return;
+	
+		} 
+		
+		if (pressbutton == 'save') {
+			
+			if ( document.adminForm.subject.value == "") {
+				
+				alert( '<?php echo JText::_('COFI_POST_MUST_HAVE_SUBJECT', true);?>' );
+		    	return;
+						
+			} else {
+				
+		    	form.action.value = 'save'
+		    	submitform('save');
+		    	return;
+		
+			}
+		} 
+		
+		submitform( pressbutton );		
+	}		
 	//]]>
 	
 </script>
@@ -34,6 +53,8 @@ JHTML::_('behavior.tooltip');
 
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 
+	<fieldset class="adminform">
+
 	<table class="admintable" width="100%">
 	
 		<tbody>
@@ -41,9 +62,7 @@ JHTML::_('behavior.tooltip');
 			<tr>
 			
 				<td valign="top">
-				
-					<fieldset class="adminform">
-					
+									
 						<legend>
 							<?php echo JText::_('COFI_POST_DETAILS');?>
 						</legend>
@@ -53,17 +72,23 @@ JHTML::_('behavior.tooltip');
 
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_PUBLISHED');	?>
+									<label>
+										<?php echo JText::_('COFI_PUBLISHED');	?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php echo $this->lists['published']; ?>
+									<fieldset class="radio">
+										<?php echo $this->lists['published']; ?>
+									</fieldset>
 								</td>
 							</tr>
 
 
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_SUBJECT'); ?>
+									<label>
+										<?php echo JText::_('COFI_SUBJECT'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<input class="text_area" type="text" name="subject" id="subject" value="<?php echo $this->post->subject; ?>" size="50" maxlength="250" />
@@ -72,7 +97,9 @@ JHTML::_('behavior.tooltip');
 							
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_ALIAS'); ?>
+									<label>
+										<?php echo JText::_('COFI_ALIAS'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<?php
@@ -91,7 +118,9 @@ JHTML::_('behavior.tooltip');
 
 							<tr>
 								<td valign="top" class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_TEXT'); ?>
+									<label>
+										<?php echo JText::_('COFI_TEXT'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 				 					<textarea name="message" id="message" rows="5" cols="50" style="width: 100%;"><?php echo $this->post->message; ?></textarea>									
@@ -102,7 +131,9 @@ JHTML::_('behavior.tooltip');
 
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_TYPE'); ?>
+									<label>
+										<?php echo JText::_('COFI_TYPE'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<input class="text_area" type="type" name="type" value="<?php echo $this->post->type; ?>" size="5" maxlength="5" />
@@ -113,43 +144,49 @@ JHTML::_('behavior.tooltip');
 
 							<tr>		
 								<td class="key" style="padding: 10px;">
-									<label for="sticky">
+									<label>
 										<?php echo JText::_( 'COFI_STICKY' ).':'; ?>
 									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php
-									$html = JHTML::_('select.booleanlist', 'sticky', 'class="inputbox"', $this->post->sticky);
-									echo $html;
-									?>
+									<fieldset class="radio">								
+										<?php
+										$html = JHTML::_('select.booleanlist', 'sticky', 'class="inputbox"', $this->post->sticky);
+										echo $html;
+										?>
+									</fieldset>
 								</td>
 							</tr>
 
 							<tr>		
 								<td class="key" style="padding: 10px;">
-									<label for="locked">
+									<label>
 										<?php echo JText::_( 'COFI_LOCKED' ).':'; ?>
 									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php
-									$html = JHTML::_('select.booleanlist', 'locked', 'class="inputbox"', $this->post->locked);
-									echo $html;
-									?>
+									<fieldset class="radio">								
+										<?php
+										$html = JHTML::_('select.booleanlist', 'locked', 'class="inputbox"', $this->post->locked);
+										echo $html;
+										?>
+									</fieldset>
 								</td>
 							</tr>
 
 							<tr>		
 								<td class="key" style="padding: 10px;">
-									<label for="wfm">
+									<label>
 										<?php echo JText::_( 'COFI_WAITING_FOR_MODERATION' ).':'; ?>
 									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php
-									$html = JHTML::_('select.booleanlist', 'wfm', 'class="inputbox"', $this->post->wfm);
-									echo $html;
-									?>
+									<fieldset class="radio">
+										<?php
+										$html = JHTML::_('select.booleanlist', 'wfm', 'class="inputbox"', $this->post->wfm);
+										echo $html;
+										?>
+									</fieldset>	
 								</td>
 							</tr>
 
@@ -157,15 +194,13 @@ JHTML::_('behavior.tooltip');
 
 						</table>
 												
-						<input type="hidden" name="option" value="<?php echo $option;?>" />
+						<input type="hidden" name="option" value="com_discussions" />
 						<input type="hidden" name="task" value="" />						
 						<input type="hidden" name="cid[]" value="<?php echo $this->post->id; ?>" />
 						<input type="hidden" name="view" value="post" />
 						
 						<?php echo JHTML::_('form.token'); ?>
-						
-					</fieldset>
-					
+											
 				</td>
 				
 			</tr>
@@ -173,6 +208,8 @@ JHTML::_('behavior.tooltip');
 		</tbody>
 		
 	</table>
+
+	</fieldset>
 		
 </form>
 
