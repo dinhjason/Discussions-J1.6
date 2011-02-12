@@ -9,9 +9,13 @@
   
 defined('_JEXEC') or die('Restricted access'); 
 
-
+// website root directory
+$_root = JURI::root();
 
 $ordering = ( ($this->lists['order'] == 'ordering' || $this->lists['order'] == 'id, ordering'));
+
+$image_yes = $_root . "administrator/templates/bluestork/images/admin/tick.png";
+$image_no  = $_root . "administrator/templates/bluestork/images/admin/publish_x.png";
 ?>
 
 <form action="index.php" method="post" name="adminForm" id="adminForm">
@@ -156,10 +160,10 @@ $ordering = ( ($this->lists['order'] == 'ordering' || $this->lists['order'] == '
 				<td align="center">										
 					<?php 					
 					if ( $row->show_online_status) {
-						echo "<img src='images/tick.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_yes . "' width='16' height='16' border='0' />";
 					}
 					else {
-						echo "<img src='images/publish_x.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_no . "' width='16' height='16' border='0' />";
 					}										
 					?>
 				</td>
@@ -167,10 +171,10 @@ $ordering = ( ($this->lists['order'] == 'ordering' || $this->lists['order'] == '
 				<td align="center">										
 					<?php 					
 					if ( $row->moderator) {
-						echo "<img src='images/tick.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_yes . "' width='16' height='16' border='0' />";
 					}
 					else {
-						echo "<img src='images/publish_x.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_no . "' width='16' height='16' border='0' />";
 					}										
 					?>
 				</td>
@@ -178,10 +182,10 @@ $ordering = ( ($this->lists['order'] == 'ordering' || $this->lists['order'] == '
 				<td align="center">										
 					<?php 					
 					if ( $row->email_notification) {
-						echo "<img src='images/tick.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_yes . "' width='16' height='16' border='0' />";
 					}
 					else {
-						echo "<img src='images/publish_x.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_no . "' width='16' height='16' border='0' />";
 					}										
 					?>
 				</td>
@@ -189,10 +193,10 @@ $ordering = ( ($this->lists['order'] == 'ordering' || $this->lists['order'] == '
 				<td align="center">										
 					<?php 					
 					if ( $row->approval_notification) {
-						echo "<img src='images/tick.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_yes . "' width='16' height='16' border='0' />";
 					}
 					else {
-						echo "<img src='images/publish_x.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_no . "' width='16' height='16' border='0' />";
 					}										
 					?>
 				</td>
@@ -201,10 +205,10 @@ $ordering = ( ($this->lists['order'] == 'ordering' || $this->lists['order'] == '
 				<td align="center">
 					<?php 					
 					if ( $row->moderated) {
-						echo "<img src='images/tick.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_yes . "' width='16' height='16' border='0' />";
 					}
 					else {
-						echo "<img src='images/publish_x.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_no . "' width='16' height='16' border='0' />";
 					}										
 					?>
 				</td>
@@ -212,10 +216,10 @@ $ordering = ( ($this->lists['order'] == 'ordering' || $this->lists['order'] == '
 				<td align="center">
 					<?php 					
 					if ( $row->rookie) {
-						echo "<img src='images/tick.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_yes . "' width='16' height='16' border='0' />";
 					}
 					else {
-						echo "<img src='images/publish_x.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_no . "' width='16' height='16' border='0' />";
 					}										
 					?>
 				</td>
@@ -223,10 +227,10 @@ $ordering = ( ($this->lists['order'] == 'ordering' || $this->lists['order'] == '
 				<td align="center">
 					<?php 					
 					if ( $row->trusted) {
-						echo "<img src='images/tick.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_yes . "' width='16' height='16' border='0' />";
 					}
 					else {
-						echo "<img src='images/publish_x.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_no . "' width='16' height='16' border='0' />";
 					}										
 					?>
 				</td>
@@ -234,10 +238,10 @@ $ordering = ( ($this->lists['order'] == 'ordering' || $this->lists['order'] == '
 				<td align="center">
 					<?php 					
 					if ( $row->images) {
-						echo "<img src='images/tick.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_yes . "' width='16' height='16' border='0' />";
 					}
 					else {
-						echo "<img src='images/publish_x.png' width='16' height='16' border='0' />";
+						echo "<img src='" . $image_no . "' width='16' height='16' border='0' />";
 					}										
 					?>
 				</td>

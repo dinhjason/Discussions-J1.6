@@ -18,7 +18,7 @@ class DiscussionsControllerUser extends JController {
 
     function display() {
     
-        JRequest::setVar('view', 'user');
+		$task = JRequest::getCmd('task', 'cancel');
 
 
 		switch( $this->getTask()) {

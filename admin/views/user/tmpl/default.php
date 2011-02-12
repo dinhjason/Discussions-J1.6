@@ -15,17 +15,21 @@ JHTML::_('behavior.tooltip');
 <script language="javascript" type="text/javascript">
 
 	//<![CDATA[
-	function submitbutton(pressbutton) {
-		if ( pressbutton == 'cancel') {
-			submitform( pressbutton );
-			return;
-		}
-		if (trim( document.adminForm.name.value ) == "") {
-			alert( '<?php echo JText::_('COFI_USER_MUST_HAVE_USERNAME', true);?>' );
-		} else {
-			submitform( pressbutton );
-		}
-	}
+	Joomla.submitbutton = function(pressbutton) {
+	
+		var form = document.adminForm;
+			
+		if (pressbutton == 'cancel') {
+		
+	    	form.action.value = 'cancel'
+	    	submitform('cancel');
+	    	return;
+
+		} 
+		
+		submitform( pressbutton );		
+		
+	}		
 	//]]>
 	
 </script>
@@ -34,6 +38,8 @@ JHTML::_('behavior.tooltip');
 
 <form action="index.php" method="post" name="adminForm" id="adminForm">
 
+	<fieldset class="adminform">
+
 	<table class="admintable" width="100%">
 	
 		<tbody>
@@ -41,9 +47,7 @@ JHTML::_('behavior.tooltip');
 			<tr>
 			
 				<td valign="top">
-				
-					<fieldset class="adminform">
-					
+									
 						<legend>
 							<?php echo JText::_('COFI_USER_DETAILS');?>
 						</legend>
@@ -54,7 +58,9 @@ JHTML::_('behavior.tooltip');
 
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_USERNAME'); ?>
+									<label>
+										<?php echo JText::_('COFI_USERNAME'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<b>
@@ -67,7 +73,9 @@ JHTML::_('behavior.tooltip');
 
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_TITLE'); ?>
+									<label>
+										<?php echo JText::_('COFI_TITLE'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<input class="text_area" type="text" name="title" id="title" value="<?php echo $this->user->title; ?>" size="50" maxlength="50" />
@@ -77,15 +85,17 @@ JHTML::_('behavior.tooltip');
 
 							<tr>		
 								<td class="key" style="padding: 10px;">
-									<label for="show_online_status">
+									<label>
 										<?php echo JText::_( 'COFI_SHOW_ONLINE_STATUS' ).':'; ?>
 									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php
-									$html = JHTML::_('select.booleanlist', 'show_online_status', 'class="inputbox"', $this->user->show_online_status);
-									echo $html;
-									?>
+									<fieldset class="radio">
+										<?php
+										$html = JHTML::_('select.booleanlist', 'show_online_status', 'class="inputbox"', $this->user->show_online_status);
+										echo $html;
+										?>
+									</fieldset>	
 								</td>
 							</tr>
 							
@@ -93,107 +103,123 @@ JHTML::_('behavior.tooltip');
 							
 							<tr>		
 								<td class="key" style="padding: 10px;">
-									<label for="moderator">
+									<label>
 										<?php echo JText::_( 'COFI_MODERATOR' ).':'; ?>
 									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php
-									$html = JHTML::_('select.booleanlist', 'moderator', 'class="inputbox"', $this->user->moderator);
-									echo $html;
-									?>
+									<fieldset class="radio">
+										<?php
+										$html = JHTML::_('select.booleanlist', 'moderator', 'class="inputbox"', $this->user->moderator);
+										echo $html;
+										?>
+									</fieldset>	
 								</td>
 							</tr>
 
 							<tr>		
 								<td class="key" style="padding: 10px;">
-									<label for="email_notification">
+									<label>
 										<?php echo JText::_( 'COFI_EMAIL_NOTIFICATION' ).':'; ?>
 									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php
-									$html = JHTML::_('select.booleanlist', 'email_notification', 'class="inputbox"', $this->user->email_notification);
-									echo $html;
-									?>
+									<fieldset class="radio">
+										<?php
+										$html = JHTML::_('select.booleanlist', 'email_notification', 'class="inputbox"', $this->user->email_notification);
+										echo $html;
+										?>
+									</fieldset>	
 								</td>
 							</tr>
 
 							<tr>		
 								<td class="key" style="padding: 10px;">
-									<label for="approval_notification">
+									<label>
 										<?php echo JText::_( 'COFI_APPROVAL_NOTIFICATION' ).':'; ?>
 									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php
-									$html = JHTML::_('select.booleanlist', 'approval_notification', 'class="inputbox"', $this->user->approval_notification);
-									echo $html;
-									?>
+									<fieldset class="radio">
+										<?php
+										$html = JHTML::_('select.booleanlist', 'approval_notification', 'class="inputbox"', $this->user->approval_notification);
+										echo $html;
+										?>
+									</fieldset>	
 								</td>
 							</tr>
 
 
 							<tr>		
 								<td class="key" style="padding: 10px;">
-									<label for="moderated">
+									<label>
 										<?php echo JText::_( 'COFI_MODERATED' ).':'; ?>
 									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php
-									$html = JHTML::_('select.booleanlist', 'moderated', 'class="inputbox"', $this->user->moderated);
-									echo $html;
-									?>
+									<fieldset class="radio">
+										<?php
+										$html = JHTML::_('select.booleanlist', 'moderated', 'class="inputbox"', $this->user->moderated);
+										echo $html;
+										?>
+									</fieldset>	
 								</td>
 							</tr>
 
 							<tr>		
 								<td class="key" style="padding: 10px;">
-									<label for="rookie">
+									<label>
 										<?php echo JText::_( 'COFI_ROOKIE' ).':'; ?>
 									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php
-									$html = JHTML::_('select.booleanlist', 'rookie', 'class="inputbox"', $this->user->rookie);
-									echo $html;
-									?>
+									<fieldset class="radio">
+										<?php
+										$html = JHTML::_('select.booleanlist', 'rookie', 'class="inputbox"', $this->user->rookie);
+										echo $html;
+										?>
+									</fieldset>
 								</td>
 							</tr>
 
 							<tr>		
 								<td class="key" style="padding: 10px;">
-									<label for="trusted">
+									<label>
 										<?php echo JText::_( 'COFI_TRUSTED' ).':'; ?>
 									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php
-									$html = JHTML::_('select.booleanlist', 'trusted', 'class="inputbox"', $this->user->trusted);
-									echo $html;
-									?>
+									<fieldset class="radio">
+										<?php
+										$html = JHTML::_('select.booleanlist', 'trusted', 'class="inputbox"', $this->user->trusted);
+										echo $html;
+										?>
+									</fieldset>	
 								</td>
 							</tr>
 
 							<tr>		
 								<td class="key" style="padding: 10px;">
-									<label for="images">
+									<label>
 										<?php echo JText::_( 'COFI_IMAGES' ).':'; ?>
 									</label>
 								</td>
 								<td style="padding: 10px;">
-									<?php
-									$html = JHTML::_('select.booleanlist', 'images', 'class="inputbox"', $this->user->images);
-									echo $html;
-									?>
+									<fieldset class="radio">
+										<?php
+										$html = JHTML::_('select.booleanlist', 'images', 'class="inputbox"', $this->user->images);
+										echo $html;
+										?>
+									</fieldset>	
 								</td>
 							</tr>
 
 
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_POSTS'); ?>
+									<label>
+										<?php echo JText::_('COFI_POSTS'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<b>
@@ -206,7 +232,9 @@ JHTML::_('behavior.tooltip');
 
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_ZIPCODE'); ?>
+									<label>
+										<?php echo JText::_('COFI_ZIPCODE'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<input class="text_area" type="text" name="zipcode" id="zipcode" value="<?php echo $this->user->zipcode; ?>" size="50" maxlength="50" />
@@ -215,7 +243,9 @@ JHTML::_('behavior.tooltip');
 
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_CITY'); ?>
+									<label>
+										<?php echo JText::_('COFI_CITY'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<input class="text_area" type="text" name="city" id="city" value="<?php echo $this->user->city; ?>" size="50" maxlength="150" />
@@ -224,7 +254,9 @@ JHTML::_('behavior.tooltip');
 
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_COUNTRY'); ?>
+									<label>
+										<?php echo JText::_('COFI_COUNTRY'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<input class="text_area" type="text" name="country" id="country" value="<?php echo $this->user->country; ?>" size="50" maxlength="150" />
@@ -234,7 +266,9 @@ JHTML::_('behavior.tooltip');
 							
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_WEBSITE'); ?>
+									<label>
+										<?php echo JText::_('COFI_WEBSITE'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<input class="text_area" type="text" name="website" id="website" value="<?php echo $this->user->website; ?>" size="50" maxlength="100" />
@@ -243,7 +277,9 @@ JHTML::_('behavior.tooltip');
 
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_TWITTER'); ?>
+									<label>
+										<?php echo JText::_('COFI_TWITTER'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<input class="text_area" type="text" name="twitter" id="twitter" value="<?php echo $this->user->twitter; ?>" size="50" maxlength="100" />
@@ -252,7 +288,9 @@ JHTML::_('behavior.tooltip');
 							
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_FACEBOOK'); ?>
+									<label>
+										<?php echo JText::_('COFI_FACEBOOK'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<input class="text_area" type="text" name="facebook" id="facebook" value="<?php echo $this->user->facebook; ?>" size="50" maxlength="100" />
@@ -261,7 +299,9 @@ JHTML::_('behavior.tooltip');
 							
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_FLICKR'); ?>
+									<label>
+										<?php echo JText::_('COFI_FLICKR'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<input class="text_area" type="text" name="flickr" id="flickr" value="<?php echo $this->user->flickr; ?>" size="50" maxlength="100" />
@@ -270,7 +310,9 @@ JHTML::_('behavior.tooltip');
 
 							<tr>
 								<td class="key" style="padding: 10px;">
-									<?php echo JText::_('COFI_YOUTUBE'); ?>
+									<label>
+										<?php echo JText::_('COFI_YOUTUBE'); ?>
+									</label>
 								</td>
 								<td style="padding: 10px;">
 									<input class="text_area" type="text" name="youtube" id="youtube" value="<?php echo $this->user->youtube; ?>" size="50" maxlength="100" />
@@ -280,15 +322,13 @@ JHTML::_('behavior.tooltip');
 
 						</table>
 												
-						<input type="hidden" name="option" value="<?php echo $option;?>" />
+						<input type="hidden" name="option" value="com_discussions" />
 						<input type="hidden" name="task" value="" />						
 						<input type="hidden" name="cid[]" value="<?php echo $this->user->id; ?>" />
 						<input type="hidden" name="view" value="user" />
 						
 						<?php echo JHTML::_('form.token'); ?>
-						
-					</fieldset>
-					
+											
 				</td>
 				
 			</tr>
@@ -296,6 +336,8 @@ JHTML::_('behavior.tooltip');
 		</tbody>
 		
 	</table>
+		
+	</fieldset>
 		
 </form>
 
