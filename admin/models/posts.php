@@ -131,7 +131,7 @@ class DiscussionsModelPosts extends JModel {
 
 	function _buildContentOrderBy() {
 	
-		global $option;
+		$option = "com_discussions";
 
 		$app = JFactory::getApplication();		
 
@@ -158,7 +158,7 @@ class DiscussionsModelPosts extends JModel {
 
 	function _buildContentWhere() {
 	
-		global $option;
+		$option = "com_discussions";
 
 		$app = JFactory::getApplication();		
 		

@@ -57,7 +57,7 @@ class DiscussionsModelForums extends JModel {
 	 */
 	function getData() {
 
-		global $option;
+		$option = "com_discussions";
 		
 		$app = JFactory::getApplication('administrator');
 		
@@ -170,7 +170,7 @@ class DiscussionsModelForums extends JModel {
 
 	function _buildWhere() {
 	
-		global $option;
+		$option = "com_discussions";
 		
 		$app = JFactory::getApplication('administrator');
 		

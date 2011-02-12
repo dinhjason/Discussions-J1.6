@@ -17,7 +17,7 @@ class DiscussionsViewUsers extends JView {
 
 	function display($tpl = null) {
 
-		global $option;
+		$option = "com_discussions";
 
 		$app = JFactory::getApplication();		
 

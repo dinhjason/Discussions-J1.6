@@ -32,9 +32,9 @@ class DiscussionsModelUsers extends JModel {
 	
 		parent::__construct();
 
-		global $option;
-
-		$app = JFactory::getApplication();		
+		$option = "com_discussions";
+		
+		$app 		= JFactory::getApplication();		
 
 		$limit		= $app->getUserStateFromRequest( 'global.list.limit', 'limit', $app->getCfg('list_limit'), 'int' );
 
@@ -55,7 +55,7 @@ class DiscussionsModelUsers extends JModel {
 		if ( empty( $this->_data)) {
 		
 			$query = $this->_buildQuery();
-			
+						
 			$this->_data = $this->_getList( $query, $this->getState('limitstart'), $this->getState('limit'));
 			
 		}
@@ -132,7 +132,7 @@ class DiscussionsModelUsers extends JModel {
 
 	function _buildContentOrderBy() {
 	
-		global $option;
+		$option = "com_discussions";
 
 		$app = JFactory::getApplication();		
 
@@ -159,7 +159,7 @@ class DiscussionsModelUsers extends JModel {
 
 	function _buildContentWhere() {
 	
-		global $option;
+		$option = "com_discussions";
 		
 		$app = JFactory::getApplication();		
 		

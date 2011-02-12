@@ -189,6 +189,14 @@ $_root = JURI::root();
 				</div>
 
 
+				<div style="margin: 20px 0px 0px 0px;">
+					Facebook: <a href="http://www.facebook.com/codingfish" title="Codingfish on Facebook" target="_blank">www.facebook.com/codingfish</a>
+					<br />
+					<br />
+					Twitter: <a href="http://twitter.com/codingfish" title="Codingfish on Twitter" target="_blank">twitter.com/codingfish</a>						
+				</div>
+
+
 				<div>
 					<br />
 					<br />
