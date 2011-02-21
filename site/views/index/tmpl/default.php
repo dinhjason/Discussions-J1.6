@@ -16,9 +16,11 @@ JHTML::_('stylesheet', 'discussions.css', 'components/com_discussions/assets/');
 require_once(JPATH_COMPONENT.DS.'classes/user.php'); 
 $user =& JFactory::getUser();
 $logUser = new CofiUser( $user->id);
+?>
 
+<div class="codingfish">
 
-
+<?php
 // set page description
 if ( JText::_( 'COFI_INDEX_META_DESCRIPTION') == "") {
 	$document =& JFactory::getDocument(); 
@@ -130,11 +132,21 @@ if ( $logUser->isModerator() == 1) {
 			<?php
 
 			if ( $category->show_image == 0) {  // don't show category image
-				?>
-				<td align="center">
-					<?php
-					echo "&nbsp;";
+								
+				if ( $category->parent_id == 0) {  // container			
 					?>
+					<td align="center" class="cofiContainer">
+					<?php				
+				}
+				else {
+					?>
+					<td align="center">
+					<?php
+				}	
+				
+				echo "&nbsp;";
+				?>
+				
 				</td> 
 				<?php
 			}
@@ -152,6 +164,7 @@ if ( $logUser->isModerator() == 1) {
 				</td> 
 				<?php
 			}
+						
 			?>
 			
 		
@@ -159,7 +172,8 @@ if ( $logUser->isModerator() == 1) {
 			<?php
 			if ( $category->parent_id == 0) {  // container			
 				?>
-				<td>	
+				<td class="cofiContainer">	
+					<br />
 					<br />
 					<h2 style="padding: 0px; margin-bottom: 5px;" >
 						<?php echo $category->name; ?>
@@ -200,9 +214,7 @@ if ( $logUser->isModerator() == 1) {
 		<?php
 		if ( $category->parent_id == 0) {  // don't show threads, posts and last post
 			?>
-			<td>&nbsp;</td> 
-			<td>&nbsp;</td> 
-			<td>&nbsp;</td> 
+			<td colspan="3" class="cofiContainer">&nbsp;</td> 
 			<?php
 		}
 		else {
@@ -291,7 +303,8 @@ if ( $htmlBoxIndexBottom != "") {
 
 <?php
 include( 'components/com_discussions/includes/footer.php');
+?>
 
-
+</div>
 
 
