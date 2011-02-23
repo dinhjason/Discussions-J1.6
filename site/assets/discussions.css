@@ -54,6 +54,13 @@ h2 {
 /*	padding: 0px; */
 }
 
+.noborder {
+	border: 0px;
+/*	margin: 0px; */
+/*	padding: 0px; */
+}
+
+
 .cofiContainer {
 	border-top: 0px; 
 	border-right: 0px; 

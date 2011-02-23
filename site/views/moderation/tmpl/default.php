@@ -24,22 +24,23 @@ $CofiHelper = new CofiHelper();
 $_root = JURI::root();
 ?>
 
+<div class="codingfish">
 
 <!-- Codingfish Extension Icon -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0"> 
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="noborder"> 
 
     <tr> 
-        <td  colspan="2" align="left">
+        <td  colspan="2" align="left" class="noborder">
         	<h1 class="componentheading">Forums</h1>
 		</td> 
 		
-		<td> 
+		<td class="noborder"> 
         	&nbsp;        	
 		</td> 
     </tr> 
 
     <tr> 		
-		<td colspan="2"> 
+		<td colspan="2" class="noborder"> 
         	&nbsp;
 		</td> 
     </tr> 
@@ -53,6 +54,7 @@ include( 'components/com_discussions/includes/topmenu.php');
 ?>
 
 <center>
+	<br />
 	<b>
 	*** FOR MODERATORS ONLY ***
 	</b>
@@ -60,7 +62,7 @@ include( 'components/com_discussions/includes/topmenu.php');
 
 
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0"> 
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="noborder"> 
 
 	<?php 
 
@@ -102,7 +104,7 @@ include( 'components/com_discussions/includes/topmenu.php');
 				echo "<h2 class='contentheading'>" . JText::_( 'COFI_MODERATION_POSTS_WAITING' ) . "</h2>";
 				echo "<br />";	
 
-				echo "<table width='100%' border='0' cellspacing='0' cellpadding='5'>";
+				echo "<table width='100%' border='0' cellspacing='0' cellpadding='5' class='noborder'>";
 				
 					$rowColor = 2;
 				
@@ -124,7 +126,7 @@ include( 'components/com_discussions/includes/topmenu.php');
 				                    echo "<img src='" . $_root . "components/com_discussions/assets/users/user.png' class='cofiAvatar' alt='$opUserUsername' />";
 				                }
 				                else { // display uploaded avatar
-				                    echo "<img src='" . $_root . "components/com_discussions/assets/users/".$posting->user_id."/large/".$CofiUser->getAvatar()."' class='cofiAvatar' alt='$opUserUsername' />";
+				                    echo "<img src='" . $_root . "images/discussions/users/".$posting->user_id."/large/".$CofiUser->getAvatar()."' class='cofiAvatar' alt='$opUserUsername' />";
 				                }
 				                echo "</div>";
 				
@@ -236,7 +238,7 @@ include( 'components/com_discussions/includes/topmenu.php');
 								// moderation menu
 				                echo "<div class='cofiPostMenu'>";
 				
-				                echo "<table width='100%' border='0' cellspacing='0' cellpadding='5'>";
+				                echo "<table width='100%' border='0' cellspacing='0' cellpadding='5' class='noborder'>";
 				
 				                    echo "<tr>";
 											
@@ -244,11 +246,11 @@ include( 'components/com_discussions/includes/topmenu.php');
 										if ( $logUser->isModerator()) {
 										
 											// accept post
-											echo "<td width='16' align='center' valign='middle'>";
+											echo "<td width='16' align='center' valign='middle' class='noborder'>";
 												echo "<img src='" . $_root . "components/com_discussions/assets/threads/accept.png' style='margin-left: 5px; border:0px;' />";
 											echo "</td>";
 				
-											echo "<td width='20' align='left' valign='middle'>";
+											echo "<td width='20' align='left' valign='middle' class='noborder'>";
 												echo "<span class='cofiPostMenuLinks'>";
 				
 				        							$menuLinkAcceptTMP = "index.php?option=com_discussions&view=moderation&task=accept&post=".$posting->id;
@@ -259,17 +261,17 @@ include( 'components/com_discussions/includes/topmenu.php');
 											echo "</td>";
 				
 				
-											echo "<td>";
+											echo "<td class='noborder'>";
 												echo "&nbsp;&nbsp;&nbsp;";
 											echo "</td>";				
 				
 				
 											// deny post
-											echo "<td width='16' align='center' valign='middle'>";
+											echo "<td width='16' align='center' valign='middle' class='noborder'>";
 												echo "<img src='" . $_root . "components/com_discussions/assets/threads/deny.png' style='margin-left: 5px; border:0px;' />";
 											echo "</td>";
 				
-											echo "<td width='20' align='left' valign='middle'>";
+											echo "<td width='20' align='left' valign='middle' class='noborder'>";
 												echo "<span class='cofiPostMenuLinks'>";
 				
 				        							$menuLinkDenyTMP = "index.php?option=com_discussions&view=moderation&task=deny&post=".$posting->id;
@@ -280,19 +282,19 @@ include( 'components/com_discussions/includes/topmenu.php');
 											echo "</td>";
 
 
-											echo "<td>";
+											echo "<td class='noborder'>";
 												echo "&nbsp;&nbsp;&nbsp;";
 											echo "</td>";				
 
 
-					                        echo "<td>";
+					                        echo "<td class='noborder'>";
 					                            echo "<b>" . $CofiHelper->getCategoryNameById( $posting->cat_id) . "</b>";
 					                        echo "</td>";
 
 				
 										}
 										else {				                                                
-					                        echo "<td>";
+					                        echo "<td class='noborder'>";
 					                            echo "&nbsp;";
 					                        echo "</td>";
 										}
@@ -311,7 +313,7 @@ include( 'components/com_discussions/includes/topmenu.php');
 				
 				
 				    	echo "<tr>";
-							echo "<td>";
+							echo "<td class='noborder'>";
 							echo "</td>";
 				    	echo "</tr>";
 				
@@ -353,4 +355,5 @@ include( 'components/com_discussions/includes/topmenu.php');
 include( 'components/com_discussions/includes/footer.php');
 ?>
 
+</div>
 

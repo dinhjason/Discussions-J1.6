@@ -31,6 +31,7 @@ $_root = JURI::root();
 
 ?>
 
+<div class="codingfish">
 
 
 <!-- Javascript functions -->
@@ -92,36 +93,40 @@ include( 'components/com_discussions/includes/topmenu.php');
 <!-- show moderator how many posts wait for approval -->
 <?php
 if ( $logUser->isModerator() == 1) {
-	$countposts = CofiHelper::getPostsWFM();
-
 	
-	if ( $countposts > 0) { // here is something to do for the moderator
-	?>
-		<center>
-			<div class="cofiPostsWaitingForApproval">
+	if ( $logUser->isApprovalNotification() == 1) {
+	
+		$countposts = CofiHelper::getPostsWFM();
+	
+		if ( $countposts > 0) { // here is something to do for the moderator
+		?>
+			<center>
+				<div class="cofiPostsWaitingForApproval">
 		
-				<?php			
+					<?php			
 			
-            	$approveLink = JRoute::_('index.php?option=com_discussions&view=moderation&task=approve' );                        
+	            	$approveLink = JRoute::_('index.php?option=com_discussions&view=moderation&task=approve' );                        
 					
-            	echo "<a href='$approveLink' title='" . JText::_( 'COFI_APPROVE_NEW_POSTS' ) . "'>";
-					echo "<b>";
-					echo $countposts;
-					echo "</b>"; 
+	            	echo "<a href='$approveLink' title='" . JText::_( 'COFI_APPROVE_NEW_POSTS' ) . "'>";
+						echo "<b>";
+						echo $countposts;
+						echo "</b>"; 
 				
-					if ( $countposts == 1) {
-						echo " " . JText::_( 'COFI_POST_IS_WAITING_FOR_APPROVAL' );
-					}
-					else {
-						echo " " . JText::_( 'COFI_POSTS_ARE_WAITING_FOR_APPROVAL' );
-					}				
-				echo "</a>";
+						if ( $countposts == 1) {
+							echo " " . JText::_( 'COFI_POST_IS_WAITING_FOR_APPROVAL' );
+						}
+						else {
+							echo " " . JText::_( 'COFI_POSTS_ARE_WAITING_FOR_APPROVAL' );
+						}				
+					echo "</a>";
 				
-				?>
+					?>
 				
-			</div>
-		</center>
-		<?php
+				</div>
+			</center>
+			<?php
+		}
+		
 	}
 }
 ?>
@@ -130,11 +135,11 @@ if ( $logUser->isModerator() == 1) {
 
 
 <!-- Category icon, name and description -->
-<table width="100%" style="margin-bottom:10px;">
+<table width="100%" class="noborder" style="margin-bottom:10px;">
     <tr>
 
         <!-- category image -->
-        <td width="50">
+        <td width="50" class="noborder">
             <?php
 			if ( $this->categoryImage == "") {  // show default category image
 				echo "<img src='" . $_root . "components/com_discussions/assets/categories/default.png' style='border:0px;margin:5px;' />";
@@ -147,7 +152,7 @@ if ( $logUser->isModerator() == 1) {
         <!-- category image -->
 
         <!-- category name and description -->
-        <td align="left">
+        <td align="left" class="noborder">
             <?php
             echo "<h2 style='padding-left: 0px;'>";
                 echo $this->categoryName;
@@ -158,7 +163,7 @@ if ( $logUser->isModerator() == 1) {
         <!-- category name and description -->
 
         <!-- category quick select box -->
-        <td align="left">
+        <td align="left" class="noborder">
             <?php
             echo $CofiHelper->getQuickJumpSelectBox( $this->categoryId);
             ?>
@@ -176,11 +181,11 @@ if ( $logUser->isModerator() == 1) {
 
 if ( $this->forumBannerTop != "") {
 
-	echo "<table width='100%' border='0' style='margin-top:10px;'>";
+	echo "<table width='100%' border='0'  class='noborder' style='margin-top:10px;'>";
 	
 	    echo "<tr>";
 	
-	    	echo "<td width='100%' align='center'>";
+	    	echo "<td width='100%' align='center' class='noborder'>";
 	    			// todo make configurable !!!
 					?>
 		
@@ -210,9 +215,9 @@ if ( $this->forumBannerTop != "") {
 <?php
 if ( $user->guest) { // user is not logged in
 
-	echo "<table width='100%' style='margin:20px 0px 20px 0px;'>";
+	echo "<table width='100%' class='noborder' style='margin:20px 0px 20px 0px;'>";
     	echo "<tr>";
-        	echo "<td width='100%' align='left' valign='middle'>";                	
+        	echo "<td width='100%' align='left' valign='middle' class='noborder'>";                	
         		$registerURL = "index.php?option=com_user&view=register";
         		$loginURL    = "index.php?option=com_user&view=login";
         	
@@ -228,13 +233,13 @@ if ( $user->guest) { // user is not logged in
 }
 else { // user is logged in
 
-	echo "<table width='50%' style='margin:20px 0px 20px 0px;'>";
+	echo "<table width='50%' class='noborder' style='margin:20px 0px 20px 0px;'>";
     	echo "<tr>";       	
 
-        	echo "<td width='16' align='center' valign='middle'>";
+        	echo "<td width='16' align='center' valign='middle' class='noborder'>";
             	echo "<img src='" . $_root . "components/com_discussions/assets/threads/new.png' style='margin-left: 5px; margin-right: 5px; border:0px;' />";
         	echo "</td>";
-        	echo "<td align='left' valign='middle'>";
+        	echo "<td align='left' valign='middle' class='noborder'>";
             	$menuLinkNewTMP = "index.php?option=com_discussions&view=posting&task=new&catid=".$this->categorySlug;
             	$menuLinkNew = JRoute::_( $menuLinkNewTMP);
             	echo "<a href='".$menuLinkNew."'>" . JText::_( 'COFI_NEW_THREAD' ) . "</a>";
@@ -256,16 +261,16 @@ $showBreadcrumbRow = $params->get('breadcrumb', '0');
 if ( $showBreadcrumbRow == "1") {
 	?>
 
-	<table style="margin-top: 5px;">
+	<table class="noborder" style="margin-top: 5px;">
 	    <tr>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            $menuLinkHome     = JRoute::_( 'index.php?option=com_discussions');
 	            $menuText = JSite::getMenu()->getActive()->name;
 	            echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
 	            ?>
 	        </td>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            echo "&nbsp;&raquo;&nbsp;";
 	            echo $this->categoryName;
@@ -284,14 +289,14 @@ if ( $showBreadcrumbRow == "1") {
 
 
 <!-- Pagination Links -->
-<table width="100%" style="margin-bottom:10px;">
+<table width="100%" class="noborder" style="margin-bottom:10px;">
     <tr>
-        <td>
+        <td class="noborder">
             <?php
             echo $this->pagination->getPagesLinks();
             ?>
         </td>
-        <td>
+        <td class="noborder">
             <?php
             echo $this->pagination->getPagesCounter();
             ?>
@@ -303,9 +308,7 @@ if ( $showBreadcrumbRow == "1") {
 
 
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0"> 
-
-
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="noborder"> 
 
     <tr> 
 		<td width="70px"  align="center" class="cofiTableHeader"><?php echo JText::_( 'COFI_REPLIES' ); ?></td>
@@ -398,15 +401,12 @@ if ( $showBreadcrumbRow == "1") {
 									
 			<td width="200" align="center" class="cofiIndexTableRow<?php echo $rowColor; ?> cofiIndexTableRowLastPost">
 
-                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" class="noborder">
                     <tr>
-                        <td width="32" align="left">
+                        <td width="32" align="left" class="noborder">
                             <?php
-                            
-                            // todo testing...
-                            
+                                                        
                             $CofiUser = new CofiUser( $thread->last_entry_user_id);
-
 
 					    	echo "<div class='cofiCategoryAvatarBox'>";
 
@@ -425,7 +425,7 @@ if ( $showBreadcrumbRow == "1") {
                             
                             ?>
                         </td>
-                        <td align="left" valign="center" style="padding-left: 5px;">
+                        <td align="left" valign="center" class="noborder" style="padding-left: 5px;">
                             <?php
                             echo $thread->last_entry_date;
                             ?>
@@ -435,7 +435,7 @@ if ( $showBreadcrumbRow == "1") {
                             echo $lastEntryUserUsername;
                             ?>
                         </td>
-                        <td width="20" align="right" valign="center">
+                        <td width="20" align="right" valign="center" class="noborder">
                             <?php
                             
 							// calculate jump point to last entry
@@ -512,14 +512,14 @@ if ( $showBreadcrumbRow == "1") {
 
 
 <!-- Pagination Links -->
-<table width="100%" style="margin-top:10px;">
+<table width="100%" class="noborder" style="margin-top:10px;">
     <tr> 
-        <td>
+        <td class="noborder">
             <?php
             echo $this->pagination->getPagesLinks();
             ?>
         </td>
-        <td>
+        <td class="noborder">
             <?php
             echo $this->pagination->getPagesCounter();
             ?>
@@ -536,14 +536,14 @@ if ( $showBreadcrumbRow == "1") {
 if ( $showBreadcrumbRow == "1") {
 	?>
 
-	<table style="margin-top: 5px;">
+	<table class="noborder" style="margin-top: 5px;">
 	    <tr>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
 	            ?>
 	        </td>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            echo "&nbsp;&raquo;&nbsp;";
 	            echo $this->categoryName;
@@ -564,11 +564,11 @@ if ( $showBreadcrumbRow == "1") {
 
 if ( $this->forumBannerBottom != "") {
 
-	echo "<table width='100%' border='0' style='margin-top:10px;'>";
+	echo "<table width='100%' border='0' class='noborder' style='margin-top:10px;'>";
 	
 	    echo "<tr>";
 	
-	    	echo "<td width='100%' align='center'>";
+	    	echo "<td width='100%' align='center' class='noborder'>";
 	    			// todo make configurable !!!
 					?>
 		
@@ -614,6 +614,6 @@ if ( $htmlBoxCategoryBottom != "") {
 
 <?php
 include( 'components/com_discussions/includes/footer.php');
+?>
 
-
-
+</div>

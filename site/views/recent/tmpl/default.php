@@ -32,8 +32,7 @@ $_root = JURI::root();
 
 ?>
 
-
-
+<div class="codingfish">
 
 <?php
 if ( $this->params->def( 'show_page_title', 1 ) ) :
@@ -83,16 +82,16 @@ $showBreadcrumbRow = $params->get('breadcrumb', '0');
 if ( $showBreadcrumbRow == "1") {
 	?>
 
-	<table style="margin-top: 5px;">
+	<table class="noborder" style="margin-top: 5px;">
 	    <tr>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            $menuLinkHome     = JRoute::_( 'index.php?option=com_discussions');
 	            $menuText = JSite::getMenu()->getActive()->name;
 	            echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
 	            ?>
 	        </td>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            echo "&nbsp;&raquo;&nbsp;";
 	            echo JText::_( "COFI_HISTORY");
@@ -113,14 +112,14 @@ if ( $showBreadcrumbRow == "1") {
 
 
 <!-- Pagination Links -->
-<table width="100%" style="margin-bottom:10px;">
+<table width="100%" class="noborder" style="margin-bottom:10px;">
     <tr>
-        <td>
+        <td class="noborder">
             <?php
             echo $this->pagination->getPagesLinks();
             ?>
         </td>
-        <td>
+        <td class="noborder">
             <?php
             echo $this->pagination->getPagesCounter();
             ?>
@@ -244,14 +243,14 @@ if ( $showBreadcrumbRow == "1") {
 
 
 <!-- Pagination Links -->
-<table width="100%" style="margin-top:10px;">
+<table width="100%" class="noborder" style="margin-top:10px;">
     <tr>
-        <td>
+        <td class="noborder">
             <?php
             echo $this->pagination->getPagesLinks();
             ?>
         </td>
-        <td>
+        <td class="noborder">
             <?php
             echo $this->pagination->getPagesCounter();
             ?>
@@ -268,14 +267,14 @@ if ( $showBreadcrumbRow == "1") {
 if ( $showBreadcrumbRow == "1") {
 	?>
 
-	<table style="margin-top: 5px;">
+	<table class="noborder" style="margin-top: 5px;">
 	    <tr>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
 	            ?>
 	        </td>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            echo "&nbsp;&raquo;&nbsp;";
                 echo JText::_( "COFI_HISTORY");
@@ -313,6 +312,6 @@ if ( $htmlBoxCategoryBottom != "") {
 
 <?php
 include( 'components/com_discussions/includes/footer.php');
+?>
 
-
-
+</div>

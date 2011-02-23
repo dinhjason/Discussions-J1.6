@@ -31,6 +31,7 @@ $_useYouTube 	 = $params->get( 'useYouTube', '0');  // 0 no, 1 yes
 $_root = JURI::root();
 ?>
 
+<div class="codingfish">
 
 
 <!-- Javascript functions -->
@@ -92,11 +93,11 @@ include( 'components/com_discussions/includes/topmenu.php');
 
 
 <!-- Category icon, name and description -->
-<table width="100%" style="margin-bottom:10px;">
+<table width="100%" class="noborder" style="margin-bottom:10px;">
     <tr>
 
         <!-- category image -->
-        <td width="50">
+        <td width="50" class="noborder">
             <?php
 			if ( $this->categoryImage == "") {  // show default category image
 				echo "<img src='" . $_root . "components/com_discussions/assets/categories/default.png' style='border:0px;margin:5px;' />";
@@ -109,7 +110,7 @@ include( 'components/com_discussions/includes/topmenu.php');
         <!-- category image -->
 
         <!-- category name and description -->
-        <td align="left">
+        <td align="left" class="noborder">
             <?php
             echo "<h2 style='padding-left: 0px;'>";
                 echo $this->categoryName;
@@ -120,7 +121,7 @@ include( 'components/com_discussions/includes/topmenu.php');
         <!-- category name and description -->
 
         <!-- category quick select box -->
-        <td align="left">
+        <td align="left" class="noborder">
             <?php
             echo $CofiHelper->getQuickJumpSelectBox( $this->categoryId);
             ?>
@@ -148,15 +149,15 @@ $showBreadcrumbRow = $params->get('breadcrumb', '0');
 if ( $showBreadcrumbRow == "1") {
 	?>
 
-	<table style="margin-top: 5px;">
+	<table class="noborder" style="margin-top: 5px;">
 	    <tr>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            $menuLinkHome     = JRoute::_( 'index.php?option=com_discussions');
 	            echo "<a href='$menuLinkHome'>Forums</a>";
 	            ?>
 	        </td>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            $menuLinkCategoryTMP = "index.php?option=com_discussions&view=category&catid=".$this->categorySlug;
 	            $menuLinkCategory = JRoute::_( $menuLinkCategoryTMP);
@@ -164,7 +165,7 @@ if ( $showBreadcrumbRow == "1") {
 	            echo "<a href='$menuLinkCategory'>".$this->categoryName."</a>";
 	            ?>
 	        </td>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            if ( $this->subject != "") {
 	            	echo "&nbsp;&raquo;&nbsp;";
@@ -193,10 +194,10 @@ if ( $showBreadcrumbRow == "1") {
 
     echo "<form action='' method='post' name='postform' id='postform' enctype='multipart/form-data'>";
 
-    	echo "<table cellspacing='1' cellpadding='0' width='100%'>";
+    	echo "<table cellspacing='1' cellpadding='0' width='100%' class='noborder'>";
 
     		echo "<tr>";    		
-    			echo "<td style='padding: 5px;' >";
+    			echo "<td class='noborder' style='padding: 5px;' >";
 
     				echo "<div class='cofiSubjectHeader'>" . JText::_( 'COFI_SUBJECT' ) . ":</div> ";
    					
@@ -228,7 +229,7 @@ if ( $showBreadcrumbRow == "1") {
     		echo "</tr>";
 
     		echo "<tr>";
-    			echo "<td align='left' valign='top' style='padding: 5px;' >";
+    			echo "<td align='left' valign='top' class='noborder' style='padding: 5px;' >";
     			
     				echo "<div class='cofiTextHeader'>" . JText::_( 'COFI_TEXT' ) . ":</div> ";
    					   			
@@ -466,7 +467,7 @@ if ( $showBreadcrumbRow == "1") {
 
 
 
-    // display recent x posts if task = edit or quote
+    // display recent x posts if task = reply or quote
     if ( $this->task == "reply" || $this->task == "quote" ) {
 
         if ( $replyListLength > 0) {
@@ -511,24 +512,24 @@ if ( $showBreadcrumbRow == "1") {
     				
     <div class="cofiTextFormat">
     		
-		<table cellspacing="0px" cellpadding="10px" width="100%">
+		<table cellspacing="0px" cellpadding="10px" width="100%" class="noborder">
 
 			<tr>
-				<td>
+				<td class="noborder">
 					<b><?php echo JText::_( 'COFI_FORMAT_BOLD' ); ?></b>
 					<br />
 					[b]bold[/b]
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<i><?php echo JText::_( 'COFI_FORMAT_ITALICS' ); ?></i>
 					<br />
 					[i]italics[/i]
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<u><?php echo JText::_( 'COFI_FORMAT_UNDERLINE' ); ?></u>
 					<br />
 					[u]underline[/u]
@@ -538,21 +539,21 @@ if ( $showBreadcrumbRow == "1") {
 			</tr>
 
 			<tr>
-				<td>
+				<td class="noborder">
 					<s><?php echo JText::_( 'COFI_FORMAT_STRIKE_THROUGH' ); ?></s>
 					<br />
 					[s]strikethrough[/s]
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<big><?php echo JText::_( 'COFI_FORMAT_BIG' ); ?></big>
 					<br />
 					[big]big[/big]
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<small><?php echo JText::_( 'COFI_FORMAT_SMALL' ); ?></small>
 					<br />
 					[small]small[/small]
@@ -562,7 +563,7 @@ if ( $showBreadcrumbRow == "1") {
 			</tr>
 
 			<tr>
-				<td valign="top">
+				<td valign="top" class="noborder">
 					<?php echo JText::_( 'COFI_FORMAT_UNORDERED_LIST' ); ?>
 					<br />
 					[ul]
@@ -575,7 +576,7 @@ if ( $showBreadcrumbRow == "1") {
 					<br />
 					<br />
 				</td>
-				<td valign="top">
+				<td valign="top" class="noborder">
 					<?php echo JText::_( 'COFI_FORMAT_ORDERED_LIST' ); ?>
 					<br />
 					[ol]
@@ -588,7 +589,7 @@ if ( $showBreadcrumbRow == "1") {
 					<br />
 					<br />
 				</td>
-				<td valign="top">
+				<td valign="top" class="noborder">
 					<?php echo JText::_( 'COFI_FORMAT_LINK' ); ?>
 					<br />
 					[url]http://www.codingfish.com[/url]
@@ -600,14 +601,14 @@ if ( $showBreadcrumbRow == "1") {
 			</tr>
 
             <tr>
-                <td valign="top">
+                <td valign="top" class="noborder">
                     <?php echo JText::_( 'COFI_FORMAT_QUOTE' ); ?>
                    <br />
                    [quote]quoted text[/quote]
                    <br />
                    <br />
                 </td>
-                <td valign="top">
+                <td valign="top" class="noborder">
                 	<?php
                 	if ( $_useFlickr == 1) {                
                     	echo JText::_( 'COFI_FLICKR_PHOTO' );
@@ -621,7 +622,7 @@ if ( $showBreadcrumbRow == "1") {
                    	<br />
                    	<br />
                 </td>
-                <td valign="top">
+                <td valign="top" class="noborder">
                 	<?php
                 	if ( $_useYouTube == 1) {                
                     	echo JText::_( 'COFI_YOUTUBE_VIDEO' );
@@ -641,24 +642,24 @@ if ( $showBreadcrumbRow == "1") {
 
 
 			<tr>
-				<td colspan="3">
+				<td colspan="3" class="noborder">
 					&nbsp;
 				</td>
 			</tr>
 				  
 				  
 			<tr>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/smile.gif' />"; ?> &nbsp;&nbsp; :-)
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/wink.gif' />"; ?> &nbsp;&nbsp; ;-)
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/sad.gif' />"; ?> &nbsp;&nbsp; :-(
 					<br />
 					<br />
@@ -666,17 +667,17 @@ if ( $showBreadcrumbRow == "1") {
 			</tr>
 
 			<tr>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/laugh.gif' />"; ?> &nbsp;&nbsp; :-D
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/kiss.gif' />"; ?> &nbsp;&nbsp; ;-*
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/cool.gif' />"; ?> &nbsp;&nbsp; 8-)
 					<br />
 					<br />
@@ -684,17 +685,17 @@ if ( $showBreadcrumbRow == "1") {
 			</tr>
 
 			<tr>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/thumbup.gif' />"; ?> &nbsp;&nbsp; (Y)
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/thumbdown.gif' />"; ?> &nbsp;&nbsp; (N)
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/tongue.gif' />"; ?> &nbsp;&nbsp; :-P
 					<br />
 					<br />
@@ -702,17 +703,17 @@ if ( $showBreadcrumbRow == "1") {
 			</tr>
 
 			<tr>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/crying.gif' />"; ?> &nbsp;&nbsp; :'(
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/innocent.gif' />"; ?> &nbsp;&nbsp; O:-)
 					<br />
 					<br />
 				</td>
-				<td>
+				<td class="noborder">
 					<?php echo "<img src='" . $_root . "components/com_discussions/assets/emoticons/devil.gif' />"; ?> &nbsp;&nbsp; >:-)
 					<br />
 					<br />
@@ -744,4 +745,8 @@ if ( $htmlBoxPostingBottom != "") {
 
 <?php
 include( 'components/com_discussions/includes/footer.php');
+?>
+
+</div>
+
 

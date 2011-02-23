@@ -78,9 +78,6 @@ if ( $logUser->isModerator() == 1) {
 
 	if ( $logUser->isApprovalNotification() == 1) {
 
-		// $threadStats = CofiHelper::updateAllThreadStats();
-		// $categoryStats = CofiHelper::updateAllCategoryStats();
-	
 		$countposts = CofiHelper::getPostsWFM();
 			
 		if ( $countposts > 0) { // here is something to do for the moderator
@@ -98,10 +95,10 @@ if ( $logUser->isModerator() == 1) {
 						echo "</b>"; 
 					
 						if ( $countposts == 1) {
-						echo " " . JText::_( 'COFI_POST_IS_WAITING_FOR_APPROVAL' );
+							echo " " . JText::_( 'COFI_POST_IS_WAITING_FOR_APPROVAL' );
 						}
 						else {
-						echo " " . JText::_( 'COFI_POSTS_ARE_WAITING_FOR_APPROVAL' );
+							echo " " . JText::_( 'COFI_POSTS_ARE_WAITING_FOR_APPROVAL' );
 						}				
 					echo "</a>";
 					

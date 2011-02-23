@@ -1433,7 +1433,7 @@ class CofiHelper extends JObject {
             $rows = $db->loadObjectList();
 
 
-            $_html = "<table cellspacing='0' cellpadding='0' >";
+            $_html = "<table cellspacing='0' cellpadding='0' class='noborder' >";
 
             foreach ( $rows as $row ) {
 
@@ -1442,7 +1442,7 @@ class CofiHelper extends JObject {
 
                 $_html .= "<tr>";
 
-                    $_html .= "<td width='50px' style='border-top: 1px dotted #CCC;'>";
+                    $_html .= "<td width='50px' class='noborder' style='border-top: 1px dotted #CCC;'>";
 
                         $_html .= "<div class='cofiCategoryAvatarBox'>";
 
@@ -1457,7 +1457,7 @@ class CofiHelper extends JObject {
 
                     $_html .= "</td>";
 
-                    $_html .= "<td style='border-top: 1px dotted #CCC;'>";
+                    $_html .= "<td class='noborder' style='border-top: 1px dotted #CCC;'>";
                         $_html .= "<b>" . $rUsername . "</b>";
                         $_html .= "<br />";
                         $_html .= $row->rdate;
@@ -1469,7 +1469,7 @@ class CofiHelper extends JObject {
 
                 $_html .= "<tr>";
 
-                    $_html .= "<td colspan='2' style='padding: 0px 10px 10px 10px;'>";
+                    $_html .= "<td colspan='2' class='noborder' style='padding: 0px 10px 10px 10px;'>";
                     $_html .= $row->message;
                     $_html .= "</td>";
 

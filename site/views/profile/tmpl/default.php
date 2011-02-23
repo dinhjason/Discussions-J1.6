@@ -23,9 +23,7 @@ $params = JComponentHelper::getParams('com_discussions');
 $_root = JURI::root();
 ?>
 
-
-
-
+<div class="codingfish">
 
 <?php 
 if ( $this->params->def( 'show_page_title', 1 ) ) : 
@@ -76,16 +74,16 @@ $showBreadcrumbRow = $params->get('breadcrumb', '0');
 if ( $showBreadcrumbRow == "1") {
 	?>
 
-	<table style="margin-top: 5px;">
+	<table class="noborder" style="margin-top: 5px;">
 	    <tr>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            $menuLinkHome     = JRoute::_( 'index.php?option=com_discussions');
 	            $menuText = JSite::getMenu()->getActive()->name;
 	            echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
 	            ?>
 	        </td>
-	        <td>
+	        <td class="noborder">
 	            <?php
 	            	echo "&nbsp;&raquo;&nbsp;";
 	            	echo JText::_( "COFI_PROFILE", true );
@@ -112,10 +110,10 @@ echo "<div class='cofiProfileContent'>";
 
 echo "<form action='' method='post' name='postform' id='postform' enctype='multipart/form-data'>";
 
-	echo "<table cellspacing='0' cellpadding='0' width='100%' border='0' >";
+	echo "<table cellspacing='0' cellpadding='0' width='100%' border='0' class='noborder'>";
 
 		echo "<tr>";
-			echo "<td align='left' valign='top' width='100%' style='padding: 10px;' colspan='2'>";
+			echo "<td align='left' valign='top' width='100%' class='noborder' style='padding: 10px;' colspan='2'>";
 
 				echo "<div class='cofiProfileUsername'>";
 					echo $user->username;
@@ -133,7 +131,7 @@ echo "<form action='' method='post' name='postform' id='postform' enctype='multi
 		echo "<tr>";
 				
 			// left column			
-			echo "<td align='left' valign='top' width='50%' style='padding: 10px;' >";
+			echo "<td align='left' valign='top' width='50%' class='noborder' style='padding: 10px;' >";
 			
 				echo "<div class='cofiProfileLocationBox'>";
 
@@ -215,7 +213,7 @@ echo "<form action='' method='post' name='postform' id='postform' enctype='multi
 									 
 									 
 			// right column		
-			echo "<td align='left' valign='top' width='50%' style='padding: 10px;' >";
+			echo "<td align='left' valign='top' width='50%' class='noborder' style='padding: 10px;' >";
 
 				echo "<div class='cofiProfileAvatarBox'>";
 
@@ -264,7 +262,7 @@ echo "<form action='' method='post' name='postform' id='postform' enctype='multi
 
 		echo "<tr>";
 		
-			echo "<td align='left' valign='top' style='padding: 5px;' colspan='2'>";
+			echo "<td align='left' valign='top' style='padding: 5px;' colspan='2' class='noborder'>";
 		
 				echo "<div class='cofiProfileSignatureBox'>";
 
@@ -310,7 +308,7 @@ echo "<form action='' method='post' name='postform' id='postform' enctype='multi
 
 		echo "<tr>";
 		
-			echo "<td align='left' valign='top' style='padding: 5px;' colspan='2'>";
+			echo "<td align='left' valign='top' style='padding: 5px;' colspan='2' class='noborder'>";
 		
 				echo "<div class='cofiProfileFollowMeBox'>";
 
@@ -383,7 +381,7 @@ echo "<form action='' method='post' name='postform' id='postform' enctype='multi
 
 		echo "<tr>";
 		
-			echo "<td align='left' valign='top' style='padding: 5px;' colspan='2'>";
+			echo "<td align='left' valign='top' class='noborder' style='padding: 5px;' colspan='2'>";
 		
 				echo "<div class='cofiProfileFollowMeBox'>";
 				
@@ -428,7 +426,7 @@ echo "<form action='' method='post' name='postform' id='postform' enctype='multi
         		
 
 		echo "<tr>";
-			echo "<td align='left' valign='top' style='padding-left: 10px;' colspan='2'>";
+			echo "<td align='left' valign='top' class='noborder' style='padding-left: 10px;' colspan='2'>";
         		
         		echo "<div class='cofiTextButton'>";
 					echo "<input type='hidden' name='task' value='save'>";  			            		
@@ -464,4 +462,9 @@ if ( $htmlBoxProfileBottom != "") {
 
 <?php
 include( 'components/com_discussions/includes/footer.php');
+?>
+
+</div>
+
+
 
