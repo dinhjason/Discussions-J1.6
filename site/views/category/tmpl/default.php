@@ -17,6 +17,7 @@ JHTML::_('stylesheet', 'discussions.css', 'components/com_discussions/assets/');
 require_once(JPATH_COMPONENT.DS.'classes/user.php'); 
 require_once(JPATH_COMPONENT.DS.'classes/helper.php');
 
+$app = JFactory::getApplication();
 
 $user =& JFactory::getUser();
 $logUser = new CofiUser( $user->id);
@@ -266,7 +267,7 @@ if ( $showBreadcrumbRow == "1") {
 	        <td class="noborder">
 	            <?php
 	            $menuLinkHome     = JRoute::_( 'index.php?option=com_discussions');
-	            $menuText = JSite::getMenu()->getActive()->name;
+				$menuText = $app->getMenu()->getActive()->title;	
 	            echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
 	            ?>
 	        </td>

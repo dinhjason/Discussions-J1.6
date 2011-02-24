@@ -10,6 +10,8 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+$app = JFactory::getApplication();
+
 $user =& JFactory::getUser();
 
 
@@ -27,7 +29,7 @@ $menuLinkTime24h = JRoute::_( 'index.php?option=com_discussions&view=recent&task
 echo "<div class='cofiMainmenuRow'>";
 
     echo "<div class='cofiMainmenuItemFirst'>";
-        $menuText = JSite::getMenu()->getActive()->name;
+		$menuText = $app->getMenu()->getActive()->title;
         echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
     echo "</div>";
 

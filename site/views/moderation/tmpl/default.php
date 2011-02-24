@@ -20,6 +20,8 @@ $user =& JFactory::getUser();
 $logUser = new CofiUser( $user->id);
 $CofiHelper = new CofiHelper();
 
+$app = JFactory::getApplication();
+
 // website root directory
 $_root = JURI::root();
 ?>
@@ -31,7 +33,11 @@ $_root = JURI::root();
 
     <tr> 
         <td  colspan="2" align="left" class="noborder">
-        	<h1 class="componentheading">Forums</h1>
+        	<h1 class="componentheading">
+				<?php
+				$app->getMenu()->getActive()->title;
+				?>
+			</h1>
 		</td> 
 		
 		<td class="noborder"> 

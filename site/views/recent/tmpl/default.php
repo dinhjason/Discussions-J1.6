@@ -22,6 +22,9 @@ require_once(JPATH_COMPONENT.DS.'classes/helper.php');
 $user =& JFactory::getUser();
 $logUser = new CofiUser( $user->id);
 
+$app = JFactory::getApplication();
+
+
 $CofiHelper = new CofiHelper();
 
 // get parameters
@@ -86,8 +89,8 @@ if ( $showBreadcrumbRow == "1") {
 	    <tr>
 	        <td class="noborder">
 	            <?php
-	            $menuLinkHome     = JRoute::_( 'index.php?option=com_discussions');
-	            $menuText = JSite::getMenu()->getActive()->name;
+	            $menuLinkHome 	= JRoute::_( 'index.php?option=com_discussions');
+				$menuText 		= $app->getMenu()->getActive()->title;	
 	            echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
 	            ?>
 	        </td>

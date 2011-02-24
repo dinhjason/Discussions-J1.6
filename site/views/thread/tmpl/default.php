@@ -27,6 +27,7 @@ echo "<script type='text/javascript'>";
 echo "</script>";
 
 
+$app = JFactory::getApplication();
 
 
 $user =& JFactory::getUser();
@@ -392,7 +393,7 @@ if ( $showBreadcrumbRow == "1") {
 	        <td class="noborder">
 	            <?php
 	            $menuLinkHome     = JRoute::_( 'index.php?option=com_discussions');
-	            $menuText = JSite::getMenu()->getActive()->name;
+				$menuText = $app->getMenu()->getActive()->title;	
 	            echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
 	            ?>
 	        </td>

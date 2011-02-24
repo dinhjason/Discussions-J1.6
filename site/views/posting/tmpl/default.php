@@ -20,6 +20,8 @@ $user =& JFactory::getUser();
 $logUser = new CofiUser( $user->id);
 $CofiHelper = new CofiHelper();
 
+$app = JFactory::getApplication();
+
 // get parameters
 $params = JComponentHelper::getParams('com_discussions');
 $replyListLength = $params->get('replyListLength', '0');
@@ -154,7 +156,8 @@ if ( $showBreadcrumbRow == "1") {
 	        <td class="noborder">
 	            <?php
 	            $menuLinkHome     = JRoute::_( 'index.php?option=com_discussions');
-	            echo "<a href='$menuLinkHome'>Forums</a>";
+				$menuText = $app->getMenu()->getActive()->title;	
+	            echo "<a href='$menuLinkHome'>" . $menuText . "</a>";
 	            ?>
 	        </td>
 	        <td class="noborder">
