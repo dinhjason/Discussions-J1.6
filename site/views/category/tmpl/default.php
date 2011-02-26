@@ -30,7 +30,46 @@ $params = JComponentHelper::getParams('com_discussions');
 // website root directory
 $_root = JURI::root();
 
+$document =& JFactory::getDocument(); 
+
+
+// RSS feed stuff
+$useRssFeeds = $params->get('useRssFeeds', 1);		
+
+if ( $useRssFeeds == 1) {
+
+	$_RssTitle         = JText::_( 'COFI_RSS_NEW_THREADS' );
+	$_RssTitleCategory = JText::_( 'COFI_RSS_NEW_THREADS_IN' ) . " " . $this->categoryName ;
+
+	$config =& JFactory::getConfig();
+	$_suffix = $config->getValue( 'config.sef_suffix' );
+
+
+	if ( $_suffix == 0) { // no .html suffix
+		$link 		= JRoute::_( 'index.php?option=com_discussions&format=feed');
+	}
+	else {
+		$link 		= JRoute::_( 'index.php?option=com_discussions') . '?format=feed';
+	}
+	$attribs 	= array('type' => 'application/rss+xml', 'title' => $_RssTitle);
+
+	$document->addHeadLink( $link, 'alternate', 'rel', $attribs);
+
+
+	if ( $_suffix == 0) { // no .html suffix		
+		$linkCategory 	= JRoute::_( 'index.php?option=com_discussions&view=category&catid=' . $this->categorySlug . '&format=feed' );	
+	}
+	else {
+		$linkCategory 	= JRoute::_( 'index.php?option=com_discussions&view=category&catid=' . $this->categorySlug )  . '?format=feed';	
+	}
+	$attribsCategory 	= array('type' => 'application/rss+xml', 'title' => $_RssTitleCategory);
+	$document->addHeadLink( $linkCategory, 'alternate', 'rel', $attribsCategory);
+
+}
+// RSS feed stuff
 ?>
+
+
 
 <div class="codingfish">
 
@@ -598,6 +637,31 @@ if ( $this->forumBannerBottom != "") {
 <?php
 include( 'components/com_discussions/includes/share.php');
 ?>
+
+
+
+<!-- RSS feed icon -->
+<?php
+$showRssFeedIcon = $params->get('showRssFeedIcon', 1);		
+
+if ( $useRssFeeds == 1 && $showRssFeedIcon == 1) {
+
+	echo "<div style='margin: 30px 0px 10px 0px;'>";
+
+		echo "<img src='" . $_root . "/components/com_discussions/assets/icons/rss_16.png' style='margin: 0px 10px 0px 5px;' align='top' />";
+		echo "<a href='" . $link .  "'>" . $_RssTitle . "</a>";				
+
+	echo "</div>";
+
+	echo "<div style='margin: 0px 0px 20px 0px;'>";		
+		echo "<img src='" . $_root . "/components/com_discussions/assets/icons/rss_16.png' style='margin: 0px 10px 0px 5px;' align='top' />";		
+		echo "<a href='" . $linkCategory .  "'>" . $_RssTitleCategory . "</a>";						
+	echo "</div>";
+
+}
+?>
+<!-- RSS feed icon -->
+
 
 
 <!-- HTML Box Bottom -->

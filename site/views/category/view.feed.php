@@ -17,7 +17,7 @@ jimport( 'joomla.application.component.view');
 /** 
  * RSS Feed View 
  */ 
-class DiscussionsViewIndex extends JView { 
+class DiscussionsViewCategory extends JView { 
 
 
 	/** 
@@ -35,11 +35,13 @@ class DiscussionsViewIndex extends JView {
 
 		$siteName = $app->getCfg('sitename');
 
-		$document->setTitle( $siteName . " " . JText::_( 'COFI_RSS_NEWTHREADS_META_TITLE'));
+		$_forum = $this->get('CategoryName');		
+		
+		$document->setTitle( $siteName . " " . JText::_( 'COFI_RSS_NEWTHREADS_IN_META_TITLE') . " " . $_forum);
 
-		$document->setDescription( JText::_( 'COFI_RSS_NEWTHREADS_META_DESCRIPTION' ));
-				
-				
+		$document->setDescription( JText::_( 'COFI_RSS_NEWTHREADS_IN_META_DESCRIPTION' ) . " " . $_forum);
+		
+						
 		$threads =& $this->get('RSSEntries');
 
 		foreach ( $threads as $thread ) {

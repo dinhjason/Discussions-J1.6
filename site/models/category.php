@@ -141,6 +141,13 @@ class DiscussionsModelCategory extends JModel {
 	var $_categoryMetaKeywords = null;
 
 
+	/**
+	 * rss thread list array
+	 *
+	 * @var array
+	 */
+	var $_rss_data = null;
+
 
 
 
@@ -557,6 +564,35 @@ class DiscussionsModelCategory extends JModel {
 	}
 
 
+
+	/** 
+     * Gets RSS entries data 
+     * 
+     * @return array 
+     */ 
+     function getRSSEntries() { 
+                              
+ 		$_catid = JRequest::getInt('catid', 0);
+
+		// get parameters
+		$params = JComponentHelper::getParams('com_discussions');
+		$rssSize = $params->get('rssSize', 20);
+                                       
+    	$db =& $this->getDBO(); 
+
+		$selectQuery = "SELECT m.id, m.parent_id, m.cat_id, m.thread, m.user_id, m.subject, m.message,
+							CASE WHEN CHAR_LENGTH(m.alias) THEN CONCAT_WS(':', m.id, m.alias) ELSE m.id END as mslug,	
+							CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(':', c.id, c.alias) ELSE c.id END as cslug,
+							m.date, m.published, c.name	as category		 
+						FROM " . $db->nameQuote('#__discussions_messages') . " m, " . $db->nameQuote('#__discussions_categories') . " c " .
+                            " WHERE m.cat_id=" . $_catid . " AND m.parent_id=0 AND m.cat_id=c.id AND m.published=1 AND c.private=0" .
+						    " ORDER BY m.date DESC";
+						    						    
+		$this->_rss_data = $this->_getList( $selectQuery, '0', $rssSize);
+	
+    	return $this->_rss_data;    
+                
+     }    
 
 
 

@@ -133,9 +133,9 @@ function DiscussionsParseRoute( $segments) {
                 }
 
 				case 'feed': {
-        			$vars['view']  = "index"; 				
-        			$vars['task'] = "feed";
-        			$vars['format'] = $segments[0];
+        			$vars['view']   = "index"; 				
+        			$vars['task']   = "feed";
+        			$vars['format'] = "feed";
 					break;
 				}		
 
@@ -193,6 +193,17 @@ function DiscussionsParseRoute( $segments) {
 					break;		        	
         		}
         	}
+
+			switch ( $segments[1]) {  // category rss feed
+
+				case 'feed': {
+	    			$vars['view']   = "category"; 
+	    			$vars['task']   = "feed";
+	    			$vars['format'] = "feed";
+					break;
+				}		
+
+			}
         				
 			break;
 		}

@@ -46,7 +46,6 @@
     	<field name="dateformat"    type="text" default="%d.%m.%Y" label="COFI_CONFIG_DATEFORMAT" description="COFI_CONFIG_DATEFORMAT_DESCRIPTION" />
     	<field name="timeformat"    type="text" default="%H:%i" label="COFI_CONFIG_TIMEFORMAT" description="COFI_CONFIG_TIMEFORMAT_DESCRIPTION" />
 
-
 		<field name="showFooter" type="radio" default="1" label="COFI_CONFIG_SHOW_FOOTER" description="COFI_CONFIG_SHOW_FOOTER_DESCRIPTION">
 			<option value="0">COFI_CONFIG_NO</option>
 			<option value="1">COFI_CONFIG_YES</option>
@@ -132,7 +131,24 @@
         <field name="youtube_video_height" type="text" default="385" label="COFI_CONFIG_YOUTUBE_VIDEO_HEIGHT" description="COFI_CONFIG_YOUTUBE_VIDEO_HEIGHT_DESCRIPTION" />
         
 	</fieldset>
+
         
+	<fieldset name="rss" label="COFI_CONFIG_RSS_SETTINGS">
+
+		<field name="useRssFeeds" type="radio" default="1" label="COFI_CONFIG_USE_RSS_FEEDS" description="COFI_CONFIG_USE_RSS_FEEDS_DESCRIPTION">
+			<option value="0">COFI_CONFIG_NO</option>
+			<option value="1">COFI_CONFIG_YES</option>
+		</field>
+
+		<field name="showRssFeedIcon" type="radio" default="1" label="COFI_CONFIG_SHOW_RSS_ICON" description="COFI_CONFIG_SHOW_RSS_ICON_DESCRIPTION">
+			<option value="0">COFI_CONFIG_NO</option>
+			<option value="1">COFI_CONFIG_YES</option>
+		</field>
+	
+    	<field name="rssSize" type="text" default="20" label="COFI_CONFIG_RSS_SIZE" description="COFI_CONFIG_RSS_SIZE_DESCRIPTION" />
+
+	</fieldset>
+
 
 	<fieldset name="social" label="COFI_CONFIG_SOCIAL_BUTTONS">
 

@@ -94,8 +94,6 @@ class DiscussionsModelModeration extends JModel {
 	 */
 	function __construct() {
 	
-		global $mainframe;
-
 		parent::__construct();
 
      	$this->_task   = JRequest::getString( 'task', '');
@@ -255,8 +253,6 @@ class DiscussionsModelModeration extends JModel {
      */
      private function lockThread() {
 
-		global $mainframe;
-
         $db =& $this->getDBO();
 
 
@@ -287,10 +283,7 @@ class DiscussionsModelModeration extends JModel {
      */
      private function unlockThread() {
 
-		global $mainframe;
-
         $db =& $this->getDBO();
-
 
 		// unlock thread
      	$sql = "UPDATE ".$db->nameQuote( '#__discussions_messages') . 
@@ -305,7 +298,6 @@ class DiscussionsModelModeration extends JModel {
 		$redirectLink = JRoute::_( "index.php?option=com_discussions&view=category&catid=".$this->_categoryFrom);
 		$mainframe->redirect( $redirectLink, JText::_( 'COFI_THREAD_UNLOCKED' ), "notice"); 
 
-
         return 0; // unlock OK
 
 	}
@@ -319,12 +311,9 @@ class DiscussionsModelModeration extends JModel {
      */
      private function moveThread() {
 
-		global $mainframe;
-
         $db =& $this->getDBO();
 
 		$CofiHelper = new CofiHelper();
-
 
 
 		// move category
@@ -342,11 +331,9 @@ class DiscussionsModelModeration extends JModel {
 		$result = $CofiHelper->updateCategoryStats( $this->_categoryTo);
 
 
-
 		// redirect	link
 		$redirectLink = JRoute::_( "index.php?option=com_discussions");
 		$mainframe->redirect( $redirectLink, JText::_( 'COFI_THREAD_MOVED' ), "notice"); 
-
 
         return 0; // move OK
      }
@@ -408,8 +395,6 @@ class DiscussionsModelModeration extends JModel {
      * @return integer
      */
      private function acceptPost( $post) {
-
-		global $mainframe;
 		
 		$CofiHelper = new CofiHelper();
 
@@ -433,14 +418,11 @@ class DiscussionsModelModeration extends JModel {
      * @return integer
      */
      private function denyPost( $post) {
-
-		global $mainframe;
 		
 		$CofiHelper = new CofiHelper();
 
 		// call helper function to deny post
-		$result = $CofiHelper->denyPost( $post);
-		
+		$result = $CofiHelper->denyPost( $post);		
 
 		// redirect	link
 		$redirectLink = JRoute::_( "index.php?option=com_discussions&view=moderation&task=approve");

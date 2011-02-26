@@ -21,10 +21,11 @@ $logUser = new CofiUser( $user->id);
 <div class="codingfish">
 
 <?php
+
+$document =& JFactory::getDocument(); 
+
 // set page description
 if ( JText::_( 'COFI_INDEX_META_DESCRIPTION') == "") {
-	$document =& JFactory::getDocument(); 
-
 	$pageDescription = "";
 	// to joomla 1.6
 //	$pageDescriptionSuffix = $mainframe->getCfg('sitename');
@@ -37,6 +38,30 @@ $params = JComponentHelper::getParams('com_discussions');
 
 // website root directory
 $_root = JURI::root();
+
+
+// RSS feed stuff
+$useRssFeeds = $params->get('useRssFeeds', 1);		
+
+if ( $useRssFeeds == 1) {
+
+	$_RssTitle = JText::_( 'COFI_RSS_NEW_THREADS' );
+
+	$config =& JFactory::getConfig();
+	$_suffix = $config->getValue( 'config.sef_suffix' );
+
+	if ( $_suffix == 0) { // no .html suffix
+		$link 		= JRoute::_( 'index.php?option=com_discussions&format=feed');
+	}
+	else {
+		$link 		= JRoute::_( 'index.php?option=com_discussions') . '?format=feed';
+	}
+	$attribs 	= array('type' => 'application/rss+xml', 'title' => $_RssTitle);
+
+	$document->addHeadLink( $link, 'alternate', 'rel', $attribs);
+
+}
+// RSS feed stuff
 ?>
 
 
@@ -283,6 +308,27 @@ if ( $logUser->isModerator() == 1) {
 <?php
 include( 'components/com_discussions/includes/share.php');
 ?>
+
+
+
+<!-- RSS feed icon -->
+<?php
+$showRssFeedIcon = $params->get('showRssFeedIcon', 1);		
+
+if ( $useRssFeeds == 1 && $showRssFeedIcon == 1) {
+
+	echo "<div style='margin: 40px 0px 30px 0px;'>";
+
+		echo "<img src='" . $_root . "/components/com_discussions/assets/icons/rss_16.png' style='margin: 0px 10px 0px 5px;' align='top' />";
+
+		echo "<a href='" . $link .  "'>" . $_RssTitle . "</a>";				
+
+	echo "</div>";
+
+}
+?>
+<!-- RSS feed icon -->
+
 
 
 <!-- HTML Box Bottom -->
