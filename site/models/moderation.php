@@ -96,6 +96,8 @@ class DiscussionsModelModeration extends JModel {
 	
 		parent::__construct();
 
+		$app = JFactory::getApplication();
+
      	$this->_task   = JRequest::getString( 'task', '');
 
      	$this->_thread = JRequest::getInt( 'thread', 0);
@@ -174,7 +176,7 @@ class DiscussionsModelModeration extends JModel {
 		else { // not allowed
 			// redirect	link
 			$redirectLink = JRoute::_( "index.php?option=com_discussions&view=category&catid=".$this->_categoryFrom);
-			$mainframe->redirect( $redirectLink, JText::_( 'COFI_NO_ACCESS_TO_MODERATOR_FUNCTIONS' ), "notice");		
+			$app->redirect( $redirectLink, JText::_( 'COFI_NO_ACCESS_TO_MODERATOR_FUNCTIONS' ), "notice");		
 		}
 		
 
@@ -189,10 +191,9 @@ class DiscussionsModelModeration extends JModel {
      */
      private function stickyThread() {
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 
         $db =& $this->getDBO();
-
 
 		// make thread sticky
      	$sql = "UPDATE ".$db->nameQuote( '#__discussions_messages') . 
@@ -202,11 +203,9 @@ class DiscussionsModelModeration extends JModel {
         $db->setQuery( $sql);
         $result = $db->query();
 
-
 		// redirect	link
 		$redirectLink = JRoute::_( "index.php?option=com_discussions&view=category&catid=".$this->_categoryFrom);
-		$mainframe->redirect( $redirectLink, JText::_( 'COFI_THREAD_MADE_STICKY' ), "notice"); 
-
+		$app->redirect( $redirectLink, JText::_( 'COFI_THREAD_MADE_STICKY' ), "notice"); 
 
         return 0; // sticky OK
 
@@ -221,10 +220,9 @@ class DiscussionsModelModeration extends JModel {
      */
      private function unstickyThread() {
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 
         $db =& $this->getDBO();
-
 
 		// make thread unsticky
      	$sql = "UPDATE ".$db->nameQuote( '#__discussions_messages') . 
@@ -234,11 +232,9 @@ class DiscussionsModelModeration extends JModel {
         $db->setQuery( $sql);
         $result = $db->query();
 
-
 		// redirect	link
 		$redirectLink = JRoute::_( "index.php?option=com_discussions&view=category&catid=".$this->_categoryFrom);
-		$mainframe->redirect( $redirectLink, JText::_( 'COFI_THREAD_MADE_UNSTICKY' ), "notice"); 
-
+		$app->redirect( $redirectLink, JText::_( 'COFI_THREAD_MADE_UNSTICKY' ), "notice"); 
 
         return 0; // unsticky OK
 
@@ -253,8 +249,9 @@ class DiscussionsModelModeration extends JModel {
      */
      private function lockThread() {
 
-        $db =& $this->getDBO();
+		$app = JFactory::getApplication();
 
+        $db =& $this->getDBO();
 
 		// lock thread
      	$sql = "UPDATE ".$db->nameQuote( '#__discussions_messages') . 
@@ -267,8 +264,7 @@ class DiscussionsModelModeration extends JModel {
 
 		// redirect	link
 		$redirectLink = JRoute::_( "index.php?option=com_discussions&view=category&catid=".$this->_categoryFrom);
-		$mainframe->redirect( $redirectLink, JText::_( 'COFI_THREAD_LOCKED' ), "notice"); 
-
+		$app->redirect( $redirectLink, JText::_( 'COFI_THREAD_LOCKED' ), "notice"); 
 
         return 0; // lock OK
 
@@ -283,6 +279,8 @@ class DiscussionsModelModeration extends JModel {
      */
      private function unlockThread() {
 
+		$app = JFactory::getApplication();
+
         $db =& $this->getDBO();
 
 		// unlock thread
@@ -293,10 +291,9 @@ class DiscussionsModelModeration extends JModel {
         $db->setQuery( $sql);
         $result = $db->query();
 
-
 		// redirect	link
 		$redirectLink = JRoute::_( "index.php?option=com_discussions&view=category&catid=".$this->_categoryFrom);
-		$mainframe->redirect( $redirectLink, JText::_( 'COFI_THREAD_UNLOCKED' ), "notice"); 
+		$app->redirect( $redirectLink, JText::_( 'COFI_THREAD_UNLOCKED' ), "notice"); 
 
         return 0; // unlock OK
 
@@ -311,10 +308,11 @@ class DiscussionsModelModeration extends JModel {
      */
      private function moveThread() {
 
+		$app = JFactory::getApplication();
+
         $db =& $this->getDBO();
 
 		$CofiHelper = new CofiHelper();
-
 
 		// move category
      	$sql = "UPDATE ".$db->nameQuote( '#__discussions_messages') . 
@@ -324,16 +322,13 @@ class DiscussionsModelModeration extends JModel {
         $db->setQuery( $sql);
         $result = $db->query();
 
-
-
 		// call helper function to update stats of both categories (from and to)
 		$result = $CofiHelper->updateCategoryStats( $this->_categoryFrom);									
 		$result = $CofiHelper->updateCategoryStats( $this->_categoryTo);
 
-
 		// redirect	link
 		$redirectLink = JRoute::_( "index.php?option=com_discussions");
-		$mainframe->redirect( $redirectLink, JText::_( 'COFI_THREAD_MOVED' ), "notice"); 
+		$app->redirect( $redirectLink, JText::_( 'COFI_THREAD_MOVED' ), "notice"); 
 
         return 0; // move OK
      }
@@ -395,6 +390,8 @@ class DiscussionsModelModeration extends JModel {
      * @return integer
      */
      private function acceptPost( $post) {
+
+		$app = JFactory::getApplication();
 		
 		$CofiHelper = new CofiHelper();
 
@@ -403,7 +400,7 @@ class DiscussionsModelModeration extends JModel {
 
 		// redirect	link
 		$redirectLink = JRoute::_( "index.php?option=com_discussions&view=moderation&task=approve");
-		$mainframe->redirect( $redirectLink, JText::_( 'COFI_POST_ACCEPTED' ), "notice"); 
+		$app->redirect( $redirectLink, JText::_( 'COFI_POST_ACCEPTED' ), "notice"); 
 
         return 0;
 
@@ -419,6 +416,8 @@ class DiscussionsModelModeration extends JModel {
      */
      private function denyPost( $post) {
 		
+		$app = JFactory::getApplication();
+		
 		$CofiHelper = new CofiHelper();
 
 		// call helper function to deny post
@@ -426,7 +425,7 @@ class DiscussionsModelModeration extends JModel {
 
 		// redirect	link
 		$redirectLink = JRoute::_( "index.php?option=com_discussions&view=moderation&task=approve");
-		$mainframe->redirect( $redirectLink, JText::_( 'COFI_POST_DENIED' ), "notice"); 
+		$app->redirect( $redirectLink, JText::_( 'COFI_POST_DENIED' ), "notice"); 
 
         return 0;
 
@@ -463,10 +462,8 @@ class DiscussionsModelModeration extends JModel {
 
 
 	function _buildSelectWFMQuery() {
-	
-		global $mainframe;
-	
-        $params = JComponentHelper::getParams('com_discussions');        
+		
+        $params 		= JComponentHelper::getParams('com_discussions');
 		$_dateformat	= $params->get( 'dateformat', '%d.%m.%Y');
 		$_timeformat	= $params->get( 'timeformat', '%H:%i');        		        	        		        				
 	
@@ -476,7 +473,9 @@ class DiscussionsModelModeration extends JModel {
                     DATE_FORMAT( date, '" . $_dateformat . " " . $_timeformat . "') AS date, published, wfm
 					FROM ".$db->nameQuote('#__discussions_messages')."
 					WHERE wfm='1' ORDER BY id ASC";
+					
         return $wfmquery;
+
 	}
 
 
@@ -533,7 +532,7 @@ class DiscussionsModelModeration extends JModel {
      */
      private function deletePost( $post) {
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$CofiHelper = new CofiHelper();
 		
@@ -594,7 +593,6 @@ class DiscussionsModelModeration extends JModel {
 
 			}								
 			
-
 			// get users who posted in this thread
 	     	$sql = "SELECT DISTINCT user_id FROM" . $db->nameQuote( '#__discussions_messages') . " WHERE thread='" . $_threadId . "'";	        
 	        $db->setQuery( $sql);
@@ -646,18 +644,16 @@ class DiscussionsModelModeration extends JModel {
 								
 		}
 		
-
 		// update category stats
 		$result = $CofiHelper->updateCategoryStats( $_categoryId);									
 
 		// redirect	link
 		$redirectLink = JRoute::_( "index.php?option=com_discussions&view=index");
-		$mainframe->redirect( $redirectLink, JText::_( 'COFI_POST_DELETED' ), "notice"); 
+		$app->redirect( $redirectLink, JText::_( 'COFI_POST_DELETED' ), "notice"); 
 
         return 0;
 
 	}
-
 
 
 
