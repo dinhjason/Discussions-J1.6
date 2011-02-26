@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 
 // version of new installed extension
-$version = "1.2";
+$version = "1.3";
 
 
 
@@ -28,9 +28,11 @@ $db =& JFactory::getDBO();
 $pathToPlgDiscussionsSystem = $componentInstaller->getPath('source') . DS . 'plugins' . DS . 'system';
 
 $query = 'SELECT COUNT(*)'
-			. ' FROM ' . $db->nameQuote('#__plugins')
+			. ' FROM ' . $db->nameQuote('#__extensions')
 			. ' WHERE ' . $db->nameQuote('element') . ' = '
 			. $db->Quote('discussions')
+			. ' AND ' . $db->nameQuote('type') . ' = '
+			. $db->Quote('plugin')
 			. ' AND ' . $db->nameQuote('folder') . ' = '
 			. $db->Quote('system');
 			
@@ -75,9 +77,10 @@ else {
 
 
 // publish Discussions system plugin
-$query = 'UPDATE ' . $db->nameQuote('#__plugins')
+$query = 'UPDATE ' . $db->nameQuote('#__extensions')
        	. ' SET ' . $db->nameQuote('published') . ' = 1'
        	. ' WHERE ' . $db->nameQuote('element') . ' = ' . $db->Quote('discussions')
+       	. ' AND ' .   $db->nameQuote('type')  . ' = ' . $db->Quote('plugin')
        	. ' AND ' .   $db->nameQuote('folder')  . ' = ' . $db->Quote('system');
        	
 $db->setQuery($query);
@@ -101,9 +104,11 @@ else {
 $pathToPlgDiscussionsSearch = $componentInstaller->getPath('source') . DS . 'plugins' . DS . 'search';
 
 $query = 'SELECT COUNT(*)'
-			. ' FROM ' . $db->nameQuote('#__plugins')
+			. ' FROM ' . $db->nameQuote('#__extensions')
 			. ' WHERE ' . $db->nameQuote('element') . ' = '
 			. $db->Quote('discussions')
+			. ' AND ' . $db->nameQuote('type') . ' = '
+			. $db->Quote('plugin')
 			. ' AND ' . $db->nameQuote('folder') . ' = '
 			. $db->Quote('search');
 			
@@ -147,9 +152,10 @@ else {
 }
 
 // publish Discussions search plugin
-$query = 'UPDATE ' . $db->nameQuote('#__plugins')
+$query = 'UPDATE ' . $db->nameQuote('#__extensions')
        	. ' SET ' . $db->nameQuote('published') . ' = 1'
        	. ' WHERE ' . $db->nameQuote('element') . ' = ' . $db->Quote('discussions')
+       	. ' AND ' .   $db->nameQuote('type')  . ' = ' . $db->Quote('plugin')
        	. ' AND ' .   $db->nameQuote('folder')  . ' = ' . $db->Quote('search');
        	
 $db->setQuery($query);
@@ -240,6 +246,17 @@ else { // upgrade
 			$db->setQuery( $sql);
 			$db->query();			
 					
+					
+			break;
+		}
+
+
+		case "1.2": { // upgrade 1.2 -> new version
+
+			echo "Upgrading from 1.2 to " . $version;
+			echo "<br />";
+
+			// new fields											
 					
 			break;
 		}

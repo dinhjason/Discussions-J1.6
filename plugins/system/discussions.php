@@ -2,7 +2,7 @@
 /**
  * @package		Codingfish Discussions
  * @subpackage	plg_discussions
- * @copyright	Copyright (C) 2010 Codingfish (Achim Fischer). All rights reserved.
+ * @copyright	Copyright (C) 2011 Codingfish (Achim Fischer). All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  * @link		http://www.codingfish.com
  */
@@ -19,7 +19,6 @@ jimport('joomla.plugin.plugin');
  *
  * @package		Joomla
  * @subpackage	Discussions
- * @since 		1.5
  */
 class plgSystemDiscussions extends JPlugin {
 
@@ -33,10 +32,8 @@ class plgSystemDiscussions extends JPlugin {
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
-	function onAfterStoreUser( $user, $isnew, $success, $msg) {
+	function onUserAfterSave( $user, $isnew, $success, $msg) {
 		
-		global $mainframe;
-
 		if ( $isnew && $success) {
 					
 			// add a record to #__discussions_users 
@@ -70,10 +67,8 @@ class plgSystemDiscussions extends JPlugin {
 	}
 
 
-	function onAfterDeleteUser( $user, $success, $msg) {
+	function onUserAfterDelete( $user, $success, $msg) {
 		
-		global $mainframe;
-
 		$db = JFactory::getDBO(); 
 
 		// get Delete Mode setting from com_discussions parameters

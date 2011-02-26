@@ -2,7 +2,7 @@
 /**
  * @package		Codingfish Discussions
  * @subpackage	plg_discussions_search
- * @copyright	Copyright (C) 2010 Codingfish (Achim Fischer). All rights reserved.
+ * @copyright	Copyright (C) 2011 Codingfish (Achim Fischer). All rights reserved.
  * @license		GNU General Public License <http://www.gnu.org/copyleft/gpl.html>
  * @link		http://www.codingfish.com
  */
@@ -19,7 +19,6 @@ jimport('joomla.plugin.plugin');
  *
  * @package		Joomla
  * @subpackage	Discussions
- * @since 		1.5
  */
 class plgSearchDiscussions extends JPlugin {
 
@@ -29,7 +28,7 @@ class plgSearchDiscussions extends JPlugin {
 	*
 	* @return array
 	*/
-	function &onSearchAreas() {
+	function &onContentSearchAreas() {
 		static $areas = array('discussions' => 'Forum');
 		return $areas;
 	}
@@ -47,7 +46,7 @@ class plgSearchDiscussions extends JPlugin {
 	* @param array $areas Areas in which to search, null if search all
 	* @return array Objects representing foobars
 	*/
-	function onSearch($text, $phrase='', $ordering='', $areas=null) {
+	function onContentSearch($text, $phrase='', $ordering='', $areas=null) {
 
 		// check we can handle the requested search
 		if (is_array($areas) && !in_array('discussions', $areas)) {
@@ -131,7 +130,7 @@ class plgSearchDiscussions extends JPlugin {
 
 	
 		// get Discussions Itemid	
-		$sqlitemid = "SELECT id FROM " . $db->nameQuote( '#__menu') . " WHERE link LIKE '%com_discussions%' AND parent = '0' AND published = '1'";
+		$sqlitemid = "SELECT id FROM " . $db->nameQuote( '#__menu') . " WHERE link LIKE '%com_discussions%' AND level = '1' AND published = '1'";
 		$db->setQuery( $sqlitemid);
 		$itemid = $db->loadResult();	
 			
