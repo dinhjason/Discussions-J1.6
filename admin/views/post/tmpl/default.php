@@ -135,8 +135,15 @@ JHTML::_('behavior.tooltip');
 										<?php echo JText::_('COFI_TYPE'); ?>
 									</label>
 								</td>
-								<td style="padding: 10px;">
-									<input class="text_area" type="type" name="type" value="<?php echo $this->post->type; ?>" size="5" maxlength="5" />
+								<td style="padding: 10px;">									
+									<?php									
+									$arr = array(
+										JHTML::_('select.option', '1', JText::_('COFI_DISCUSSION') ),
+									  	JHTML::_('select.option', '2', JText::_('COFI_QUESTION') ),
+									  	JHTML::_('select.option', '3', JText::_('COFI_IMPORTANT') )
+									);
+									echo JHTML::_('select.genericlist', $arr, 'type', 'class="inputbox"', 'value', 'text', $this->post->type);
+									?>
 								</td>
 							</tr>
 														
