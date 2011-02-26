@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?> 
-<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd"> 
-<install version="1.5" type="module" client="site">
-
+<extension version="1.6" type="module" client="site" method="upgrade">
+		
 	<name>Discussions RecentX</name> 
-	<creationDate>August 2010</creationDate> 
+	<creationDate>February 2011</creationDate> 
 	<author>Codingfish (Achim Fischer)</author> 
 	<authorEmail>info@codingfish.com</authorEmail> 
 	<authorUrl>http://www.codingfish.com</authorUrl>
@@ -14,30 +13,41 @@
 
 	<files>
 		<filename module="mod_discussions_recentx">mod_discussions_recentx.php</filename>
+		<filename>index.html</filename>
 	</files> 
 	
-	<params>	
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-		<param name="number" type="text" default="5" label="# of entries to show" description="How many entries do you want to show in the recent x box?" />
-		<param name="length" type="text" default="25" label="Length of entry" description="How many characters should the short title have?" />
-		<param name="more" type="text" default=">" label="More character(s)" description="The character(s) to show that there is more" />
+	<config>
+		
+		<fields name="params">	
 
-		<param name="replies" type="text" default="Replies" label="Reply text" description="Enter your 'Replies' text" />
-		<param name="topic"   type="text" default="Topic"   label="Topic text" description="Enter your 'Topic' text" />
+			<fieldset name="basic">
+			
+				<field name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+				<field name="number" type="text" default="5" label="# of entries to show" description="How many entries do you want to show in the recent x box?" />
+				<field name="length" type="text" default="25" label="Length of entry" description="How many characters should the short title have?" />
+				<field name="more" type="text" default=">" label="More character(s)" description="The character(s) to show that there is more" />
 
-
-        <param name="show_history" type="radio" label="show history" default="1" description="Show history?">
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </param>
-        <param name="history" type="text" default="History"  label="History text" description="Enter your 'History' text" />
-        <param name="hours" type="text" default="h"  label="Hours text" description="Enter your 'Hours' text" />
+				<field name="replies" type="text" default="Replies" label="Reply text" description="Enter your 'Replies' text" />
+				<field name="topic"   type="text" default="Topic"   label="Topic text" description="Enter your 'Topic' text" />
 
 
-		<param name="show_poweredby" type="radio" label="show powered by" default="1" description="Show powered by Discussions?">
-			<option value="1">Yes</option>
-			<option value="0">No</option>
-		</param>				
-	</params>	
+		        <field name="show_history" type="radio" label="Show history" default="1" description="Show history?">
+		            <option value="1">Yes</option>
+		            <option value="0">No</option>
+		        </field>
+		        <field name="history" type="text" default="History"  label="History text" description="Enter your 'History' text" />
+		        <field name="hours" type="text" default="h"  label="Hours text" description="Enter your 'Hours' text" />
+
+
+				<field name="show_poweredby" type="radio" label="Show powered by" default="1" description="Show powered by Discussions?">
+					<option value="1">Yes</option>
+					<option value="0">No</option>
+				</field>		
+					
+			</fieldset>
+						
+		</fields>	
+		
+	</config>
 	
-</install>
+</extension>

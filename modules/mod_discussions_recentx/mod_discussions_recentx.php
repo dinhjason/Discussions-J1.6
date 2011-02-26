@@ -136,7 +136,7 @@ if (count($posts)) {
     foreach ($posts as $post) {
 
 		// get Discussions Itemid	
-		$sqlitemid = "SELECT id FROM ".$db->nameQuote( '#__menu')." WHERE link LIKE '%com_discussions%' AND parent = '0' AND published = '1'";
+		$sqlitemid = "SELECT id FROM ".$db->nameQuote( '#__menu')." WHERE link LIKE '%com_discussions%' AND level = '1' AND published = '1'";
 		$db->setQuery( $sqlitemid);
 		$itemid = $db->loadResult();	
 
