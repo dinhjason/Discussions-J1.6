@@ -319,6 +319,17 @@ JHTML::_('behavior.tooltip');
 								</td>
 							</tr>
 
+							<tr>
+								<td valign="top" class="key" style="padding: 10px;">
+									<label>
+										<?php echo JText::_('COFI_SIGNATURE'); ?>
+									</label>
+								</td>
+								<td style="padding: 10px;">
+				 					<textarea name="signature" id="signature" rows="5" cols="50" style="width: 100%;"><?php echo $this->user->signature; ?></textarea>									
+								</td>
+							</tr>
+
 
 						</table>
 												
