@@ -76,9 +76,9 @@ else {
 }
 
 
-// publish Discussions system plugin
+// enable Discussions system plugin
 $query = 'UPDATE ' . $db->nameQuote('#__extensions')
-       	. ' SET ' . $db->nameQuote('published') . ' = 1'
+       	. ' SET ' . $db->nameQuote('enabled') . ' = 1'
        	. ' WHERE ' . $db->nameQuote('element') . ' = ' . $db->Quote('discussions')
        	. ' AND ' .   $db->nameQuote('type')  . ' = ' . $db->Quote('plugin')
        	. ' AND ' .   $db->nameQuote('folder')  . ' = ' . $db->Quote('system');
@@ -151,9 +151,9 @@ else {
 
 }
 
-// publish Discussions search plugin
+// enabled Discussions search plugin
 $query = 'UPDATE ' . $db->nameQuote('#__extensions')
-       	. ' SET ' . $db->nameQuote('published') . ' = 1'
+       	. ' SET ' . $db->nameQuote('enabled') . ' = 1'
        	. ' WHERE ' . $db->nameQuote('element') . ' = ' . $db->Quote('discussions')
        	. ' AND ' .   $db->nameQuote('type')  . ' = ' . $db->Quote('plugin')
        	. ' AND ' .   $db->nameQuote('folder')  . ' = ' . $db->Quote('search');

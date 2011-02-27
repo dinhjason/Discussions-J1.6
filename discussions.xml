@@ -39,9 +39,9 @@
     </files>
 	
 
-    <languages>
-		<language tag="de-DE">languages/site/de-DE.com_discussions.ini</language>
-		<language tag="en-GB">languages/site/en-GB.com_discussions.ini</language>
+    <languages folder="site/language">
+		<language tag="de-DE">de-DE.com_discussions.ini</language>
+		<language tag="en-GB">en-GB.com_discussions.ini</language>
 	</languages>
 	
 	
@@ -67,11 +67,11 @@
 			<filename>uninstall.mysql.sql</filename>
 		</files>
 		
-        <languages folder="admin">
-                <language tag="en-GB">language/en-GB/en-GB.com_discussions.ini</language>
-                <language tag="en-GB">language/en-GB/en-GB.com_discussions.sys.ini</language>
-                <language tag="de-DE">language/de-DE/de-DE.com_discussions.ini</language>
-                <language tag="de-DE">language/de-DE/de-DE.com_discussions.sys.ini</language>
+        <languages folder="admin/language">
+            	<language tag="de-DE">de-DE.com_discussions.ini</language>
+            	<language tag="de-DE">de-DE.com_discussions.sys.ini</language>
+                <language tag="en-GB">en-GB.com_discussions.ini</language>
+                <language tag="en-GB">en-GB.com_discussions.sys.ini</language>
         </languages>		
 				
 	</administration> 
