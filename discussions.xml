@@ -2,7 +2,7 @@
 <extension method="upgrade" type="component" version="1.6">
 
 	<name>Discussions</name> 
-	<creationDate>January 2011</creationDate> 
+	<creationDate>February 2011</creationDate> 
 	<author>Codingfish (Achim Fischer)</author> 
 	<authorEmail>info@codingfish.com</authorEmail>
 	<authorUrl>http://www.codingfish.com</authorUrl> 
