@@ -225,20 +225,19 @@ if ( $this->forumBannerTop != "") {
 	
 	    echo "<tr>";
 	
-	    	echo "<td width='100%' align='center' class='noborder'>";
-	    			// todo make configurable !!!
-					?>
-		
-					<script type='text/javascript'>
-		
-					<?php			
-		            echo $this->forumBannerTop;
-					?>
-		
-					</script>
-		
-					<?php
-	    	echo "</td>";
+		echo "<td width='100%' align='center' class='noborder'>";
+				?>
+
+				<script type='text/javascript'>
+
+				<?php			
+		        echo $this->forumBannerTop;
+				?>
+
+				</script>
+
+				<?php
+		echo "</td>";
 	
 	    echo "</tr>";
 				
@@ -609,7 +608,6 @@ if ( $this->forumBannerBottom != "") {
 	    echo "<tr>";
 	
 	    	echo "<td width='100%' align='center' class='noborder'>";
-	    			// todo make configurable !!!
 					?>
 		
 					<script type='text/javascript'>

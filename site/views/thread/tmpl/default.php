@@ -263,7 +263,6 @@ if ( $this->forumBannerTop != "") {
 	    echo "<tr>";
 	
 	    	echo "<td width='100%' align='center' class='noborder'>";
-	    			// todo make configurable !!!
 					?>
 		
 					<script type='text/javascript'>
@@ -1270,7 +1269,6 @@ if ( $this->forumBannerBottom != "") {
 	    echo "<tr>";
 	
 	    	echo "<td width='100%' align='center' class='noborder'>";
-	    			// todo make configurable !!!
 					?>
 		
 					<script type='text/javascript'>
