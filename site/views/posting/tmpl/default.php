@@ -280,14 +280,14 @@ if ( $showBreadcrumbRow == "1") {
 	
 						if ( $images > 0) {
 							// image
-				    		echo "<div class='cofiImageHeader cofiFirstImageHeader' >Image 1:</div> ";
+				    		echo "<div class='cofiImageHeader cofiFirstImageHeader' >" . JText::_( 'COFI_IMAGE_1' ) . ":</div> ";
 	
 							// image show/delete								
 					    	if ( $this->image1 != "") { 
 	   							echo "<div>";
 						        	echo "<img src='" . $_root . "images/discussions/posts/".$this->thread."/" . $this->id . "/small/" . $this->image1 . "' alt='" . $this->subject . "' align='top' class='cofiAttachmentImageEdit' />";
 						        	
-		        				echo "<input type='checkbox' name='cb_image1' class='cofiAttachmentCheckboxEdit' value='delete'> " . JText::_( 'delete' );
+		        				echo "<input type='checkbox' name='cb_image1' class='cofiAttachmentCheckboxEdit' value='delete'> " . JText::_( 'COFI_IMAGE_DELETE' );
 						        	
 	   							echo "</div>";
 					    	}			    
@@ -297,29 +297,29 @@ if ( $showBreadcrumbRow == "1") {
 								echo "<input type='file' name='image1' id='image1' value='' size='50' maxlength='250' />";
 	            			echo "</div>";
 	            			
-	            			echo "<div class='cofiImageFooter'>Select image to upload (JPG or PNG) (optional)</div> ";
+	            			echo "<div class='cofiImageFooter'>" . JText::_( 'COFI_IMAGE_1_HELP' ) . "</div> ";
 	
 	            			// Description
-				    		echo "<div class='cofiImageHeader'>Image 1 Description:</div> ";
+				    		echo "<div class='cofiImageHeader'>" . JText::_( 'COFI_IMAGE_1_DESCRIPTION' ) . ":</div> ";
 				   							
 	            			echo "<div class='cofiImageDescription'>";
 								echo "<input type='text' name='image1_description' id='image1_description' size='50' maxlength='80' value='" . $this->image1_description . "' >";
 	            			echo "</div>";
 	            			
-	            			echo "<div class='cofiImageFooter'>Description for image 1. Will be used as ALT tag (optional)</div> ";
+	            			echo "<div class='cofiImageFooter'>" . JText::_( 'COFI_IMAGE_1_DESCRIPTION_HELP' ) . "</div> ";
 						}
 	
 	
 						if ( $images > 1) {
 							// image
-				    		echo "<div class='cofiImageHeader cofiFirstImageHeader'>Image 2:</div> ";
+				    		echo "<div class='cofiImageHeader cofiFirstImageHeader'>" . JText::_( 'COFI_IMAGE_2' ) . ":</div> ";
 	
 							// image show/delete								
 					    	if ( $this->image2 != "") { 
 	   							echo "<div>";
 						        	echo "<img src='" . $_root . "images/discussions/posts/".$this->thread."/" . $this->id . "/small/" . $this->image2 . "' alt='" . $this->subject . "' align='top' class='cofiAttachmentImageEdit' />";
 						        	
-		        				echo "<input type='checkbox' name='cb_image2' class='cofiAttachmentCheckboxEdit' value='delete'> " . JText::_( 'delete' );
+		        				echo "<input type='checkbox' name='cb_image2' class='cofiAttachmentCheckboxEdit' value='delete'> " . JText::_( 'COFI_IMAGE_DELETE' );
 						        	
 	   							echo "</div>";
 					    	}			    
@@ -329,29 +329,29 @@ if ( $showBreadcrumbRow == "1") {
 								echo "<input type='file' name='image2' id='image2' value='' size='50' maxlength='250' />";
 	            			echo "</div>";
 	            			
-	            			echo "<div class='cofiImageFooter'>Select image to upload (JPG or PNG) (optional)</div> ";
+	            			echo "<div class='cofiImageFooter'>" . JText::_( 'COFI_IMAGE_2_HELP' ) . "</div> ";
 	
 	            			// Description
-				    		echo "<div class='cofiImageHeader'>Image 2 Description:</div> ";
+				    		echo "<div class='cofiImageHeader'>" . JText::_( 'COFI_IMAGE_2_DESCRIPTION' ) . ":</div> ";
 				   							
 	            			echo "<div class='cofiImageDescription'>";
 								echo "<input type='text' name='image2_description' id='image2_description' size='50' maxlength='80' value='" . $this->image2_description . "'>";
 	            			echo "</div>";
 	            			
-	            			echo "<div class='cofiImageFooter'>Description for image 2. Will be used as ALT tag (optional)</div> ";
+	            			echo "<div class='cofiImageFooter'>" . JText::_( 'COFI_IMAGE_2_DESCRIPTION_HELP' ) . "</div> ";
 						}
 	
 						
 						if ( $images > 2) {
 							// image
-				    		echo "<div class='cofiImageHeader cofiFirstImageHeader'>Image 3:</div> ";
+				    		echo "<div class='cofiImageHeader cofiFirstImageHeader'>" . JText::_( 'COFI_IMAGE_3' ) . ":</div> ";
 	
 							// image show/delete								
 					    	if ( $this->image3 != "") { 
 	   							echo "<div>";
 						        	echo "<img src='" . $_root . "images/discussions/posts/".$this->thread."/" . $this->id . "/small/" . $this->image3 . "' alt='" . $this->subject . "' align='top' class='cofiAttachmentImageEdit' />";
 						        	
-		        				echo "<input type='checkbox' name='cb_image3' class='cofiAttachmentCheckboxEdit' value='delete'> " . JText::_( 'delete' );
+		        				echo "<input type='checkbox' name='cb_image3' class='cofiAttachmentCheckboxEdit' value='delete'> " . JText::_( 'COFI_IMAGE_DELETE' );
 						        	
 	   							echo "</div>";
 					    	}			    
@@ -361,29 +361,29 @@ if ( $showBreadcrumbRow == "1") {
 								echo "<input type='file' name='image3' id='image3' value='' size='50' maxlength='250' />";
 	            			echo "</div>";
 	            			
-	            			echo "<div class='cofiImageFooter'>Select image to upload (JPG or PNG) (optional)</div> ";
+	            			echo "<div class='cofiImageFooter'>" . JText::_( 'COFI_IMAGE_3_HELP' ) . "</div> ";
 	
 	            			// Description
-				    		echo "<div class='cofiImageHeader'>Image 3 Description:</div> ";
+				    		echo "<div class='cofiImageHeader'>" . JText::_( 'COFI_IMAGE_3_DESCRIPTION' ) . ":</div> ";
 				   							
 	            			echo "<div class='cofiImageDescription'>";
 								echo "<input type='text' name='image3_description' id='image3_description' size='50' maxlength='80' value='" . $this->image3_description . "' >";
 	            			echo "</div>";
 	            			
-	            			echo "<div class='cofiImageFooter'>Description for image 3. Will be used as ALT tag (optional)</div> ";
+	            			echo "<div class='cofiImageFooter'>" . JText::_( 'COFI_IMAGE_3_DESCRIPTION_HELP' ) . "</div> ";
 						}
 						
 						
 						if ( $images > 3) {
 							// image
-				    		echo "<div class='cofiImageHeader cofiFirstImageHeader'>Image 4:</div> ";
+				    		echo "<div class='cofiImageHeader cofiFirstImageHeader'>" . JText::_( 'COFI_IMAGE_4' ) . ":</div> ";
 				   							
 							// image show/delete								
 					    	if ( $this->image4 != "") { 
 	   							echo "<div>";
 						        	echo "<img src='" . $_root . "images/discussions/posts/".$this->thread."/" . $this->id . "/small/" . $this->image4 . "' alt='" . $this->subject . "' align='top' class='cofiAttachmentImageEdit' />";
 						        	
-		        				echo "<input type='checkbox' name='cb_image4' class='cofiAttachmentCheckboxEdit' value='delete'> " . JText::_( 'delete' );
+		        				echo "<input type='checkbox' name='cb_image4' class='cofiAttachmentCheckboxEdit' value='delete'> " . JText::_( 'COFI_IMAGE_DELETE' );
 						        	
 	   							echo "</div>";
 					    	}			    
@@ -393,28 +393,28 @@ if ( $showBreadcrumbRow == "1") {
 								echo "<input type='file' name='image4' id='image4' value='' size='50' maxlength='250' />";
 	            			echo "</div>";
 	            			
-	            			echo "<div class='cofiImageFooter'>Select image to upload (JPG or PNG) (optional)</div> ";
+	            			echo "<div class='cofiImageFooter'>" . JText::_( 'COFI_IMAGE_4_HELP' ) . "</div> ";
 	
 	            			// Description
-				    		echo "<div class='cofiImageHeader'>Image 4 Description:</div> ";
+				    		echo "<div class='cofiImageHeader'>" . JText::_( 'COFI_IMAGE_4_DESCRIPTION' ) . ":</div> ";
 				   							
 	            			echo "<div class='cofiImageDescription'>";
 								echo "<input type='text' name='image4_description' id='image4_description' size='50' maxlength='80' value='" . $this->image4_description . "'>";
 	            			echo "</div>";
 	            			
-	            			echo "<div class='cofiImageFooter'>Description for image 4. Will be used as ALT tag (optional)</div> ";
+	            			echo "<div class='cofiImageFooter'>" . JText::_( 'COFI_IMAGE_4_DESCRIPTION_HELP' ) . "</div> ";
 						}
 	
 						if ( $images > 4) {
 							// image
-				    		echo "<div class='cofiImageHeader cofiFirstImageHeader'>Image 5:</div> ";
+				    		echo "<div class='cofiImageHeader cofiFirstImageHeader'>" . JText::_( 'COFI_IMAGE_5' ) . ":</div> ";
 				   							
 							// image show/delete								
 					    	if ( $this->image5 != "") { 
 	   							echo "<div>";
 						        	echo "<img src='" . $_root . "images/discussions/posts/".$this->thread."/" . $this->id . "/small/" . $this->image5 . "' alt='" . $this->subject . "' align='top' class='cofiAttachmentImageEdit' />";
 						        	
-		        				echo "<input type='checkbox' name='cb_image5' class='cofiAttachmentCheckboxEdit' value='delete'> " . JText::_( 'delete' );
+		        				echo "<input type='checkbox' name='cb_image5' class='cofiAttachmentCheckboxEdit' value='delete'> " . JText::_( 'COFI_IMAGE_DELETE' );
 						        	
 	   							echo "</div>";
 					    	}			    
@@ -424,16 +424,16 @@ if ( $showBreadcrumbRow == "1") {
 								echo "<input type='file' name='image5' id='image5' value='' size='50' maxlength='250' />";
 	            			echo "</div>";
 	            			
-	            			echo "<div class='cofiImageFooter'>Select image to upload (JPG or PNG) (optional)</div>";
+	            			echo "<div class='cofiImageFooter'>" . JText::_( 'COFI_IMAGE_5_HELP' ) . "</div>";
 	
 	            			// Description
-				    		echo "<div class='cofiImageHeader'>Image 5 Description:</div> ";
+				    		echo "<div class='cofiImageHeader'>" . JText::_( 'COFI_IMAGE_5_DESCRIPTION' ) . ":</div> ";
 				   							
 	            			echo "<div class='cofiImageDescription'>";
 								echo "<input type='text' name='image5_description' id='image5_description' size='50' maxlength='80' value='" . $this->image5_description . "' >";
 	            			echo "</div>";
 	            			
-	            			echo "<div class='cofiImageFooter'>Description for image 5. Will be used as ALT tag (optional)</div> ";
+	            			echo "<div class='cofiImageFooter'>" . JText::_( 'COFI_IMAGE_5_DESCRIPTION_HELP' ) . "</div> ";
 						}
 					
 					}
