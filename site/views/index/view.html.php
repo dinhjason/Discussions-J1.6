@@ -11,7 +11,7 @@
 defined('_JEXEC') or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');
-
+jimport( 'joomla.html.parameter');
 
 
 /** 
@@ -26,34 +26,36 @@ class DiscussionsViewIndex extends JView {
      */ 
     function display() { 
 
-		global $mainframe;
-
 		$document =& JFactory::getDocument();
-
 				
 		$categories =& $this->get('Categories');
 				
 				
 		// get parameters
-		// $params = &$mainframe->getParams();
 	    $params =& JComponentHelper::getParams('com_discussions');
 
 		$menus	= &JSite::getMenu();
 		$menu	= $menus->getActive();
 
-/*
+
 		if (is_object( $menu )) {
-			$menu_params = new JParameter( $menu->params );
+			
+			$menu_params = new JParameter( $menu->params );			
+			$pageTitle = $menu_params->get( 'page_title');
+			
 			if (!$menu_params->get( 'page_title')) {
-				$params->set('page_title',	JText::_( 'Forums' ));
+				$params->set( 'page_title', JText::_( 'Forums' ) );
+			}
+			else {
+				$params->set( 'page_title', $pageTitle );				
 			}
 		} else {
-			$params->set('page_title',	JText::_( 'Forums' ));
+			$params->set( 'page_title', JText::_( 'Forums' ) );
 		}
 
-*/				
 				
-		// Set Meta Tags
+				
+		// set Meta Tags
 		
 		// 1. Meta Title
 		if ( JText::_( 'COFI_INDEX_META_TITLE') == "") {
