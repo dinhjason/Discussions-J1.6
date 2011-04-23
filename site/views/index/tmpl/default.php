@@ -236,26 +236,39 @@ if ( $logUser->isModerator() == 1) {
 		<?php
 		if ( $category->parent_id == 0) {  // don't show threads, posts and last post
 			?>
+
 			<td colspan="3" class="cofiContainer">&nbsp;</td> 
-			<?php
+
+            <?php
 		}
 		else {
 			?>
 			
 			<td align="center" class="cofiIndexTableRow<?php echo $rowColor; ?> cofiIndexViewTableRowThreads">
+
 				<?php echo $category->counter_threads; ?>
+
 			</td> 
 			
 			<td align="center" class="cofiIndexTableRow<?php echo $rowColor; ?> cofiIndexViewTableRowPosts">
+
 				<?php echo $category->counter_posts; ?>
+
 			</td> 
 			
 			<td align="center" class="cofiIndexTableRow<?php echo $rowColor; ?> cofiIndexViewTableRowLastEntry">
+
 				<?php
-				
-				echo $category->last_entry_date."";
-				echo "<br />";
-				echo JText::_( 'COFI_BY' ) . " ".$category->username ;
+
+                if ( $category->counter_posts == 0) {
+                    echo JText::_( 'COFI_NO_POSTS' );
+                }
+                else {
+                    echo $category->last_entry_date."";
+                    echo "<br />";
+                    echo JText::_( 'COFI_BY' ) . " " . $category->username;
+                }
+
 				?>
 			</td> 
 			<?php
